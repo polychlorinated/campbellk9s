@@ -1,0 +1,126 @@
+---
+const navLinks = [
+  { href: "#philosophy", label: "Philosophy" },
+  { href: "#collection", label: "Collection" },
+  { href: "#journey", label: "Journey" },
+];
+---
+
+<header
+  class="sticky top-0 z-50 bg-brand-bg/95 backdrop-blur supports-[backdrop-filter]:bg-brand-bg/85"
+>
+  <div class="hairline mx-auto max-w-7xl"></div>
+  <nav
+    class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 sm:px-10 lg:px-16"
+    aria-label="Primary"
+  >
+    <a
+      href="/"
+      class="group flex flex-col leading-none text-brand-primary transition-colors hover:text-brand-accent"
+    >
+      <span class="sr-only">Campbell K9s — Home</span>
+      <span class="caption text-brand-accent">Est. New England</span>
+      <span class="mt-1.5 font-serif text-2xl font-bold tracking-tight">
+        Campbell K9
+      </span>
+    </a>
+
+    <ul class="hidden items-center gap-10 md:flex">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="caption group relative inline-block text-brand-primary/70 transition-colors hover:text-brand-primary"
+            >
+              {link.label}
+              <span
+                class="absolute -bottom-2 left-0 h-px w-0 bg-brand-accent transition-all duration-300 group-hover:w-full"
+                aria-hidden="true"
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a
+      href="#contact"
+      class="group hidden items-center gap-2 bg-brand-primary px-5 py-3 text-[10px] font-medium uppercase tracking-[0.2em] text-brand-bg transition-all duration-300 hover:bg-brand-accent md:inline-flex"
+    >
+      Begin Conversation
+      <span
+        class="inline-block transition-transform duration-300 group-hover:translate-x-0.5"
+        aria-hidden="true"
+      >
+        &rarr;
+      </span>
+    </a>
+
+    <button
+      type="button"
+      class="inline-flex items-center justify-center p-2 text-brand-primary md:hidden"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-mobile-menu-button
+    >
+      <svg
+        class="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-brand-primary/10 bg-brand-bg md:hidden"
+    data-mobile-menu
+  >
+    <ul class="space-y-1 px-6 py-6 sm:px-10">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="caption block py-3 text-brand-primary/80 transition-colors hover:text-brand-accent"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-4">
+        <a
+          href="#contact"
+          class="inline-flex items-center gap-2 bg-brand-primary px-5 py-3 text-[10px] font-medium uppercase tracking-[0.2em] text-brand-bg"
+        >
+          Begin Conversation &rarr;
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="hairline mx-auto max-w-7xl"></div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>(
+    "[data-mobile-menu-button]"
+  );
+  const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
+
+  btn?.addEventListener("click", () => {
+    const opened = menu?.classList.toggle("hidden") === false;
+    btn.setAttribute("aria-expanded", String(opened));
+  });
+</script>

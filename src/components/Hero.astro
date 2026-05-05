@@ -1,0 +1,95 @@
+---
+// Hero — full-bleed cinematic statement.
+// Until photography is produced, the placeholder block above the headline
+// presents the directive in lieu of a stock image.
+---
+
+<section
+  class="relative isolate min-h-[92vh] w-full overflow-hidden bg-brand-primary text-brand-bg"
+  aria-labelledby="hero-heading"
+>
+  <span
+    class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/30 sm:left-10 sm:top-10"
+    aria-hidden="true"></span>
+  <span
+    class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/30 sm:right-10 sm:top-10"
+    aria-hidden="true"></span>
+  <span
+    class="pointer-events-none absolute bottom-6 left-6 h-4 w-4 border-b border-l border-brand-bg/30 sm:bottom-10 sm:left-10"
+    aria-hidden="true"></span>
+  <span
+    class="pointer-events-none absolute bottom-6 right-6 h-4 w-4 border-b border-r border-brand-bg/30 sm:bottom-10 sm:right-10"
+    aria-hidden="true"></span>
+
+  <div
+    class="absolute inset-x-0 top-1/4 -z-0 mx-auto max-w-xl px-6 text-center sm:top-[28%]"
+    aria-hidden="true"
+  >
+    <p
+      class="caption inline-flex items-center justify-center gap-3 text-brand-accent"
+    >
+      <span class="h-px w-8 bg-brand-bg/25"></span>
+      Shot List &middot; Hero
+      <span class="h-px w-8 bg-brand-bg/25"></span>
+    </p>
+    <p
+      class="mt-5 font-serif text-base italic leading-relaxed text-brand-bg/80 sm:text-lg"
+    >
+      Golden hour. Wide, cinematic frame of a family walking a confident
+      dog off-leash along the Newport Cliff Walk. Atlantic light, warm
+      tones, salt air, unhurried composition.
+    </p>
+    <p class="caption mt-6 leading-loose text-brand-bg/40">
+      No chain-link &middot; No concrete yards &middot; No e-collars<br />
+      No branded tees &middot; No harsh midday sun
+    </p>
+  </div>
+
+  <div
+    class="relative z-10 mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-end px-6 pb-16 pt-32 sm:px-10 sm:pb-24 lg:px-16 lg:pb-32"
+  >
+    <p class="caption text-brand-accent">
+      Established &middot; Greater Boston & Providence
+    </p>
+
+    <h1
+      id="hero-heading"
+      class="mt-7 max-w-5xl text-balance font-serif text-[clamp(2.75rem,7vw,7.5rem)] font-bold leading-[0.96] text-brand-bg"
+    >
+      Where dogs become
+      <span class="italic text-brand-accent">themselves.</span>
+    </h1>
+
+    <p
+      class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/75 sm:text-lg"
+    >
+      Quietly serious training, off-leash adventures, and stewardship for
+      the New England coast — and the dogs who deserve more of it.
+    </p>
+
+    <div
+      class="mt-10 flex flex-col items-start gap-x-10 gap-y-5 sm:flex-row sm:items-center"
+    >
+      <a
+        href="#contact"
+        class="group relative inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-bg"
+      >
+        Begin a Conversation
+        <span
+          class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+          aria-hidden="true"
+        >
+          &rarr;
+        </span>
+      </a>
+      <a
+        href="#philosophy"
+        class="group inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg/80 transition-colors hover:text-brand-bg"
+      >
+        <span class="h-px w-8 bg-current transition-all group-hover:w-12"
+        ></span>
+        Read the Philosophy
+      </a>
+    </div>
+  </div>
+</section>

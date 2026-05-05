@@ -1,0 +1,136 @@
+---
+const year = new Date().getFullYear();
+
+const exploreLinks = [
+  { href: "#philosophy", label: "Philosophy" },
+  { href: "#collection", label: "Collection" },
+  { href: "#journey", label: "Journey" },
+  { href: "#contact", label: "Begin Conversation" },
+];
+
+const legalLinks = [
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+];
+
+const serviceAreas = [
+  "Boston",
+  "Providence",
+  "Newport",
+  "North Shore",
+  "South Shore",
+];
+---
+
+<footer class="bg-brand-primary text-brand-bg">
+  <div class="mx-auto max-w-7xl px-6 pb-10 pt-24 sm:px-10 lg:px-16">
+    <div class="grid gap-x-12 gap-y-16 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <span class="caption text-brand-accent">
+          Est. New England
+        </span>
+        <p
+          class="mt-3 font-serif text-4xl font-bold leading-none sm:text-5xl"
+        >
+          Campbell K9
+        </p>
+        <p
+          class="mt-8 max-w-sm text-base leading-relaxed text-brand-bg/70"
+        >
+          Quietly serious dog training, off-leash adventures, and
+          stewardship for the New England coast — and the dogs who
+          deserve more of it.
+        </p>
+
+        <div class="mt-10 flex items-center gap-3">
+          <a
+            href="https://instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Campbell K9 on Instagram"
+            class="group inline-flex h-11 w-11 items-center justify-center border border-brand-bg/20 transition-colors hover:border-brand-accent hover:text-brand-accent"
+          >
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.17.42.37 1.06.42 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.42 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.17-1.06.37-2.23.42-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.17-.42-.37-1.06-.42-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.42-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.17 1.06-.37 2.23-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.06A4.94 4.94 0 1 1 7.06 12 4.94 4.94 0 0 1 12 7.06zm0 8.14A3.2 3.2 0 1 0 8.8 12a3.2 3.2 0 0 0 3.2 3.2zm5.14-8.36a1.15 1.15 0 1 1-1.15-1.15 1.15 1.15 0 0 1 1.15 1.15z"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="md:col-span-3">
+        <h3 class="caption text-brand-bg/55">Service Area</h3>
+        <ul class="mt-5 space-y-2">
+          {
+            serviceAreas.map((a) => (
+              <li class="caption text-brand-bg/85">{a}</li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="md:col-span-2">
+        <h3 class="caption text-brand-bg/55">Explore</h3>
+        <ul class="mt-5 space-y-3">
+          {
+            exploreLinks.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class="font-serif text-base transition-colors hover:text-brand-accent"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="md:col-span-2">
+        <h3 class="caption text-brand-bg/55">Direct</h3>
+        <ul class="mt-5 space-y-3 text-sm">
+          <li>
+            <a
+              href="mailto:hello@campbellk9s.com"
+              class="border-b border-brand-bg/20 pb-0.5 transition-colors hover:border-brand-accent hover:text-brand-accent"
+            >
+              hello@campbellk9s.com
+            </a>
+          </li>
+          <li class="caption text-brand-bg/55">By Appointment</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-20 hairline bg-brand-bg/15"></div>
+
+    <div
+      class="mt-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"
+    >
+      <p class="caption text-brand-bg/45">
+        &copy; {year} Campbell K9 &middot; All Rights Reserved
+      </p>
+      <ul class="flex items-center gap-8">
+        {
+          legalLinks.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="caption text-brand-bg/55 transition-colors hover:text-brand-accent"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</footer>

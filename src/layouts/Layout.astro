@@ -1,0 +1,101 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource/playfair-display/400.css";
+import "@fontsource/playfair-display/400-italic.css";
+import "@fontsource/playfair-display/700.css";
+import "@fontsource/playfair-display/700-italic.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
+
+import "../styles/global.css";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = "Campbell K9 — Quietly Serious Dog Training | Boston & Providence",
+  description = "Coastal New England dog training, off-leash adventure hikes, and luxury boarding. By appointment, for a small number of dogs each season.",
+  ogImage = "/og-image.jpg",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const absoluteOgImage = new URL(ogImage, Astro.site).toString();
+
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://campbellk9s.com/#business",
+  name: "Campbell K9",
+  description,
+  url: "https://campbellk9s.com",
+  email: "hello@campbellk9s.com",
+  image: absoluteOgImage,
+  priceRange: "$$$$",
+  areaServed: [
+    { "@type": "City", name: "Boston", containedInPlace: "Massachusetts" },
+    {
+      "@type": "City",
+      name: "Providence",
+      containedInPlace: "Rhode Island",
+    },
+    { "@type": "City", name: "Newport", containedInPlace: "Rhode Island" },
+  ],
+  serviceType: [
+    "Dog Training",
+    "Board and Train",
+    "Off-Leash Adventure Hikes",
+    "Premium Overnight Boarding",
+  ],
+  knowsAbout: [
+    "Behavioral Training",
+    "Off-Leash Reliability",
+    "Reactivity Rehabilitation",
+    "Pack Walks",
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0F1C2E" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:site_name" content="Campbell K9" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(localBusinessJsonLd)}
+    />
+  </head>
+  <body class="flex min-h-screen flex-col bg-brand-bg text-brand-primary">
+    <Navigation />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

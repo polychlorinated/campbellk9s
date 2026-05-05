@@ -1,0 +1,94 @@
+---
+// Shot List placeholder — stand-in for unproduced photography.
+// Renders a structured directive in lieu of generic stock imagery.
+//
+// Negative constraints baked in (always shown):
+//   No chain-link · No concrete training yards · No e-collars
+//   No branded trainer t-shirts · No harsh midday sun
+
+interface Props {
+  shot: string;
+  aspect?: string;
+  tone?: "ivory" | "ink";
+  class?: string;
+}
+
+const {
+  shot,
+  aspect = "4 / 5",
+  tone = "ivory",
+  class: className = "",
+} = Astro.props;
+
+const palette =
+  tone === "ink"
+    ? {
+        bg: "bg-brand-primary",
+        text: "text-brand-bg",
+        border: "border-brand-bg/15",
+        rule: "bg-brand-bg/15",
+        muted: "text-brand-bg/55",
+        accent: "text-brand-accent",
+      }
+    : {
+        bg: "bg-brand-bg",
+        text: "text-brand-primary",
+        border: "border-brand-primary/15",
+        rule: "bg-brand-primary/12",
+        muted: "text-brand-primary/55",
+        accent: "text-brand-accent",
+      };
+---
+
+<figure
+  class:list={[
+    "relative isolate flex w-full overflow-hidden border",
+    palette.bg,
+    palette.text,
+    palette.border,
+    className,
+  ]}
+  style={`aspect-ratio: ${aspect};`}
+  role="img"
+  aria-label={shot}
+>
+  <span
+    class="pointer-events-none absolute left-3 top-3 h-3 w-3 border-l border-t border-current opacity-40"
+    aria-hidden="true"></span>
+  <span
+    class="pointer-events-none absolute right-3 top-3 h-3 w-3 border-r border-t border-current opacity-40"
+    aria-hidden="true"></span>
+  <span
+    class="pointer-events-none absolute bottom-3 left-3 h-3 w-3 border-b border-l border-current opacity-40"
+    aria-hidden="true"></span>
+  <span
+    class="pointer-events-none absolute bottom-3 right-3 h-3 w-3 border-b border-r border-current opacity-40"
+    aria-hidden="true"></span>
+
+  <div class="m-auto w-full max-w-md px-8 py-10 text-center">
+    <p
+      class:list={[
+        "caption flex items-center justify-center gap-2",
+        palette.accent,
+      ]}
+    >
+      <span class:list={["h-px w-6", palette.rule]}></span>
+      Shot List
+      <span class:list={["h-px w-6", palette.rule]}></span>
+    </p>
+
+    <p
+      class:list={[
+        "mt-5 font-serif text-base italic leading-relaxed sm:text-lg",
+        palette.text,
+      ]}
+    >
+      {shot}
+    </p>
+
+    <p class:list={["caption mt-6 leading-loose", palette.muted]}>
+      No chain-link &middot; No concrete yards &middot; No e-collars<br />
+      No branded tees &middot; No harsh midday sun
+    </p>
+  </div>
+</figure>
