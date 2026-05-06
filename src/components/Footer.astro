@@ -2,10 +2,11 @@
 const year = new Date().getFullYear();
 
 const exploreLinks = [
-  { href: "#philosophy", label: "Philosophy" },
-  { href: "#collection", label: "Collection" },
-  { href: "#journey", label: "Journey" },
-  { href: "#contact", label: "Begin Conversation" },
+  { href: "/#philosophy", label: "Philosophy" },
+  { href: "/#collection", label: "Collection" },
+  { href: "/#journey", label: "Journey" },
+  { href: "/blog", label: "Journal" },
+  { href: "/#contact", label: "Begin Conversation" },
 ];
 
 const legalLinks = [
@@ -28,14 +29,11 @@ const serviceAreas = [
   <div class="mx-auto max-w-7xl px-6 pb-10 pt-24 sm:px-10 lg:px-16">
     <div class="grid gap-x-12 gap-y-16 md:grid-cols-12">
       <div class="md:col-span-5">
-        <span class="caption text-brand-accent">
-          Est. New England
-        </span>
-        <p
-          class="mt-3 font-serif text-4xl font-bold leading-none sm:text-5xl"
-        >
-          Campbell K9
-        </p>
+        <img
+          src="/logo.svg"
+          alt="Campbell K9s"
+          class="h-20 w-auto brightness-0 invert"
+        />
         <p
           class="mt-8 max-w-sm text-base leading-relaxed text-brand-bg/70"
         >

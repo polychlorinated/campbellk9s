@@ -84,3 +84,90 @@
   background-color: var(--color-brand-primary);
   opacity: 0.12;
 }
+
+/* WordPress post content */
+.prose {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-brand-ink);
+
+  & p {
+    margin-bottom: 1.5rem;
+  }
+
+  & h2 {
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  & h3 {
+    font-size: 1.375rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  & ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  & ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  & li {
+    margin-bottom: 0.4rem;
+  }
+
+  & blockquote {
+    border-left: 2px solid var(--color-brand-accent);
+    padding-left: 1.5rem;
+    font-style: italic;
+    color: var(--color-brand-muted);
+    margin: 2rem 0;
+  }
+
+  & a {
+    color: var(--color-brand-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  & img {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+  }
+
+  & hr {
+    border: none;
+    border-top: 1px solid var(--color-brand-line);
+    margin: 3rem 0;
+  }
+
+  & figure {
+    margin: 2rem 0;
+  }
+
+  & figcaption {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-brand-muted);
+    margin-top: 0.75rem;
+  }
+}
+
+/* Clamp excerpt paragraphs on listing cards */
+.post-excerpt p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+}

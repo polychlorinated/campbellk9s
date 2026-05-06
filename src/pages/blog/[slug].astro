@@ -1,0 +1,83 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  getPosts,
+  featuredImage,
+  featuredImageAlt,
+  postCategories,
+  formatDate,
+} from "../../lib/wordpress";
+import type { WPPost } from "../../lib/wordpress";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: WPPost;
+}
+
+const { post } = Astro.props;
+const img = featuredImage(post);
+const alt = featuredImageAlt(post);
+const cats = postCategories(post);
+const plainExcerpt = post.excerpt.rendered
+  .replace(/<[^>]+>/g, "")
+  .trim()
+  .slice(0, 160);
+---
+
+<Layout
+  title={`${post.title.rendered.replace(/<[^>]+>/g, "")} — Campbell K9`}
+  description={plainExcerpt}
+  ogImage={img ?? undefined}
+>
+  <article class="mx-auto max-w-3xl px-6 py-24 sm:px-10">
+    <a
+      href="/blog"
+      class="caption mb-12 inline-flex items-center gap-2 text-brand-muted transition-colors hover:text-brand-accent"
+    >
+      <span aria-hidden="true">&larr;</span> All Posts
+    </a>
+
+    <header class="mb-12">
+      <div class="mb-5 flex flex-wrap items-center gap-4">
+        {
+          cats.map((c) => (
+            <span class="caption text-brand-accent">{c.name}</span>
+          ))
+        }
+        <span class="caption text-brand-muted">{formatDate(post.date)}</span>
+      </div>
+      <h1
+        class="font-serif text-4xl leading-tight sm:text-5xl lg:text-6xl"
+        set:html={post.title.rendered}
+      />
+    </header>
+
+    {
+      img && (
+        <div class="mb-12 aspect-[16/9] overflow-hidden bg-brand-line">
+          <img src={img} alt={alt} class="h-full w-full object-cover" />
+        </div>
+      )
+    }
+
+    <div class="hairline mb-12"></div>
+
+    <div class="prose" set:html={post.content.rendered} />
+
+    <div class="hairline mb-10 mt-16"></div>
+
+    <a
+      href="/blog"
+      class="caption inline-flex items-center gap-2 text-brand-muted transition-colors hover:text-brand-accent"
+    >
+      <span aria-hidden="true">&larr;</span> Back to Journal
+    </a>
+  </article>
+</Layout>

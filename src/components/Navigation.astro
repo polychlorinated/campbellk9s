@@ -1,8 +1,9 @@
 ---
 const navLinks = [
-  { href: "#philosophy", label: "Philosophy" },
-  { href: "#collection", label: "Collection" },
-  { href: "#journey", label: "Journey" },
+  { href: "/#philosophy", label: "Philosophy" },
+  { href: "/#collection", label: "Collection" },
+  { href: "/#journey", label: "Journey" },
+  { href: "/blog", label: "Journal" },
 ];
 ---
 
@@ -16,13 +17,14 @@ const navLinks = [
   >
     <a
       href="/"
-      class="group flex flex-col leading-none text-brand-primary transition-colors hover:text-brand-accent"
+      class="group inline-flex items-center"
+      aria-label="Campbell K9s — Home"
     >
-      <span class="sr-only">Campbell K9s — Home</span>
-      <span class="caption text-brand-accent">Est. New England</span>
-      <span class="mt-1.5 font-serif text-2xl font-bold tracking-tight">
-        Campbell K9
-      </span>
+      <img
+        src="/logo.svg"
+        alt="Campbell K9s"
+        class="h-14 w-auto transition-opacity duration-300 group-hover:opacity-75"
+      />
     </a>
 
     <ul class="hidden items-center gap-10 md:flex">
