@@ -5,6 +5,7 @@ const goalOptions = [
   { value: "hikes", label: "Adventure Hikes" },
   { value: "bootcamp", label: "Board & Train Bootcamp" },
   { value: "boarding", label: "Overnight Boarding" },
+  { value: "scholarship", label: "Scholarship Program" },
   { value: "other", label: "Something else" },
 ];
 ---
@@ -58,6 +59,14 @@ const goalOptions = [
                 k9campbellmatt@gmail.com
               </a>
             </dd>
+            <dd class="mt-2 text-base text-brand-primary">
+              <a
+                href="tel:+14014809471"
+                class="border-b border-brand-primary/30 pb-0.5 transition-colors hover:border-brand-accent hover:text-brand-accent"
+              >
+                (401) 480-9471
+              </a>
+            </dd>
           </div>
         </dl>
       </div>
@@ -98,7 +107,7 @@ const goalOptions = [
               autocomplete="tel"
               required
               class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
-              placeholder="(401) 480-9471"
+              placeholder="(401) 555-0100"
             />
           </div>
 
@@ -235,13 +244,13 @@ const goalOptions = [
       } else {
         showMessage(
           result.error ||
-            "Something went wrong. Please try again, or write to hello@campbellk9s.com.",
+            "Something went wrong. Please try again, or write to k9campbellmatt@gmail.com.",
           "error"
         );
       }
     } catch {
       showMessage(
-        "We couldn't reach the server. Please try again, or write to hello@campbellk9s.com.",
+        "We couldn't reach the server. Please try again, or write to k9campbellmatt@gmail.com.",
         "error"
       );
     } finally {

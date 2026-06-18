@@ -1,9 +1,7 @@
 ---
-// Google Calendar embed URL:
-// 1. Open Google Calendar → Settings → [Your Calendar] → "Integrate calendar"
-// 2. Copy the "Embed code" src URL and paste it as CALENDAR_EMBED_URL below.
-const CALENDAR_EMBED_URL =
-  "https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID%40gmail.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&mode=AGENDA";
+// To enable the live calendar: open Google Calendar → Settings → [Your Calendar]
+// → "Integrate calendar" → copy the embed src URL into CALENDAR_EMBED_URL below.
+const CALENDAR_EMBED_URL = "";
 ---
 
 <section
@@ -45,25 +43,48 @@ const CALENDAR_EMBED_URL =
       <div class="lg:col-span-7">
         <p class="caption text-brand-primary/55">Upcoming Events</p>
         <div class="mt-6 hairline max-w-[3rem]"></div>
-        <div
-          class="mt-8 overflow-hidden border border-brand-line"
-          style="aspect-ratio: 4/3;"
-        >
-          <iframe
-            src={CALENDAR_EMBED_URL}
-            title="Campbell K9s Community Calendar"
-            width="100%"
-            height="100%"
-            frameborder="0"
-            scrolling="no"
-            loading="lazy"
-            class="block h-full w-full"
-            style="border: 0;"
-          ></iframe>
-        </div>
-        <p class="mt-4 font-mono text-xs tracking-widest text-brand-primary/40 uppercase">
-          All times Eastern &middot; Greater Boston &amp; Providence, RI
-        </p>
+        {CALENDAR_EMBED_URL ? (
+          <>
+            <div
+              class="mt-8 overflow-hidden border border-brand-line"
+              style="aspect-ratio: 4/3;"
+            >
+              <iframe
+                src={CALENDAR_EMBED_URL}
+                title="Campbell K9s Community Calendar"
+                width="100%"
+                height="100%"
+                frameborder="0"
+                scrolling="no"
+                loading="lazy"
+                class="block h-full w-full"
+                style="border: 0;"
+              ></iframe>
+            </div>
+            <p class="mt-4 font-mono text-xs tracking-widest text-brand-primary/40 uppercase">
+              All times Eastern &middot; Greater Boston &amp; Providence, RI
+            </p>
+          </>
+        ) : (
+          <div class="mt-8 border border-brand-line px-10 py-16 flex flex-col justify-center" style="aspect-ratio: 4/3;">
+            <p class="font-serif text-3xl leading-tight sm:text-4xl">
+              Events calendar<br />
+              <span class="italic text-brand-accent">coming soon.</span>
+            </p>
+            <p class="mt-6 max-w-xs text-base leading-relaxed text-brand-primary/70">
+              Pack walks, clinics, and seasonal gatherings are announced on Instagram as they're confirmed.
+            </p>
+            <a
+              href="https://www.instagram.com/campbell_k9s"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group mt-10 inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary/70 transition-colors hover:text-brand-primary"
+            >
+              <span class="h-px w-8 bg-current transition-all group-hover:w-12"></span>
+              Follow on Instagram
+            </a>
+          </div>
+        )}
       </div>
 
       <!-- Swag store -->
