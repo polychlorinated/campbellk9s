@@ -11,6 +11,7 @@ const places = [
     shot:
       "Shallow depth of field, warm tones. A composed dog mid-stride on a woodland trail at golden hour, trees blurred behind. Soft natural light.",
     aspect: "4 / 5",
+    image: "/collection-forest-trail.webp",
   },
   {
     location: "Rural New England",
@@ -80,7 +81,18 @@ const places = [
       <article
         class="col-span-12 lg:col-span-7 lg:row-span-2 flex flex-col"
       >
-        <ShotList shot={places[0].shot} aspect={places[0].aspect} />
+        {places[0].image ? (
+          <img
+            src={places[0].image}
+            alt={places[0].shot}
+            class="w-full border border-brand-primary/15 object-cover"
+            style={`aspect-ratio: ${places[0].aspect};`}
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <ShotList shot={places[0].shot} aspect={places[0].aspect} />
+        )}
         <div class="mt-6 flex items-baseline justify-between gap-6">
           <div>
             <p class="caption text-brand-accent">{places[0].location}</p>
