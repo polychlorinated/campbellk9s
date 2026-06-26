@@ -1,0 +1,172 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const terms = [
+  {
+    term: "Aggression",
+    definition:
+      "Behavior intended to harm or intimidate, including growling, lunging, or biting. Requires professional assessment to identify the root cause (fear, territorial, etc.). Read more about <a href='/dog-aggression-training-tips'>dog aggression training tips</a>.",
+  },
+  {
+    term: "Basic Obedience",
+    definition:
+      "Teaching foundational commands like Sit, Stay, Come, Down, and Loose-Leash Walking for a well-mannered pet.",
+  },
+  {
+    term: "Behavior Modification",
+    definition:
+      "A structured program to change unwanted behaviors by addressing their underlying emotional causes (like fear or anxiety) and reinforcing positive alternatives.",
+  },
+  {
+    term: "Crate Training",
+    definition:
+      "The process of teaching a dog to see its crate as a safe and secure den, which is essential for potty training, travel, and management.",
+  },
+  {
+    term: "Anxiety",
+    definition:
+      "A state of nervousness or unease in dogs that can manifest as pacing, whining, shaking, or destructive behavior.",
+  },
+  {
+    term: "Boarding",
+    definition:
+      "Overnight care service providing a safe, clean, and engaging environment for your dog while you are away.",
+  },
+  {
+    term: "Daycare",
+    definition:
+      "A supervised service where dogs can play and socialize during the day, providing essential exercise and mental stimulation.",
+  },
+  {
+    term: "Recall",
+    definition:
+      "Teaching a reliable 'Come' command. This is one of the most critical safety behaviors a dog can learn, and a key component of our Bootcamp.",
+  },
+  {
+    term: "E-Collar",
+    definition:
+      "A tool that can deliver a neutral stimulant (like vibration or tone) to get a dog's attention at a distance. Used ethically by trained professionals.",
+  },
+  {
+    term: "Leash Reactivity",
+    definition:
+      "When a dog barks, lunges, or pulls on the leash in response to a trigger like other dogs or people, often due to fear or frustration.",
+  },
+  {
+    term: "Muzzle Training",
+    definition:
+      "Acclimating a dog to wear a muzzle comfortably. A vital safety tool for vet visits, grooming, or dogs with a history of biting.",
+  },
+  {
+    term: "Positive Reinforcement",
+    definition:
+      "A modern method that rewards desired behaviors with treats, toys, or praise to encourage repetition, building a strong bond based on trust. Our Bootcamp features this approach to motivation.",
+  },
+  {
+    term: "Private Training",
+    definition:
+      "One-on-one sessions with a professional trainer to address specific behavioral issues or for focused learning without distractions.",
+  },
+  {
+    term: "Puppy Socialization",
+    definition:
+      "The critical process (typically before 16 weeks) of safely exposing a puppy to new people, places, and experiences to build a confident, well-adjusted adult dog.",
+  },
+  {
+    term: "Puppy Classes",
+    definition:
+      "Group sessions designed for young dogs to learn basic obedience and practice social skills in a controlled, distracting environment.",
+  },
+  {
+    term: "Separation Anxiety",
+    definition:
+      "A severe stress response when left alone, which can lead to destructive behavior, vocalizing, or accidents. Requires a specific behavioral treatment plan.",
+  },
+  {
+    term: "Threshold",
+    definition:
+      "The distance at which a dog can notice a trigger (like another dog) without reacting. Training starts from 'under threshold' to help the dog learn to stay calm.",
+  },
+  {
+    term: "Vaccinations",
+    definition:
+      "The mandatory immunizations (typically Rabies, DHPP, and Bordetella) a dog must have to participate in group classes, daycare, or boarding. This is a critical policy for the safety of all animals.",
+  },
+  {
+    term: "Waitlist",
+    definition:
+      "A list that forms when a service (like boarding or a popular training class) is fully booked. Joining the list ensures you are notified if a spot opens up.",
+  },
+];
+---
+
+<Layout
+  title="Dog Training Glossary — Campbell K9s"
+  description="A glossary of key dog training terms and definitions from Campbell K9s, covering behavior, tools, training methods, and program vocabulary."
+>
+  <!-- Page header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28"
+    >
+      <p class="caption text-brand-accent">Glossary</p>
+      <h1
+        class="mt-7 max-w-3xl text-balance font-serif text-[clamp(2.5rem,6vw,6rem)] font-bold leading-[0.96] text-brand-bg"
+      >
+        The language of
+        <span class="italic text-brand-accent">good training.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+        Key terms and phrases to help you understand your dog's behavior, our
+        methods, and the training options available to you.
+      </p>
+    </div>
+  </section>
+
+  <!-- Glossary -->
+  <section class="relative bg-brand-bg" aria-labelledby="glossary-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <h2 id="glossary-heading" class="sr-only">Training Terms</h2>
+
+      <div class="grid gap-x-12 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          terms.map((item) => (
+            <div>
+              <h3 class="font-serif text-2xl leading-tight text-brand-primary">
+                {item.term}
+              </h3>
+              <div class="mt-4 hairline max-w-[2rem]"></div>
+              <p
+                class="mt-4 text-base leading-relaxed text-brand-primary/75"
+                set:html={item.definition}
+              />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-24 hairline"></div>
+      <div class="mt-10 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+        <p class="caption text-brand-primary/55">
+          Have a question that isn't answered here?
+        </p>
+        <a
+          href="/faqs"
+          class="group inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary/70 transition-colors hover:text-brand-accent"
+        >
+          <span class="h-px w-8 bg-current transition-all group-hover:w-12"></span>
+          Read the FAQs
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

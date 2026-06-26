@@ -1,0 +1,149 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const faqs = [
+  {
+    question: "What makes your training approach different from others?",
+    answer:
+      "We focus on real-world results and practical solutions that work in everyday situations. We don't rely solely on treats or intimidation. Instead, we teach clear communication using appropriate tools and techniques.",
+  },
+  {
+    question: "Can you help with specific behavioral issues like jumping, barking, or aggression?",
+    answer:
+      "Absolutely. The bootcamp addresses common scenarios as well as those specific to your pet. We work on coming when called, leash manners, jumping on people, incessant barking, counter surfing, managing aggression, and resource guarding. Learn more about <a href='/dog-aggression-training-tips'>aggression in dogs</a>.",
+  },
+  {
+    question: "What if I don't want to use certain training tools?",
+    answer:
+      "We can discuss options and explain why certain tools might benefit your dog's training. Together, we will find the most effective and sustainable approach that both you and your dog can succeed with.",
+  },
+  {
+    question: "What if we don't want to commit to a full week of bootcamp?",
+    answer:
+      "We offer workshops and hourly training sessions to accommodate any circumstances. It comes down to time. An intensive bootcamp week is hard to replicate over a longer period of time and with different humans. We're happy to connect you with clients who had the same concerns, so they can provide you with additional perspective.",
+  },
+  {
+    question: "What tools or equipment will I need for training?",
+    answer:
+      "Basic tools include a properly fitted collar, leash, and high-value treats. Depending on your dog's needs, we might recommend additional tools. We'll guide you on proper selection and use of any equipment.",
+  },
+  {
+    question: "How can we sign up for Adventure Hikes?",
+    answer:
+      "Because our adventure hikes are off-leash, we require all participants to complete a bootcamp. This ensures safety for your dog and a great experience for the pack. After bootcamp, we'll provide a link you can use to schedule one or more days. On hike day, we'll pick up your eager dog and drop them off content — and wiped out.",
+  },
+  {
+    question: "How long does off-leash training take?",
+    answer:
+      "In our bootcamp, your dog will most likely be trained for off-leash recall in the week. We focus a lot of our time together to ensure your dog behaves in a safe, controlled way. Without bootcamp, it will usually take weeks or months to get the same effect, and that will require the humans in the family to learn training techniques as well.",
+  },
+  {
+    question: "When should I start with K9 training?",
+    answer:
+      "While the first year of a dog's life is the best time to complete training, it's possible — contrary to popular belief — to train at any age. Your dog will learn throughout their life, although just like with humans, it's much faster for them to learn while in the puppy stage.",
+  },
+  {
+    question: "How do I stop my dog jumping on people?",
+    answer:
+      "This is one of the most frequently asked questions. The quick solution to most challenges with uncontrolled dogs is to ignore their behavior. If a dog jumps to greet you, completely ignore their advances. Don't look at them or engage with them.",
+  },
+  {
+    question: "Do you offer in-home training?",
+    answer:
+      "In our hourly training sessions, we can come to your home or meet in another area such as a community dog park. For more intensive training, we will board your dog at our personal home. Your dog becomes a member of our pack for the week, learning from both the humans and older dogs.",
+  },
+  {
+    question: "Do you offer payment plans?",
+    answer:
+      "We certainly understand that quality training is an investment, both in your K9 directly and in your family's lifestyle. A well-behaved dog is eagerly greeted by your guests, while a poor reputation can keep friends and family away. We'll work with you to design a financing plan that works best for you.",
+  },
+  {
+    question: "Do you offer follow-up services?",
+    answer:
+      "Yes. We want to partner with you through the ups and downs of your life with your pet. Every Adventure Hike is a reinforcing activity, where your dog thrives by assimilating with the pack in nature. We correct behavior when we notice it. If you notice undesirable behavior at home, give us a call and we'll be happy to consult over the phone and, if necessary, offer a 1:1 session.",
+  },
+];
+---
+
+<Layout
+  title="FAQs — Campbell K9s"
+  description="Answers to common questions about Campbell K9s dog training, bootcamp, adventure hikes, behavioral issues, and follow-up support."
+>
+  <!-- Page header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28"
+    >
+      <p class="caption text-brand-accent">FAQs</p>
+      <h1
+        class="mt-7 max-w-3xl text-balance font-serif text-[clamp(2.5rem,6vw,6rem)] font-bold leading-[0.96] text-brand-bg"
+      >
+        Questions,
+        <span class="italic text-brand-accent">answered directly.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+        Practical answers about bootcamp, behavior, tools, hikes, and what to
+        expect when you train with us.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="relative bg-brand-bg" aria-labelledby="faqs-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <h2 id="faqs-heading" class="sr-only">Frequently Asked Questions</h2>
+
+      <div class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">Still curious?</p>
+          <p class="mt-6 text-lg leading-relaxed text-brand-primary/75">
+            If you don't see your question here, reach out. Our lead trainer
+            will write back within twenty-four hours.
+          </p>
+          <a
+            href="/#contact"
+            class="group mt-8 inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary/70 transition-colors hover:text-brand-accent"
+          >
+            <span class="h-px w-8 bg-current transition-all group-hover:w-12"></span>
+            Contact Us
+          </a>
+        </div>
+
+        <div class="lg:col-span-8">
+          <div class="space-y-0">
+            {
+              faqs.map((faq, i) => (
+                <details class="group border-b border-brand-line">
+                  <summary class="flex cursor-pointer list-none items-center justify-between py-6 text-left font-serif text-xl leading-snug text-brand-primary transition-colors hover:text-brand-accent sm:text-2xl">
+                    {faq.question}
+                    <span
+                      class="ml-6 inline-flex h-6 w-6 shrink-0 items-center justify-center border border-brand-primary/20 text-brand-primary/60 transition-all group-open:rotate-45 group-open:border-brand-accent group-open:text-brand-accent"
+                      aria-hidden="true"
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <div class="pb-8">
+                    <p
+                      class="max-w-2xl text-base leading-relaxed text-brand-primary/75 sm:text-lg"
+                      set:html={faq.answer}
+                    />
+                  </div>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

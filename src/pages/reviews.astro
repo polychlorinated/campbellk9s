@@ -1,0 +1,144 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const reviews = [
+  {
+    quote:
+      "We did board training for our dog Daisy who was anxious around other dogs and in public settings as a result of abuse prior to us adopting her. With just one week of training, the difference was clear. She is confident, friendly, and takes off-leash hikes happily with the pack each week.",
+    name: "Becca Rutenberg",
+    context: "Google Review",
+    dog: "Daisy",
+  },
+  {
+    quote:
+      "Matt and Mary were so helpful in getting our 1-year old Labradoodle Tate into Training Bootcamp. Matt gave us helpful insight, guidance and training tools to make our lives together with Tate run smoother and happier for all — Thank you!!!",
+    name: "Mary Ellen Paravalos",
+    context: "Google Review",
+    dog: "Tate, Labradoodle",
+  },
+  {
+    quote:
+      "We contacted Matt of Campbell K9's for our 1 year old Sheepadoodle, Benson. He went to the week long bootcamp where he joined their family essentially for 5 days and came home a well behaved dog! I was absolutely astonished at the transformation while still maintaining his goofy, clumsy demeanor! Our main focus was off leash training, recall, jumping on guests and counter surfing. All behaviors were corrected except for the occasional 'can't contain my excitement because my favorite trainers are here to get me' hugs Benson sneaks in. Benson has been apart of the adventure hikes with Matt, Mary and Joe for 2 years now and absolutely loves it! What dog wouldn't want to run around with their best dog friends and some of his favorite humans all off leash each week?! It gives me peace of mind knowing he is in good hands and they treat him like their own family dog! I recommend them to anyone and everyone! By far the best thing we could have done for our silly, lovable boy!",
+    name: "Ashley Shaw",
+    context: "Google Review",
+    dog: "Benson, Sheepadoodle",
+  },
+];
+---
+
+<Layout
+  title="Reviews — Campbell K9s"
+  description="Real reviews from families across Greater Boston and Providence who trusted Campbell K9s with their dogs."
+>
+  <!-- Page header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28"
+    >
+      <p class="caption text-brand-accent">Reviews</p>
+      <h1
+        class="mt-7 max-w-3xl text-balance font-serif text-[clamp(2.5rem,6vw,6rem)] font-bold leading-[0.96] text-brand-bg"
+      >
+        From the pack,
+        <span class="italic text-brand-accent">in their words.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+        Real Google reviews from families who put in the work — and got the dog
+        they hoped for.
+      </p>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="relative bg-brand-bg" aria-labelledby="reviews-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <h2 id="reviews-heading" class="sr-only">Google Reviews</h2>
+
+      <div class="space-y-16">
+        {
+          reviews.map((review) => (
+            <figure class="grid gap-y-8 border-b border-brand-line pb-16 lg:grid-cols-12 lg:gap-x-16">
+              <div class="lg:col-span-3">
+                <p class="font-serif text-lg text-brand-primary">{review.name}</p>
+                <p class="caption mt-2 text-brand-primary/55">
+                  {review.context} &middot; {review.dog}
+                </p>
+              </div>
+              <div class="lg:col-span-9">
+                <span
+                  class="font-serif text-5xl leading-none text-brand-accent"
+                  aria-hidden="true"
+                >
+                  &ldquo;
+                </span>
+                <blockquote class="mt-2 max-w-3xl font-serif text-xl italic leading-relaxed text-brand-primary/85 sm:text-2xl">
+                  {review.quote}
+                </blockquote>
+              </div>
+            </figure>
+          ))
+        }
+      </div>
+
+      <div class="mt-20 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+        <p class="caption text-brand-primary/55">
+          See more reviews on Google.
+        </p>
+        <a
+          href="https://www.google.com/search?q=Campbell+K9s+reviews"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary/70 transition-colors hover:text-brand-accent"
+        >
+          <span class="h-px w-8 bg-current transition-all group-hover:w-12"></span>
+          View on Google
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <div class="hairline mx-auto max-w-7xl bg-brand-bg/10"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-7">
+          <p class="caption text-brand-accent">Ready to begin?</p>
+          <h2 class="mt-6 max-w-xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl">
+            Join the families who have already
+            <span class="italic text-brand-accent">trusted the work.</span>
+          </h2>
+        </div>
+        <div class="flex flex-col justify-center lg:col-span-5">
+          <p class="text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+            Tell us about your dog. Our lead trainer will write back within
+            twenty-four hours.
+          </p>
+          <div class="mt-10">
+            <a
+              href="/#contact"
+              class="group inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-bg"
+            >
+              Begin a Conversation
+              <span
+                class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
