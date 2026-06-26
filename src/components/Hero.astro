@@ -8,17 +8,35 @@
   class="relative isolate min-h-[92vh] w-full overflow-hidden bg-brand-primary text-brand-bg"
   aria-labelledby="hero-heading"
 >
+  <!-- Background Video Element -->
+  <div class="absolute inset-0 z-0">
+    <video
+      class="h-full w-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="/favicon.svg"
+    >
+      <source src="/videos/dogs-hiking.mp4" type="video/mp4" />
+      <source src="/videos/dogs-hiking.webm" type="video/webm" />
+    </video>
+    <!-- Overlay to ensure text remains readable against the video -->
+    <div class="absolute inset-0 bg-brand-primary/70"></div>
+  </div>
+
   <span
-    class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/30 sm:left-10 sm:top-10"
+    class="pointer-events-none absolute left-6 top-6 z-10 h-4 w-4 border-l border-t border-brand-bg/30 sm:left-10 sm:top-10"
     aria-hidden="true"></span>
   <span
-    class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/30 sm:right-10 sm:top-10"
+    class="pointer-events-none absolute right-6 top-6 z-10 h-4 w-4 border-r border-t border-brand-bg/30 sm:right-10 sm:top-10"
     aria-hidden="true"></span>
   <span
-    class="pointer-events-none absolute bottom-6 left-6 h-4 w-4 border-b border-l border-brand-bg/30 sm:bottom-10 sm:left-10"
+    class="pointer-events-none absolute bottom-6 left-6 z-10 h-4 w-4 border-b border-l border-brand-bg/30 sm:bottom-10 sm:left-10"
     aria-hidden="true"></span>
   <span
-    class="pointer-events-none absolute bottom-6 right-6 h-4 w-4 border-b border-r border-brand-bg/30 sm:bottom-10 sm:right-10"
+    class="pointer-events-none absolute bottom-6 right-6 z-10 h-4 w-4 border-b border-r border-brand-bg/30 sm:bottom-10 sm:right-10"
     aria-hidden="true"></span>
 
   <div
