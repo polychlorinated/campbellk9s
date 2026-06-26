@@ -1,52 +1,6 @@
 ---
-// From the Field — curated social proof grid.
-// Replace the placeholder post URLs below with real Instagram/TikTok links.
-// Instagram: https://www.instagram.com/p/{POST_ID}/
-// TikTok:    https://www.tiktok.com/@campbell_k9s/video/{VIDEO_ID}
-
-type SocialPost = {
-  platform: "instagram" | "tiktok";
-  url: string;
-  caption: string;
-};
-
-const posts: SocialPost[] = [
-  {
-    platform: "instagram",
-    url: "https://www.instagram.com/p/EXAMPLE1/",
-    caption: "Morning pack walk. Five dogs, one tempo.",
-  },
-  {
-    platform: "tiktok",
-    url: "https://www.tiktok.com/@campbell_k9s/video/EXAMPLE2",
-    caption: "The recall that took three weeks, not three years.",
-  },
-  {
-    platform: "instagram",
-    url: "https://www.instagram.com/p/EXAMPLE3/",
-    caption: "Bootcamp graduation. Quietest car ride home ever.",
-  },
-  {
-    platform: "tiktok",
-    url: "https://www.tiktok.com/@campbell_k9s/video/EXAMPLE4",
-    caption: "When the dog who pulled everywhere finally checks in.",
-  },
-];
-
-const platformLabel = {
-  instagram: "Instagram",
-  tiktok: "TikTok",
-};
-
-function getInstagramPostId(url: string): string {
-  const match = url.match(/\/p\/([^/]+)/);
-  return match ? match[1] : "";
-}
-
-function getTikTokVideoId(url: string): string {
-  const match = url.match(/video\/(\d+)/);
-  return match ? match[1] : "";
-}
+// From the Field — auto-updating social feed via Curator.
+// Feed ID: be787554-6fc0-4694-b1a7-ffa5f72847e3
 ---
 
 <section
@@ -77,73 +31,33 @@ function getTikTokVideoId(url: string): string {
       </div>
     </div>
 
-    <div
-      class="mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
-    >
-      {
-        posts.map((post) => (
-          <article class="flex flex-col">
-            <div class="overflow-hidden border border-brand-primary/10 bg-brand-primary/[0.02]">
-              {post.platform === "instagram" ? (
-                <blockquote
-                  class="instagram-media"
-                  data-instgrm-permalink={post.url}
-                  data-instgrm-version="14"
-                  data-instgrm-captioned={false}
-                  style="background:#FFF; border:0; margin:1px; max-width:540px; min-width:326px; padding:0; width:99.375%;"
-                >
-                  <a href={post.url} target="_blank" rel="noopener noreferrer">
-                    View this post on Instagram
-                  </a>
-                </blockquote>
-              ) : (
-                <blockquote
-                  class="tiktok-embed"
-                  cite={post.url}
-                  data-video-id={getTikTokVideoId(post.url)}
-                  style="max-width: 605px; min-width: 325px;"
-                >
-                  <section>
-                    <a href={post.url} target="_blank" rel="noopener noreferrer">
-                      View on TikTok
-                    </a>
-                  </section>
-                </blockquote>
-              )}
-            </div>
-            <div class="mt-5 flex items-center justify-between gap-4">
-              <p class="caption text-brand-accent">{platformLabel[post.platform]}</p>
-            </div>
-            <p class="mt-2 text-base leading-relaxed text-brand-primary/75">
-              {post.caption}
-            </p>
-          </article>
-        ))
-      }
-    </div>
-
-    <div class="mt-16 flex items-center justify-center gap-6">
-      <a
-        href="https://www.instagram.com/campbell_k9s"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary/70 transition-colors hover:text-brand-accent"
-      >
-        <span class="h-px w-8 bg-current transition-all group-hover:w-12"></span>
-        Follow on Instagram
-      </a>
-      <a
-        href="https://www.tiktok.com/@campbell_k9s"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary/70 transition-colors hover:text-brand-accent"
-      >
-        <span class="h-px w-8 bg-current transition-all group-hover:w-12"></span>
-        Follow on TikTok
-      </a>
+    <div class="mt-20">
+      <div id="curator-feed-default-feed-layout">
+        <a
+          href="https://curator.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="crt-logo crt-tag"
+        >
+          Powered by Curator.io
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
-<script async src="//www.instagram.com/embed.js"></script>
-<script async src="https://www.tiktok.com/embed.js"></script>
+<script is:inline>
+  /* curator-feed-default-feed-layout */
+  (function () {
+    var i,
+      e,
+      d = document,
+      s = "script";
+    i = d.createElement("script");
+    i.async = 1;
+    i.charset = "UTF-8";
+    i.src = "https://cdn.curator.io/published/be787554-6fc0-4694-b1a7-ffa5f72847e3.js";
+    e = d.getElementsByTagName(s)[0];
+    e.parentNode.insertBefore(i, e);
+  })();
+</script>
