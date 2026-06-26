@@ -12,6 +12,7 @@ const stages = [
     shot:
       "Quiet morning interior. Wool blanket on a wide-plank floor. A young dog in a sit-stay near a leather leash hanging on a hook. Soft window light, warm tones.",
     aspect: "4 / 5",
+    image: "/stage1-foundation-dog-resting.webp",
   },
   {
     number: "02",
@@ -34,8 +35,7 @@ const stages = [
     shot:
       "Late evening interior. A dog asleep on a wool-blanketed bed in a softly lit room. A reading lamp, an open book on a side table. Warm, hushed.",
     aspect: "4 / 5",
-  },
-];
+  };
 ---
 
 <section
@@ -78,11 +78,22 @@ const stages = [
                   imageFirst ? "lg:order-1" : "lg:order-2",
                 ]}
               >
-                <ShotList
-                  shot={stage.shot}
-                  aspect={stage.aspect}
-                  tone="ink"
-                />
+                {stage.image ? (
+                  <img
+                    src={stage.image}
+                    alt={stage.shot}
+                    class="w-full border border-brand-bg/15 object-cover"
+                    style={`aspect-ratio: ${stage.aspect};`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <ShotList
+                    shot={stage.shot}
+                    aspect={stage.aspect}
+                    tone="ink"
+                  />
+                )}
               </div>
 
               <div
