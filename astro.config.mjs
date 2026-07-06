@@ -4,7 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
 import sitemap from "@astrojs/sitemap";
 import seoGraph from "@jdevalk/astro-seo-graph/integration";
-import staticHeaders from "astro-static-headers";
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,7 +22,6 @@ export default defineConfig({
       validateMetadataLength: true,
       validateInternalLinks: true,
     }),
-    staticHeaders(),
   ],
   vite: {
     plugins: [tailwindcss()],
