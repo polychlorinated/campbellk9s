@@ -1,4 +1,5 @@
 ---
+import InlineVideo from "./InlineVideo.astro";
 import ShotList from "./ShotList.astro";
 
 const places = [
@@ -21,7 +22,8 @@ const places = [
     season: "Summer · Golden hour",
     shot:
       "Warm sunset light on tall grass. A dog heeling beside an owner on a rural New England dirt path. Restrained, cinematic.",
-    aspect: "5 / 4",
+    aspect: "3 / 4",
+    video: "/woody-path.mp4",
   },
   {
     location: "The Country Stream",
@@ -31,7 +33,8 @@ const places = [
     season: "Spring · Soft morning",
     shot:
       "Shallow depth of field, warm tones. Dog behaving beautifully by a quiet New England stream. Cool water, warm tones, owner nearby.",
-    aspect: "5 / 4",
+    aspect: "16 / 9",
+    video: "/river-dogs.mp4",
   },
   {
     location: "The Cozy Interior",
@@ -41,7 +44,8 @@ const places = [
     season: "Winter · Hearth light",
     shot:
       "Wide aspect, warm diffuse light. A cozy living room in soft focus behind. A dog resting calmly on a wool blanket, drawn back toward an owner just out of frame.",
-    aspect: "21 / 9",
+    aspect: "16 / 9",
+    video: "/boot-camp-pack.mp4",
   },
 ];
 ---
@@ -79,7 +83,7 @@ const places = [
       class="mt-20 grid grid-cols-12 gap-x-6 gap-y-16 sm:gap-x-8 sm:gap-y-20"
     >
       <article
-        class="col-span-12 lg:col-span-7 lg:row-span-2 flex flex-col"
+        class="col-span-12 lg:col-span-6 lg:row-span-2 flex flex-col"
       >
         {places[0].image ? (
           <img
@@ -89,6 +93,13 @@ const places = [
             style={`aspect-ratio: ${places[0].aspect};`}
             loading="lazy"
             decoding="async"
+          />
+        ) : places[0].video ? (
+          <InlineVideo
+            src={places[0].video}
+            aspect={places[0].aspect}
+            ariaLabel={places[0].shot}
+            class="border-brand-primary/15"
           />
         ) : (
           <ShotList shot={places[0].shot} aspect={places[0].aspect} />
@@ -112,8 +123,17 @@ const places = [
         </p>
       </article>
 
-      <article class="col-span-12 sm:col-span-6 lg:col-span-5">
-        <ShotList shot={places[1].shot} aspect={places[1].aspect} />
+      <article class="col-span-12 sm:col-span-6 lg:col-span-6">
+        {places[1].video ? (
+          <InlineVideo
+            src={places[1].video}
+            aspect={places[1].aspect}
+            ariaLabel={places[1].shot}
+            class="border-brand-primary/15"
+          />
+        ) : (
+          <ShotList shot={places[1].shot} aspect={places[1].aspect} />
+        )}
         <div class="mt-6 flex items-baseline justify-between gap-6">
           <div>
             <p class="caption text-brand-accent">{places[1].location}</p>
@@ -129,8 +149,17 @@ const places = [
         <p class="caption mt-4 text-brand-primary/45">{places[1].season}</p>
       </article>
 
-      <article class="col-span-12 sm:col-span-6 lg:col-span-5">
-        <ShotList shot={places[2].shot} aspect={places[2].aspect} />
+      <article class="col-span-12 sm:col-span-6 lg:col-span-6">
+        {places[2].video ? (
+          <InlineVideo
+            src={places[2].video}
+            aspect={places[2].aspect}
+            ariaLabel={places[2].shot}
+            class="border-brand-primary/15"
+          />
+        ) : (
+          <ShotList shot={places[2].shot} aspect={places[2].aspect} />
+        )}
         <div class="mt-6 flex items-baseline justify-between gap-6">
           <div>
             <p class="caption text-brand-accent">{places[2].location}</p>
@@ -147,7 +176,16 @@ const places = [
       </article>
 
       <article class="col-span-12">
-        <ShotList shot={places[3].shot} aspect={places[3].aspect} />
+        {places[3].video ? (
+          <InlineVideo
+            src={places[3].video}
+            aspect={places[3].aspect}
+            ariaLabel={places[3].shot}
+            class="border-brand-primary/15"
+          />
+        ) : (
+          <ShotList shot={places[3].shot} aspect={places[3].aspect} />
+        )}
         <div
           class="mt-8 grid gap-6 lg:grid-cols-12 lg:items-baseline lg:gap-12"
         >

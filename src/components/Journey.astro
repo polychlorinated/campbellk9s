@@ -1,4 +1,5 @@
 ---
+import InlineVideo from "./InlineVideo.astro";
 import ShotList from "./ShotList.astro";
 
 const stages = [
@@ -12,6 +13,7 @@ const stages = [
     shot:
       "Quiet morning interior. Wool blanket on a wide-plank floor. A young dog in a sit-stay near a leather leash hanging on a hook. Soft window light, warm tones.",
     aspect: "4 / 5",
+    video: "/swimming-dog.mp4",
   },
   {
     number: "02",
@@ -89,6 +91,13 @@ const stages = [
                     style={`aspect-ratio: ${stage.aspect};`}
                     loading="lazy"
                     decoding="async"
+                  />
+                ) : stage.video ? (
+                  <InlineVideo
+                    src={stage.video}
+                    aspect={stage.aspect}
+                    ariaLabel={stage.shot}
+                    class="border-brand-bg/15"
                   />
                 ) : (
                   <ShotList

@@ -1,0 +1,33 @@
+---
+// Inline autoplay video block for replacing photography placeholders.
+
+interface Props {
+  src: string;
+  aspect?: string;
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  src,
+  aspect = "16 / 9",
+  ariaLabel,
+  class: className = "",
+} = Astro.props;
+---
+
+<video
+  class:list={[
+    "w-full border object-cover",
+    className,
+  ]}
+  style={`aspect-ratio: ${aspect};`}
+  autoplay
+  muted
+  loop
+  playsinline
+  preload="metadata"
+  aria-label={ariaLabel}
+>
+  <source src={src} type="video/mp4" />
+</video>
