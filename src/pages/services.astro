@@ -1,0 +1,141 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const services = [
+  {
+    title: "Board & Train Bootcamp",
+    path: "/dog-board-and-train-bootcamp/",
+    description:
+      "Two to four weeks in residence. Your dog lives with us, trains daily with the pack, and returns with new habits you can keep alive.",
+  },
+  {
+    title: "Adventure Hikes",
+    path: "/#journey",
+    description:
+      "Standing weekly off-leash pack walks through woodland trails and open fields. For bootcamp graduates who need the world, not just the living room.",
+  },
+  {
+    title: "Behavior Modification",
+    path: "/dog-behavior-modification/",
+    description:
+      "Structured work for reactivity, aggression, anxiety, and resource guarding. We identify the root cause and build a plan that keeps everyone safe.",
+  },
+  {
+    title: "Overnight Boarding",
+    path: "/dog-sitting-rhode-island/",
+    description:
+      "Premium overnight care in a calm, structured environment. Your dog rests with people and dogs they already know.",
+  },
+  {
+    title: "Hourly Training Sessions",
+    path: "/contact/",
+    description:
+      "One-on-one work at your home or in a public training area. Ideal for focused issues, follow-up, or families who aren't ready for bootcamp.",
+  },
+  {
+    title: "Training Scholarship",
+    path: "/dog-training-scholarship-new-england/",
+    description:
+      "A limited program for New England dogs and families who need help but face real financial barriers. By application.",
+  },
+];
+---
+
+<Layout
+  title="Campbell K9s Dog Training Services — Boston & Providence"
+  description="Board and train bootcamp, adventure hikes, behavior modification, overnight boarding, and hourly training across Greater Boston and Providence."
+>
+  <!-- Page header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28"
+    >
+      <p class="caption text-brand-accent">Services</p>
+      <h1
+        class="mt-7 max-w-4xl text-balance font-serif text-[clamp(2.5rem,6vw,6rem)] font-bold leading-[0.96] text-brand-bg"
+      >
+        A continuum of
+        <span class="italic text-brand-accent">serious training.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+        Every service opens the next. Foundation first, then the field, then a
+        life together that needs less management and more trust.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services grid -->
+  <section class="relative bg-brand-bg" aria-labelledby="services-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <h2 id="services-heading" class="sr-only">What We Offer</h2>
+
+      <div class="grid gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          services.map((service) => (
+            <a
+              href={service.path}
+              class="group flex flex-col border-b border-brand-line pb-10 transition-colors hover:border-brand-accent"
+            >
+              <h3 class="font-serif text-2xl leading-tight text-brand-primary transition-colors group-hover:text-brand-accent sm:text-3xl">
+                {service.title}
+              </h3>
+              <div class="mt-4 hairline max-w-[2rem] transition-colors group-hover:bg-brand-accent"></div>
+              <p class="mt-4 flex-1 text-base leading-relaxed text-brand-primary/75">
+                {service.description}
+              </p>
+              <span class="caption mt-6 inline-flex items-center gap-2 text-brand-primary/55 transition-colors group-hover:text-brand-accent">
+                Learn more
+                <span aria-hidden="true">&rarr;</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative bg-brand-bg">
+    <div class="hairline mx-auto max-w-7xl"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-7">
+          <p class="caption text-brand-accent">Not sure where to start?</p>
+          <h2 class="mt-6 max-w-xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl">
+            We accept a small number of dogs
+            <span class="italic text-brand-accent">each season.</span>
+          </h2>
+        </div>
+        <div class="flex flex-col justify-center lg:col-span-5">
+          <p class="text-base leading-relaxed text-brand-primary/70 sm:text-lg">
+            Tell us about your dog and your goals. Our lead trainer will write
+            back within twenty-four hours with an honest recommendation.
+          </p>
+          <div class="mt-10">
+            <a
+              href="/contact/"
+              class="group inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-brand-bg"
+            >
+              Begin a Conversation
+              <span
+                class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

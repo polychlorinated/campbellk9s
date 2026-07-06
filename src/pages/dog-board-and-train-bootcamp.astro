@@ -1,0 +1,191 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const curriculum = [
+  {
+    title: "Foundation & Calmness",
+    description:
+      "We start by teaching your dog that calmness is a habit. Place, leash manners, and clear boundaries create the mental space for everything that follows.",
+  },
+  {
+    title: "Off-Leash Reliability",
+    description:
+      "Recall, heel, and stay are proofed around real-world distractions. By the end of the program your dog understands that coming back is always the best choice.",
+  },
+  {
+    title: "Socialization With the Pack",
+    description:
+      "Living with a balanced pack teaches your dog more than any lesson in isolation. They learn appropriate greetings, shared space, and how to settle around other dogs.",
+  },
+  {
+    title: "Owner Transfer Session",
+    description:
+      "Before your dog comes home, we spend time with you. You'll learn the commands, the timing, and the small daily habits that protect the progress we built.",
+  },
+];
+---
+
+<Layout
+  title="Dog Board & Train Bootcamp — Campbell K9s"
+  description="A two-to-four-week in-residence bootcamp for dogs across Greater Boston and Providence. Build calmness, off-leash reliability, and a better relationship."
+>
+  <!-- Page header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28"
+    >
+      <p class="caption text-brand-accent">Board & Train</p>
+      <h1
+        class="mt-7 max-w-4xl text-balance font-serif text-[clamp(2.5rem,6vw,6rem)] font-bold leading-[0.96] text-brand-bg"
+      >
+        A bootcamp that sends home
+        <span class="italic text-brand-accent">a different dog.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+        Two to four weeks in residence with our family and pack. Daily training,
+        real-world proofing, and an owner transfer session so the progress lasts.
+      </p>
+    </div>
+  </section>
+
+  <!-- What to expect -->
+  <section class="relative bg-brand-bg" aria-labelledby="curriculum-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">The Program</p>
+          <h2
+            id="curriculum-heading"
+            class="mt-6 text-balance font-serif text-4xl leading-[1.05] sm:text-5xl"
+          >
+            Four pillars of
+            <span class="italic text-brand-accent">the work.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-8">
+          <div class="space-y-12">
+            {
+              curriculum.map((item, i) => (
+                <div class="grid gap-6 border-b border-brand-line pb-12 sm:grid-cols-12">
+                  <div class="sm:col-span-3">
+                    <p class="caption text-brand-primary/45">0{i + 1}</p>
+                    <h3 class="mt-2 font-serif text-2xl leading-tight text-brand-primary">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <div class="sm:col-span-9">
+                    <p class="text-base leading-relaxed text-brand-primary/75 sm:text-lg">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Details -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <div class="hairline mx-auto max-w-7xl bg-brand-bg/10"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">Details</p>
+          <div class="mt-6 hairline max-w-[3rem] bg-brand-bg/20"></div>
+        </div>
+        <div class="lg:col-span-8">
+          <div class="grid gap-x-12 gap-y-10 sm:grid-cols-2">
+            <div>
+              <h3 class="font-serif text-2xl leading-tight text-brand-bg">
+                Duration
+              </h3>
+              <p class="mt-4 text-base leading-relaxed text-brand-bg/75">
+                Most dogs stay two to four weeks depending on age, behavior, and
+                goals. We will recommend the right length after our intake
+                conversation.
+              </p>
+            </div>
+            <div>
+              <h3 class="font-serif text-2xl leading-tight text-brand-bg">
+                Location
+              </h3>
+              <p class="mt-4 text-base leading-relaxed text-brand-bg/75">
+                Your dog lives in our home, not a kennel. They train indoors, in
+                the yard, on local trails, and with the pack in real-world
+                environments.
+              </p>
+            </div>
+            <div>
+              <h3 class="font-serif text-2xl leading-tight text-brand-bg">
+                Follow-Up
+              </h3>
+              <p class="mt-4 text-base leading-relaxed text-brand-bg/75">
+                After bootcamp, graduates are eligible for adventure hikes and
+                ongoing support. Many families also book hourly sessions for
+                fine-tuning at home.
+              </p>
+            </div>
+            <div>
+              <h3 class="font-serif text-2xl leading-tight text-brand-bg">
+                Investment
+              </h3>
+              <p class="mt-4 text-base leading-relaxed text-brand-bg/75">
+                Pricing depends on duration and complexity. We are transparent
+                about cost after understanding your dog's needs — no hidden fees
+                or pressure.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative bg-brand-bg">
+    <div class="hairline mx-auto max-w-7xl"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-7">
+          <p class="caption text-brand-accent">Ready to begin?</p>
+          <h2 class="mt-6 max-w-xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl">
+            Space is limited
+            <span class="italic text-brand-accent">each season.</span>
+          </h2>
+        </div>
+        <div class="flex flex-col justify-center lg:col-span-5">
+          <p class="text-base leading-relaxed text-brand-primary/70 sm:text-lg">
+            Tell us about your dog. We'll let you know if bootcamp is the right
+            fit and what the next steps look like.
+          </p>
+          <div class="mt-10">
+            <a
+              href="/contact/"
+              class="group inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-brand-bg"
+            >
+              Apply for Bootcamp
+              <span
+                class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

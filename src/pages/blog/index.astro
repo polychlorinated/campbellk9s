@@ -12,7 +12,7 @@ const posts = await getPosts();
 ---
 
 <Layout
-  title="Journal — Campbell K9"
+  title="Campbell K9 Journal — Dog Training Field Notes & Stories"
   description="Training insights, field notes, and stories from New England's most dedicated dog training practice."
 >
   <section class="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32 lg:px-16">
@@ -42,7 +42,7 @@ const posts = await getPosts();
             return (
               <article class="group flex flex-col">
                 <a
-                  href={`/blog/${post.slug}`}
+                  href={`/blog/${post.slug}/`}
                   class="block overflow-hidden"
                   tabindex="-1"
                   aria-hidden="true"
@@ -75,7 +75,7 @@ const posts = await getPosts();
                   </div>
                   <h2 class="mt-3 font-serif text-2xl leading-snug">
                     <a
-                      href={`/blog/${post.slug}`}
+                      href={`/blog/${post.slug}/`}
                       class="transition-colors hover:text-brand-accent"
                       set:html={post.title.rendered}
                     />
@@ -85,7 +85,7 @@ const posts = await getPosts();
                     set:html={post.excerpt.rendered}
                   />
                   <a
-                    href={`/blog/${post.slug}`}
+                    href={`/blog/${post.slug}/`}
                     class="caption mt-5 inline-flex items-center gap-2 text-brand-accent transition-all hover:gap-3"
                   >
                     Read More <span aria-hidden="true">&rarr;</span>

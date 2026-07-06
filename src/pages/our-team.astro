@@ -1,0 +1,125 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const team = [
+  {
+    name: "Matt Campbell",
+    role: "Lead Trainer & Founder",
+    bio:
+      "Matt started Campbell K9 because he kept meeting dogs who were under-asked and over-managed. His approach combines clear structure with real-world experience — long mornings on the trail, deliberate work in the home, and an unhurried trust earned over time.",
+  },
+  {
+    name: "Mary Campbell",
+    role: "Trainer & Pack Coordinator",
+    bio:
+      "Mary manages the rhythm of daily pack life, from bootcamp intake to adventure hike logistics. She has a calm eye for which dog needs space, which needs direction, and which one just needs to run.",
+  },
+  {
+    name: "Joe Campbell",
+    role: "Trainer & Adventure Lead",
+    bio:
+      "Joe leads off-leash adventure hikes through woodland trails, open fields, and quiet conservation land. He reads pack dynamics quickly and keeps every hike safe, structured, and genuinely fun for the dogs.",
+  },
+];
+---
+
+<Layout
+  title="Meet the Campbell K9s Training Team"
+  description="Meet Matt, Mary, and Joe Campbell — the trainers behind Campbell K9s, serving Greater Boston and Providence with board and train bootcamp, adventure hikes, and behavior work."
+>
+  <!-- Page header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28"
+    >
+      <p class="caption text-brand-accent">Our Team</p>
+      <h1
+        class="mt-7 max-w-4xl text-balance font-serif text-[clamp(2.5rem,6vw,6rem)] font-bold leading-[0.96] text-brand-bg"
+      >
+        The people behind
+        <span class="italic text-brand-accent">the work.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+        A small family team taking on a small number of dogs each season. We
+        train with consistency, patience, and a sense of humor.
+      </p>
+    </div>
+  </section>
+
+  <!-- Team grid -->
+  <section class="relative bg-brand-bg" aria-labelledby="team-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <h2 id="team-heading" class="sr-only">Team Members</h2>
+
+      <div class="grid gap-x-12 gap-y-16 lg:grid-cols-3">
+        {
+          team.map((member) => (
+            <div class="flex flex-col">
+              <div class="aspect-[4/5] overflow-hidden border border-brand-line bg-brand-primary/5">
+                <div class="flex h-full w-full items-center justify-center">
+                  <span class="caption text-brand-primary/40">{member.name}</span>
+                </div>
+              </div>
+              <div class="mt-6">
+                <p class="caption text-brand-accent">{member.role}</p>
+                <h3 class="mt-3 font-serif text-2xl leading-tight text-brand-primary sm:text-3xl">
+                  {member.name}
+                </h3>
+                <div class="mt-4 hairline max-w-[2rem]"></div>
+                <p class="mt-4 text-base leading-relaxed text-brand-primary/75">
+                  {member.bio}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <div class="hairline mx-auto max-w-7xl bg-brand-bg/10"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-7">
+          <p class="caption text-brand-accent">Ready to begin?</p>
+          <h2 class="mt-6 max-w-xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl">
+            Tell us what you're seeing.
+            <span class="italic text-brand-accent">We'll be direct.</span>
+          </h2>
+        </div>
+        <div class="flex flex-col justify-center lg:col-span-5">
+          <p class="text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+            Our lead trainer will write back within twenty-four hours with honest
+            guidance on whether bootcamp, hourly sessions, or another path is the
+            right fit.
+          </p>
+          <div class="mt-10">
+            <a
+              href="/contact/"
+              class="group inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-bg"
+            >
+              Contact Us
+              <span
+                class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

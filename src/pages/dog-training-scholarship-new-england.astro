@@ -1,0 +1,158 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const criteria = [
+  {
+    title: "Real Need",
+    description:
+      "The scholarship is designed for families who want professional help but face genuine financial barriers. We ask for a brief, honest summary of your situation.",
+  },
+  {
+    title: "Commitment to the Work",
+    description:
+      "Training only works when the human side shows up. We look for families who are ready to practice, follow through, and maintain the structure we teach.",
+  },
+  {
+    title: "New England Residency",
+    description:
+      "Applicants must live in New England and be able to transport their dog to our location for bootcamp or attend scheduled sessions in the Greater Boston or Providence area.",
+  },
+];
+---
+
+<Layout
+  title="Dog Training Scholarship for New England — Campbell K9s"
+  description="A limited scholarship program for New England dogs and families facing financial barriers. Apply for board and train bootcamp or behavior work with Campbell K9s."
+>
+  <!-- Page header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28"
+    >
+      <p class="caption text-brand-accent">Scholarship</p>
+      <h1
+        class="mt-7 max-w-4xl text-balance font-serif text-[clamp(2.5rem,6vw,6rem)] font-bold leading-[0.96] text-brand-bg"
+      >
+        Help for dogs
+        <span class="italic text-brand-accent">who need a way in.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+        A limited number of scholarship spots each year for New England families
+        facing financial barriers. Good training should not be out of reach for
+        the dogs who need it most.
+      </p>
+    </div>
+  </section>
+
+  <!-- Program details -->
+  <section class="relative bg-brand-bg" aria-labelledby="scholarship-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">The Program</p>
+          <h2
+            id="scholarship-heading"
+            class="mt-6 text-balance font-serif text-4xl leading-[1.05] sm:text-5xl"
+          >
+            What the scholarship
+            <span class="italic text-brand-accent">covers.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-8">
+          <div class="max-w-2xl space-y-6 text-lg leading-relaxed text-brand-primary/80 sm:text-xl">
+            <p>
+              Scholarship awards vary based on need and available funding. They
+              may cover part or all of a Board & Train Bootcamp, a behavior
+              modification package, or a series of hourly training sessions.
+            </p>
+            <p>
+              Every scholarship recipient receives the same training quality as
+              our full-rate clients. The only difference is the price.
+            </p>
+            <p>
+              Funding comes from client contributions, community donations, and
+              a portion of every full-rate program. When you train with us, you
+              help another dog get the help they need.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Criteria -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <div class="hairline mx-auto max-w-7xl bg-brand-bg/10"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">Who Qualifies</p>
+          <div class="mt-6 hairline max-w-[3rem] bg-brand-bg/20"></div>
+        </div>
+        <div class="lg:col-span-8">
+          <div class="grid gap-x-12 gap-y-12 sm:grid-cols-2">
+            {
+              criteria.map((item) => (
+                <div>
+                  <h3 class="font-serif text-2xl leading-tight text-brand-bg">
+                    {item.title}
+                  </h3>
+                  <div class="mt-4 hairline max-w-[2rem] bg-brand-bg/20"></div>
+                  <p class="mt-4 text-base leading-relaxed text-brand-bg/75">
+                    {item.description}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Apply -->
+  <section class="relative bg-brand-bg">
+    <div class="hairline mx-auto max-w-7xl"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-7">
+          <p class="caption text-brand-accent">Apply</p>
+          <h2 class="mt-6 max-w-xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl">
+            Reach out and
+            <span class="italic text-brand-accent">tell us your story.</span>
+          </h2>
+        </div>
+        <div class="flex flex-col justify-center lg:col-span-5">
+          <p class="text-base leading-relaxed text-brand-primary/70 sm:text-lg">
+            There is no formal application form. Send us a note explaining your
+            dog, your situation, and what you hope training will change. We read
+            every message and respond as quickly as we can.
+          </p>
+          <div class="mt-10">
+            <a
+              href="/contact/"
+              class="group inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-brand-bg"
+            >
+              Apply for the Scholarship
+              <span
+                class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://campbellk9s.com/sitemap-index.xml

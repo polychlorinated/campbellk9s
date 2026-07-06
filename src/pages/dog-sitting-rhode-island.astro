@@ -1,0 +1,159 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const features = [
+  {
+    title: "In-Home Environment",
+    description:
+      "Your dog stays in our home, not a commercial kennel. They sleep where the pack sleeps and follow the same calm daily rhythm our training dogs follow.",
+  },
+  {
+    title: "Structure & Safety",
+    description:
+      "Clear boundaries, supervised interactions, and consistent routines help every guest feel secure. We do not accept dogs whose behavior would endanger the pack.",
+  },
+  {
+    title: "Exercise Included",
+    description:
+      "Depending on the weather and your dog's needs, days include yard time, leashed walks, and — for qualified graduates — off-leash adventure hikes with the pack.",
+  },
+  {
+    title: "Owner Updates",
+    description:
+      "You will receive updates while you're away. Not constant photos, but honest check-ins so you know your dog is relaxed, eating, and doing well.",
+  },
+];
+---
+
+<Layout
+  title="Dog Sitting & Overnight Boarding in Rhode Island — Campbell K9s"
+  description="Premium overnight dog boarding and sitting in Rhode Island. Your dog stays in a calm, structured home environment with trainers who know them."
+>
+  <!-- Page header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28"
+    >
+      <p class="caption text-brand-accent">Boarding</p>
+      <h1
+        class="mt-7 max-w-4xl text-balance font-serif text-[clamp(2.5rem,6vw,6rem)] font-bold leading-[0.96] text-brand-bg"
+      >
+        Sitting where your dog
+        <span class="italic text-brand-accent">feels at home.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+        Overnight boarding in Rhode Island for dogs who thrive in a calm,
+        structured environment. Limited spots, by reservation, for dogs we know
+        or have evaluated.
+      </p>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="relative bg-brand-bg" aria-labelledby="boarding-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">What to Expect</p>
+          <h2
+            id="boarding-heading"
+            class="mt-6 text-balance font-serif text-4xl leading-[1.05] sm:text-5xl"
+          >
+            A better kind of
+            <span class="italic text-brand-accent">overnight stay.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-8">
+          <div class="grid gap-x-12 gap-y-12 sm:grid-cols-2">
+            {
+              features.map((item) => (
+                <div>
+                  <h3 class="font-serif text-2xl leading-tight text-brand-primary">
+                    {item.title}
+                  </h3>
+                  <div class="mt-4 hairline max-w-[2rem]"></div>
+                  <p class="mt-4 text-base leading-relaxed text-brand-primary/75">
+                    {item.description}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Requirements -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <div class="hairline mx-auto max-w-7xl bg-brand-bg/10"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">Requirements</p>
+          <div class="mt-6 hairline max-w-[3rem] bg-brand-bg/20"></div>
+        </div>
+        <div class="lg:col-span-8">
+          <div class="max-w-2xl space-y-6 text-lg leading-relaxed text-brand-bg/80 sm:text-xl">
+            <p>
+              Because boarding happens in our home alongside our own dogs and
+              training dogs, we are selective. Dogs must be current on
+              vaccinations, free of contagious illness, and able to coexist
+              safely with other dogs.
+            </p>
+            <p>
+              Priority goes to bootcamp graduates and established clients. If we
+              have not worked with your dog before, we may ask for a brief
+              evaluation before confirming a reservation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative bg-brand-bg">
+    <div class="hairline mx-auto max-w-7xl"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-7">
+          <p class="caption text-brand-accent">Reserve</p>
+          <h2 class="mt-6 max-w-xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl">
+            Spots fill quickly
+            <span class="italic text-brand-accent">around holidays.</span>
+          </h2>
+        </div>
+        <div class="flex flex-col justify-center lg:col-span-5">
+          <p class="text-base leading-relaxed text-brand-primary/70 sm:text-lg">
+            Tell us your dates and a little about your dog. We'll let you know
+            availability and whether an evaluation is needed.
+          </p>
+          <div class="mt-10">
+            <a
+              href="/contact/"
+              class="group inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-brand-bg"
+            >
+              Request Boarding Dates
+              <span
+                class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

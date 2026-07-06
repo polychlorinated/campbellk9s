@@ -2,12 +2,29 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
+import sitemap from "@astrojs/sitemap";
+import seoGraph from "@jdevalk/astro-seo-graph/integration";
+import staticHeaders from "astro-static-headers";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://campbellk9s.com",
   output: "static",
-  adapter: cloudflare(),
+  trailingSlash: "always",
+  adapter: cloudflare({
+    prerenderEnvironment: "node",
+  }),
+  integrations: [
+    sitemap(),
+    seoGraph({
+      validateH1: true,
+      validateUniqueMetadata: true,
+      validateImageAlt: true,
+      validateMetadataLength: true,
+      validateInternalLinks: true,
+    }),
+    staticHeaders(),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

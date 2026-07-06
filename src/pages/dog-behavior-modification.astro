@@ -1,0 +1,164 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const behaviors = [
+  {
+    title: "Reactivity",
+    description:
+      "Barking, lunging, or pulling toward triggers on leash. Often rooted in fear, frustration, or over-arousal — and often reversible with structure and distance work.",
+  },
+  {
+    title: "Aggression",
+    description:
+      "Growling, snapping, or biting intended to harm or intimidate. We assess the root cause — fear, resource guarding, territoriality — and build a safety-first plan.",
+  },
+  {
+    title: "Anxiety",
+    description:
+      "Pacing, whining, shaking, or destructive behavior driven by uncertainty. We teach predictability and confidence through clear leadership and gradual exposure.",
+  },
+  {
+    title: "Resource Guarding",
+    description:
+      "Protecting food, toys, space, or people. We change the dog's emotional response and teach them that humans make good things happen, not go away.",
+  },
+];
+---
+
+<Layout
+  title="Dog Behavior Modification — Campbell K9s"
+  description="Professional behavior modification for reactivity, aggression, anxiety, and resource guarding across Greater Boston and Providence."
+>
+  <!-- Page header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"
+    ></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28"
+    >
+      <p class="caption text-brand-accent">Behavior</p>
+      <h1
+        class="mt-7 max-w-4xl text-balance font-serif text-[clamp(2.5rem,6vw,6rem)] font-bold leading-[0.96] text-brand-bg"
+      >
+        Change the behavior
+        <span class="italic text-brand-accent">from the inside out.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+        Behavior modification is not about suppression. It is about understanding
+        why a dog responds the way they do, then building a new emotional
+        baseline through structure, leadership, and careful practice.
+      </p>
+    </div>
+  </section>
+
+  <!-- Behaviors -->
+  <section class="relative bg-brand-bg" aria-labelledby="behaviors-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">What We Address</p>
+          <h2
+            id="behaviors-heading"
+            class="mt-6 text-balance font-serif text-4xl leading-[1.05] sm:text-5xl"
+          >
+            Behaviors we
+            <span class="italic text-brand-accent">unravel.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-8">
+          <div class="grid gap-x-12 gap-y-12 sm:grid-cols-2">
+            {
+              behaviors.map((item) => (
+                <div>
+                  <h3 class="font-serif text-2xl leading-tight text-brand-primary">
+                    {item.title}
+                  </h3>
+                  <div class="mt-4 hairline max-w-[2rem]"></div>
+                  <p class="mt-4 text-base leading-relaxed text-brand-primary/75">
+                    {item.description}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Approach -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <div class="hairline mx-auto max-w-7xl bg-brand-bg/10"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">Our Approach</p>
+          <div class="mt-6 hairline max-w-[3rem] bg-brand-bg/20"></div>
+        </div>
+        <div class="lg:col-span-8">
+          <div class="max-w-2xl space-y-6 text-lg leading-relaxed text-brand-bg/80 sm:text-xl">
+            <p>
+              Every behavior has a function. Before we train, we look at the
+              context: what happens right before the behavior, what the dog gets
+              from it, and what relationship dynamics might be reinforcing it.
+            </p>
+            <p>
+              From there we build a plan. Sometimes that means bootcamp so the
+              dog can reset in a structured environment. Sometimes it means
+              hourly sessions in your home. Often it is a combination.
+            </p>
+            <p>
+              We do not promise overnight cures. We do promise honest assessment,
+              clear communication, and a path that prioritizes your dog's
+              wellbeing and your family's safety.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative bg-brand-bg">
+    <div class="hairline mx-auto max-w-7xl"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-7">
+          <p class="caption text-brand-accent">Ready for help?</p>
+          <h2 class="mt-6 max-w-xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl">
+            Tell us what you're seeing.
+            <span class="italic text-brand-accent">We'll be direct.</span>
+          </h2>
+        </div>
+        <div class="flex flex-col justify-center lg:col-span-5">
+          <p class="text-base leading-relaxed text-brand-primary/70 sm:text-lg">
+            Our lead trainer will write back within twenty-four hours with honest
+            guidance on whether bootcamp, hourly sessions, or another path is the
+            right fit.
+          </p>
+          <div class="mt-10">
+            <a
+              href="/contact/"
+              class="group inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-brand-bg"
+            >
+              Begin a Conversation
+              <span
+                class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
