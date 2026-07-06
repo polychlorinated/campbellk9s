@@ -1,7 +1,5 @@
 ---
-// Hero — full-bleed cinematic statement.
-// Until photography is produced, the placeholder block above the headline
-// presents the directive in lieu of a stock image.
+// Hero — full-bleed cinematic statement with background video.
 ---
 
 <section
@@ -19,8 +17,7 @@
       preload="metadata"
       poster="/favicon.svg"
     >
-      <source src="/videos/dogs-hiking.mp4" type="video/mp4" />
-      <source src="/videos/dogs-hiking.webm" type="video/webm" />
+      <source src="/ck9-hero-video.mp4" type="video/mp4" />
     </video>
     <!-- Overlay to ensure text remains readable against the video -->
     <div class="absolute inset-0 bg-brand-primary/70"></div>
@@ -38,30 +35,6 @@
   <span
     class="pointer-events-none absolute bottom-6 right-6 z-10 h-4 w-4 border-b border-r border-brand-bg/30 sm:bottom-10 sm:right-10"
     aria-hidden="true"></span>
-
-  <div
-    class="absolute inset-x-0 top-1/4 -z-0 mx-auto max-w-xl px-6 text-center sm:top-[28%]"
-    aria-hidden="true"
-  >
-    <p
-      class="caption inline-flex items-center justify-center gap-3 text-brand-accent"
-    >
-      <span class="h-px w-8 bg-brand-bg/25"></span>
-      Shot List &middot; Hero
-      <span class="h-px w-8 bg-brand-bg/25"></span>
-    </p>
-    <p
-      class="mt-5 font-serif text-base italic leading-relaxed text-brand-bg/80 sm:text-lg"
-    >
-      Golden hour. Wide, cinematic frame of a confident dog off-leash on a
-      New England woodland trail. Dappled light, warm tones, unhurried
-      composition.
-    </p>
-    <p class="caption mt-6 leading-loose text-brand-bg/40">
-      No chain-link &middot; No concrete yards &middot; No e-collars<br />
-      No branded tees &middot; No harsh midday sun
-    </p>
-  </div>
 
   <div
     class="relative z-10 mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-end px-6 pb-16 pt-32 sm:px-10 sm:pb-24 lg:px-16 lg:pb-32"
