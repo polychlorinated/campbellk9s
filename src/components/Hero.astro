@@ -1,10 +1,22 @@
 ---
 // Hero — full-bleed cinematic statement with background video.
+
+interface Props {
+  videoSrc?: string;
+  headingId?: string;
+  videoLabel?: string;
+}
+
+const {
+  videoSrc = "/ck9-hero-video.mp4",
+  headingId = "hero-heading",
+  videoLabel,
+} = Astro.props;
 ---
 
 <section
   class="relative isolate min-h-[92vh] w-full overflow-hidden bg-brand-primary text-brand-bg"
-  aria-labelledby="hero-heading"
+  aria-labelledby={headingId}
 >
   <!-- Background Video Element -->
   <div class="absolute inset-0 z-0">
@@ -17,7 +29,7 @@
       preload="metadata"
       poster="/favicon.svg"
     >
-      <source src="/ck9-hero-video.mp4" type="video/mp4" />
+      <source src={videoSrc} type="video/mp4" />
     </video>
     <!-- Overlay to ensure text remains readable against the video -->
     <div class="absolute inset-0 bg-brand-primary/70"></div>
@@ -36,6 +48,14 @@
     class="pointer-events-none absolute bottom-6 right-6 z-10 h-4 w-4 border-b border-r border-brand-bg/30 sm:bottom-10 sm:right-10"
     aria-hidden="true"></span>
 
+  {
+    videoLabel && (
+      <p class="caption absolute left-1/2 top-6 z-30 -translate-x-1/2 rounded-full border border-brand-bg/20 bg-brand-primary/80 px-4 py-2 text-brand-accent backdrop-blur-sm sm:top-10">
+        {videoLabel}
+      </p>
+    )
+  }
+
   <div
     class="relative z-10 mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-end px-6 pb-16 pt-32 sm:px-10 sm:pb-24 lg:px-16 lg:pb-32"
   >
@@ -44,7 +64,7 @@
     </p>
 
     <h1
-      id="hero-heading"
+      id={headingId}
       class="mt-7 max-w-5xl text-balance font-serif text-[clamp(2.75rem,7vw,7.5rem)] font-bold leading-[0.96] text-brand-bg"
     >
       Where dogs become
