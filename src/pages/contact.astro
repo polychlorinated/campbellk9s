@@ -1,6 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 
+const n8nWebhookUrl =
+  import.meta.env.N8N_WEBHOOK_URL ??
+  "https://n8n.srv725961.hstgr.cloud/webhook/ec01ad68-6e29-4130-b016-76452eded072";
+
 const goalOptions = [
   { value: "puppy-training", label: "Puppy Training Program" },
   { value: "basic-obedience", label: "Basic Obedience Training" },
@@ -101,6 +105,7 @@ const goalOptions = [
           <form
             class="space-y-10"
             data-contact-form
+            data-webhook-url={n8nWebhookUrl}
             novalidate
             aria-describedby="contact-form-status"
           >
@@ -246,33 +251,40 @@ const goalOptions = [
     submitBtn.disabled = true;
     submitLabel.textContent = "Sending…";
 
+    const webhookUrl = form.dataset.webhookUrl;
+    if (!webhookUrl) {
+      showMessage(
+        "The form is not configured. Please write to k9campbellmatt@gmail.com.",
+        "error"
+      );
+      return;
+    }
+
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      const result = (await res.json().catch(() => ({}))) as {
-        ok?: boolean;
-        error?: string;
-      };
 
-      if (res.ok && result.ok) {
+      if (res.ok) {
         form.reset();
         showMessage(
           "Thank you. Our lead trainer will write back within twenty-four hours.",
           "success"
         );
       } else {
+        const text = await res.text().catch(() => "");
+        console.error("[contact] n8n error", res.status, text);
         showMessage(
-          result.error ||
-            "Something went wrong. Please try again, or write to k9campbellmatt@gmail.com.",
+          "Something went wrong. Please try again, or write to k9campbellmatt@gmail.com.",
           "error"
         );
       }
-    } catch {
+    } catch (err) {
+      console.error("[contact] network error", err);
       showMessage(
-        "We couldn't reach the server. Please try again, or write to k9campbellmatt@gmail.com.",
+        "We couldn't reach our intake system. Please try again, or write to k9campbellmatt@gmail.com.",
         "error"
       );
     } finally {
