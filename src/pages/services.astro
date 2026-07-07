@@ -3,40 +3,60 @@ import Layout from "../layouts/Layout.astro";
 
 const services = [
   {
-    title: "Board & Train Bootcamp",
+    title: "Puppy Training Program",
+    path: "/contact/",
+    description:
+      "Early training for puppies to build foundational skills. Includes basic commands, socialization, house training, and leash manners.",
+    price: "$150 per one-hour session",
+  },
+  {
+    title: "Basic Obedience Training",
+    path: "/contact/",
+    description:
+      "Fundamental obedience for dogs of all ages. Includes sit, stay, come, down, and proper leash walking.",
+    price: "$150 per one-hour session",
+  },
+  {
+    title: "Board & Train Program",
     path: "/dog-board-and-train-bootcamp/",
     description:
-      "One week in residence. Your dog lives with us, trains daily with the pack, and returns with new habits you can keep alive.",
+      "One week in residence. Includes off-leash recall, leash walking, daily routines, and behavior work. Your dog lives with us, trains daily with the pack, and returns with new habits you can keep alive.",
+    price: "$2,300",
   },
   {
     title: "Adventure Hikes",
     path: "/#journey",
     description:
-      "Standing weekly off-leash pack walks through woodland trails and open fields. For bootcamp graduates who need the world, not just the living room.",
+      "Pack hikes for our board and train program graduates. Gives your dog the opportunity to run, play, and explore off-leash.",
+    price: "$60 per hike",
+  },
+  {
+    title: "Leash Walks",
+    path: "/contact/",
+    description:
+      "Ensure your dog gets the proper exercise to maintain their health and energy levels. Typical walks last 30–60 minutes.",
+    price: "Starting at $30 per walk",
+  },
+  {
+    title: "In-Home Pet Sitting",
+    path: "/dog-sitting-rhode-island/",
+    description:
+      "Personalized, attentive care for your pets in the comfort of their own environment. We keep your pet on their normal routine with feeding, fresh water, exercise, playtime, and any necessary medications.",
+    price: "Starting at $125 per night",
   },
   {
     title: "Behavior Modification",
     path: "/dog-behavior-modification/",
     description:
       "Structured work for reactivity, aggression, anxiety, and resource guarding. We identify the root cause and build a plan that keeps everyone safe.",
-  },
-  {
-    title: "Overnight Boarding",
-    path: "/dog-sitting-rhode-island/",
-    description:
-      "Premium overnight care in a calm, structured environment. Your dog rests with people and dogs they already know.",
-  },
-  {
-    title: "Hourly Training Sessions",
-    path: "/contact/",
-    description:
-      "One-on-one work at your home or in a public training area. Ideal for focused issues, follow-up, or families who aren't ready for bootcamp.",
+    price: "Pricing after assessment",
   },
   {
     title: "Training Scholarship",
     path: "/dog-training-scholarship-new-england/",
     description:
       "A limited program for New England dogs and families who need help but face real financial barriers. By application.",
+    price: "By application",
   },
 ];
 ---
@@ -88,6 +108,7 @@ const services = [
               <h3 class="font-serif text-2xl leading-tight text-brand-primary transition-colors group-hover:text-brand-accent sm:text-3xl">
                 {service.title}
               </h3>
+              <p class="caption mt-3 text-brand-accent">{service.price}</p>
               <div class="mt-4 hairline max-w-[2rem] transition-colors group-hover:bg-brand-accent"></div>
               <p class="mt-4 flex-1 text-base leading-relaxed text-brand-primary/75">
                 {service.description}

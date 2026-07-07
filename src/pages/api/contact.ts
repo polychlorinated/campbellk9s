@@ -12,6 +12,10 @@ interface ContactPayload {
 
 const REQUIRED_FIELDS = ["name", "phone", "dog", "goal"] as const;
 
+const N8N_WEBHOOK_URL =
+  import.meta.env.N8N_WEBHOOK_URL ??
+  "https://n8n.srv725961.hstgr.cloud/webhook/ec01ad68-6e29-4130-b016-76452eded072";
+
 const json = (
   body: Record<string, unknown>,
   status = 200
@@ -54,16 +58,29 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  // TODO: forward to GoHighLevel webhook + send transactional email via Resend.
-  //   await fetch(import.meta.env.GHL_WEBHOOK_URL, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(cleaned),
-  //   });
-  //   await sendResendEmail(cleaned);
-  console.info("[contact] new lead", cleaned);
+  try {
+    const n8nRes = await fetch(N8N_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cleaned),
+    });
 
-  return json({ ok: true });
+    if (!n8nRes.ok) {
+      console.error("[contact] n8n webhook failed", n8nRes.status, await n8nRes.text().catch(() => ""));
+      return json(
+        { ok: false, error: "We couldn't send your inquiry. Please try again or email us directly." },
+        502
+      );
+    }
+
+    return json({ ok: true });
+  } catch (err) {
+    console.error("[contact] n8n webhook error", err);
+    return json(
+      { ok: false, error: "We couldn't reach our intake system. Please try again or email us directly." },
+      502
+    );
+  }
 };
 
 export const GET: APIRoute = () =>
