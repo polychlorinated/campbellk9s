@@ -7,18 +7,21 @@ const team = [
     role: "Lead Trainer & Founder",
     bio:
       "Matt started Campbell K9 because he kept meeting dogs who were under-asked and over-managed. His approach combines clear structure with real-world experience — long mornings on the trail, deliberate work in the home, and an unhurried trust earned over time.",
+    image: "/matt-campbell-about.webp",
   },
   {
     name: "Mary Campbell",
     role: "Trainer & Pack Coordinator",
     bio:
       "Mary manages the rhythm of daily pack life, from bootcamp intake to adventure hike logistics. She has a calm eye for which dog needs space, which needs direction, and which one just needs to run.",
+    image: "/mary-campbell-about.webp",
   },
   {
     name: "Joe Bergeron",
     role: "Trainer & Adventure Lead",
     bio:
       "Joe leads off-leash adventure hikes through woodland trails, open fields, and quiet conservation land. He reads pack dynamics quickly and keeps every hike safe, structured, and genuinely fun for the dogs.",
+    image: "/joe-bergeron-about.webp",
   },
 ];
 ---
@@ -64,10 +67,14 @@ const team = [
         {
           team.map((member) => (
             <div class="flex flex-col">
-              <div class="aspect-[4/5] overflow-hidden border border-brand-line bg-brand-primary/5">
-                <div class="flex h-full w-full items-center justify-center">
-                  <span class="caption text-brand-primary/40">{member.name}</span>
-                </div>
+              <div class="aspect-[307/307] overflow-hidden border border-brand-line bg-brand-primary/5">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  class="h-full w-full object-cover"
+                  width={307}
+                  height={307}
+                />
               </div>
               <div class="mt-6">
                 <p class="caption text-brand-accent">{member.role}</p>
