@@ -10,6 +10,9 @@ import {
 
 export const prerender = false;
 
+Astro.response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
+Astro.response.headers.set("Cloudflare-CDN-Cache-Control", "no-store");
+
 const posts = await getPosts();
 ---
 

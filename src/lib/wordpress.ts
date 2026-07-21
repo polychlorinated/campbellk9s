@@ -18,7 +18,7 @@ export interface WPPost {
   };
 }
 
-export async function getPosts(perPage = 100): Promise<WPPost[]> {
+export async function getPosts(perPage = 12): Promise<WPPost[]> {
   try {
     const url = `${WP_API}/posts?_embed&per_page=${perPage}&status=publish&orderby=date&order=desc`;
     console.log('[wordpress] Fetching:', url);

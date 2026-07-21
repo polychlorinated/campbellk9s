@@ -12,6 +12,9 @@ import type { WPPost } from "../../lib/wordpress";
 const { slug } = Astro.params;
 if (!slug) throw new Error("Missing slug");
 
+Astro.response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
+Astro.response.headers.set("Cloudflare-CDN-Cache-Control", "no-store");
+
 const post = await getPostBySlug(slug);
 
 if (!post) {
