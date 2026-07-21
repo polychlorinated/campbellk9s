@@ -46,31 +46,7 @@ export async function getPosts(perPage = 12): Promise<WPPost[]> {
     }
   }
 
-  return [];
-}
-
-export async function getPostBySlug(slug: string): Promise<WPPost | null> {
-  const url = `${WP_API}/posts?_embed&slug=${encodeURIComponent(slug)}&status=publish`;
-
-  for (let attempt = 1; attempt <= 2; attempt++) {
-    try {
-      const res = await fetch(url, {
-        cache: "no-store",
-        headers: { Accept: "application/json" },
-        signal: AbortSignal.timeout(8000),
-      });
-      if (!res.ok) throw new Error(`WordPress returned ${res.status}`);
-
-      const posts: unknown = await res.json();
-      if (!Array.isArray(posts)) throw new Error("WordPress returned invalid post data");
-      return (posts[0] as WPPost | undefined) ?? null;
-    } catch (error) {
-      console.error(`[wordpress] Post attempt ${attempt} failed`, error);
-      if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, 350));
-    }
-  }
-
-  return null;
+  throw new Error("Unable to fetch published WordPress posts after two attempts");
 }
 
 export function featuredImage(post: WPPost): string | null {

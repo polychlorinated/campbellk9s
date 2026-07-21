@@ -1,26 +1,28 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import {
-  getPostBySlug,
+  getPosts,
   featuredImage,
   featuredImageAlt,
   postCategories,
   formatDate,
   plainText,
 } from "../../lib/wordpress";
+import type { WPPost } from "../../lib/wordpress";
 
-const { slug } = Astro.params;
-if (!slug) throw new Error("Missing slug");
-
-Astro.response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
-Astro.response.headers.set("Cloudflare-CDN-Cache-Control", "no-store");
-
-const post = await getPostBySlug(slug);
-
-if (!post) {
-  return Astro.redirect("/blog/");
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
 }
 
+interface Props {
+  post: WPPost;
+}
+
+const { post } = Astro.props;
 const img = featuredImage(post);
 const alt = featuredImageAlt(post);
 const cats = postCategories(post);

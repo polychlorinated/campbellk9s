@@ -9,13 +9,8 @@ import {
   getPostsUrl,
 } from "../../lib/wordpress";
 
-export const prerender = false;
-
 const siteUrl = "https://campbellk9s.com";
 const wordpressPostsUrl = getPostsUrl();
-
-Astro.response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
-Astro.response.headers.set("Cloudflare-CDN-Cache-Control", "no-store");
 
 const posts = await getPosts();
 ---
