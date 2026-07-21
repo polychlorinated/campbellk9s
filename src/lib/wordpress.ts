@@ -20,12 +20,20 @@ export interface WPPost {
 
 export async function getPosts(perPage = 100): Promise<WPPost[]> {
   try {
-    const res = await fetch(
-      `${WP_API}/posts?_embed&per_page=${perPage}&status=publish&orderby=date&order=desc`
-    );
-    if (!res.ok) return [];
-    return res.json();
-  } catch {
+    const url = `${WP_API}/posts?_embed&per_page=${perPage}&status=publish&orderby=date&order=desc`;
+    console.log('[wordpress] Fetching:', url);
+    const res = await fetch(url);
+    console.log('[wordpress] Response status:', res.status);
+    if (!res.ok) {
+      const text = await res.text();
+      console.error('[wordpress] Error body:', text);
+      return [];
+    }
+    const data = await res.json();
+    console.log('[wordpress] Got posts:', data.length);
+    return data;
+  } catch (err) {
+    console.error('[wordpress] Fetch failed:', err);
     return [];
   }
 }
