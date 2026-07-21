@@ -10,15 +10,6 @@ import "@fontsource/jetbrains-mono/500.css";
 import "../styles/global.css";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
-import Seo from "@jdevalk/astro-seo-graph/Seo.astro";
-import { breadcrumbsFromUrl } from "@jdevalk/astro-seo-graph";
-import {
-  makeIds,
-  assembleGraph,
-  buildWebSite,
-  buildWebPage,
-  buildBreadcrumbList,
-} from "@jdevalk/seo-graph-core";
 
 interface Props {
   title?: string;
@@ -33,76 +24,89 @@ const {
 } = Astro.props;
 
 const siteUrl = "https://campbellk9s.com";
-const ids = makeIds({ siteUrl });
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const absoluteOgImage = new URL(ogImage, Astro.site).toString();
-
-const breadcrumbItems = breadcrumbsFromUrl({
-  url: Astro.url,
-  siteUrl,
-  pageName: title.replace(" | Campbell K9", "").replace(" — Campbell K9", ""),
-});
-
-const graph = assembleGraph([
-  buildWebSite(
+const cleanTitle = title
+  .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+  .replace(/&#x([\da-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+  .replace(/&amp;/g, "&")
+  .replace(/&quot;/g, '"')
+  .replace(/&#0?39;|&apos;/g, "'")
+  .replace(/&lt;/g, "<")
+  .replace(/&gt;/g, ">");
+const breadcrumbParts = Astro.url.pathname.split("/").filter(Boolean);
+const breadcrumbItems = [
+  { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+  ...breadcrumbParts.map((part, index) => ({
+    "@type": "ListItem",
+    position: index + 2,
+    name:
+      index === breadcrumbParts.length - 1
+        ? cleanTitle.replace(" | Campbell K9", "").replace(" — Campbell K9", "")
+        : part.replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase()),
+    item: `${siteUrl}/${breadcrumbParts.slice(0, index + 1).join("/")}/`,
+  })),
+];
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
     {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
       url: `${siteUrl}/`,
       name: "Campbell K9",
       publisher: { "@id": `${siteUrl}/#business` },
       inLanguage: "en-US",
     },
-    ids,
-  ),
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": `${siteUrl}/#business`,
-    name: "Campbell K9",
-    description,
-    url: `${siteUrl}/`,
-    email: "k9campbellmatt@gmail.com",
-    image: absoluteOgImage,
-    priceRange: "$$$$",
-    areaServed: [
-      { "@type": "City", name: "Boston", containedInPlace: "Massachusetts" },
-      {
-        "@type": "City",
-        name: "Providence",
-        containedInPlace: "Rhode Island",
-      },
-      { "@type": "City", name: "Newport", containedInPlace: "Rhode Island" },
-    ],
-    serviceType: [
-      "Dog Training",
-      "Board and Train",
-      "Off-Leash Adventure Hikes",
-      "Premium Overnight Boarding",
-    ],
-    knowsAbout: [
-      "Behavioral Training",
-      "Off-Leash Reliability",
-      "Reactivity Rehabilitation",
-      "Pack Walks",
-    ],
-  },
-  buildWebPage(
     {
-      url: canonical,
-      name: title,
-      isPartOf: { "@id": ids.website },
-      breadcrumb: { "@id": ids.breadcrumb(canonical) },
+      "@type": "LocalBusiness",
+      "@id": `${siteUrl}/#business`,
+      name: "Campbell K9",
       description,
+      url: `${siteUrl}/`,
+      email: "k9campbellmatt@gmail.com",
+      image: absoluteOgImage,
+      priceRange: "$$$$",
+      areaServed: [
+        { "@type": "City", name: "Boston", containedInPlace: "Massachusetts" },
+        {
+          "@type": "City",
+          name: "Providence",
+          containedInPlace: "Rhode Island",
+        },
+        { "@type": "City", name: "Newport", containedInPlace: "Rhode Island" },
+      ],
+      serviceType: [
+        "Dog Training",
+        "Board and Train",
+        "Off-Leash Adventure Hikes",
+        "Premium Overnight Boarding",
+      ],
+      knowsAbout: [
+        "Behavioral Training",
+        "Off-Leash Reliability",
+        "Reactivity Rehabilitation",
+        "Pack Walks",
+      ],
     },
-    ids,
-  ),
-  buildBreadcrumbList(
     {
+      "@type": "WebPage",
+      "@id": canonical,
       url: canonical,
-      items: breadcrumbItems,
+      name: cleanTitle,
+      isPartOf: { "@id": `${siteUrl}/#website` },
+      breadcrumb: { "@id": `${canonical}#breadcrumb` },
+      description,
+      inLanguage: "en-US",
     },
-    ids,
-  ),
-]);
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: breadcrumbItems,
+    },
+  ],
+};
+const serializedGraph = JSON.stringify(graph).replace(/</g, "\\u003c");
 ---
 
 <!doctype html>
@@ -117,21 +121,22 @@ const graph = assembleGraph([
     <link rel="preconnect" href="https://i.ytimg.com" crossorigin />
     <link rel="preconnect" href="https://yt3.ggpht.com" crossorigin />
 
-    <Seo
-      title={title}
-      description={description}
-      canonical={canonical}
-      ogType="website"
-      ogImage={absoluteOgImage}
-      ogImageAlt={`Campbell K9 — ${title}`}
-      siteName="Campbell K9"
-      twitter={{ card: "summary_large_image" }}
-      graph={graph}
-      extraLinks={[
-        { rel: "icon", type: "image/png", href: "/ck9-icon-red-blue.png" },
-        { rel: "sitemap", href: "/sitemap-index.xml" },
-      ]}
-    />
+    <title>{cleanTitle}</title>
+    <link rel="canonical" href={canonical} />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta property="og:title" content={cleanTitle} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:alt" content={`Campbell K9 — ${cleanTitle}`} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="Campbell K9" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="/ck9-icon-red-blue.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={serializedGraph}></script>
   </head>
   <body class="flex min-h-screen flex-col bg-brand-bg text-brand-primary">
     <Navigation />

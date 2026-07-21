@@ -6,6 +6,7 @@ import {
   featuredImageAlt,
   postCategories,
   formatDate,
+  plainText,
 } from "../../lib/wordpress";
 
 const { slug } = Astro.params;
@@ -23,14 +24,11 @@ if (!post) {
 const img = featuredImage(post);
 const alt = featuredImageAlt(post);
 const cats = postCategories(post);
-const plainExcerpt = post.excerpt.rendered
-  .replace(/<[^>]+>/g, "")
-  .trim()
-  .slice(0, 160);
+const plainExcerpt = plainText(post.excerpt.rendered).slice(0, 160);
 ---
 
 <Layout
-  title={`${post.title.rendered.replace(/<[^>]+>/g, "")} — Campbell K9 Dog Training`}
+  title={`${plainText(post.title.rendered)} — Campbell K9 Dog Training`}
   description={plainExcerpt}
   ogImage={img ?? undefined}
 >

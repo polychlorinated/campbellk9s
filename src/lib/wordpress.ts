@@ -1,4 +1,11 @@
-const WP_API = `${import.meta.env.WORDPRESS_URL}/wp-json/wp/v2`;
+const WORDPRESS_URL = (
+  import.meta.env.WORDPRESS_URL || "https://cms.campbellk9s.com"
+).replace(/\/$/, "");
+const WP_API = `${WORDPRESS_URL}/wp-json/wp/v2`;
+
+export function getPostsUrl(perPage = 12): string {
+  return `${WP_API}/posts?_embed&per_page=${perPage}&status=publish&orderby=date&order=desc`;
+}
 
 export interface WPPost {
   id: number;
@@ -19,38 +26,51 @@ export interface WPPost {
 }
 
 export async function getPosts(perPage = 12): Promise<WPPost[]> {
-  try {
-    const url = `${WP_API}/posts?_embed&per_page=${perPage}&status=publish&orderby=date&order=desc`;
-    console.log('[wordpress] Fetching:', url);
-    const res = await fetch(url);
-    console.log('[wordpress] Response status:', res.status);
-    if (!res.ok) {
-      const text = await res.text();
-      console.error('[wordpress] Error body:', text);
-      return [];
+  const url = getPostsUrl(perPage);
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const res = await fetch(url, {
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!res.ok) throw new Error(`WordPress returned ${res.status}`);
+
+      const posts: unknown = await res.json();
+      if (!Array.isArray(posts)) throw new Error("WordPress returned invalid post data");
+      return posts as WPPost[];
+    } catch (error) {
+      console.error(`[wordpress] Post list attempt ${attempt} failed`, error);
+      if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, 350));
     }
-    const data = await res.json();
-    console.log('[wordpress] Got posts:', data.length);
-    return data;
-  } catch (err) {
-    console.error('[wordpress] Fetch failed:', err);
-    return [];
   }
+
+  return [];
 }
 
 export async function getPostBySlug(slug: string): Promise<WPPost | null> {
-  try {
-    const url = `${WP_API}/posts?_embed&slug=${slug}&status=publish`;
-    console.log('[wordpress] Fetching post by slug:', url);
-    const res = await fetch(url);
-    console.log('[wordpress] Response status:', res.status);
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data[0] ?? null;
-  } catch (err) {
-    console.error('[wordpress] Fetch post failed:', err);
-    return null;
+  const url = `${WP_API}/posts?_embed&slug=${encodeURIComponent(slug)}&status=publish`;
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const res = await fetch(url, {
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!res.ok) throw new Error(`WordPress returned ${res.status}`);
+
+      const posts: unknown = await res.json();
+      if (!Array.isArray(posts)) throw new Error("WordPress returned invalid post data");
+      return (posts[0] as WPPost | undefined) ?? null;
+    } catch (error) {
+      console.error(`[wordpress] Post attempt ${attempt} failed`, error);
+      if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, 350));
+    }
   }
+
+  return null;
 }
 
 export function featuredImage(post: WPPost): string | null {
@@ -73,4 +93,18 @@ export function formatDate(dateStr: string): string {
     month: "long",
     day: "numeric",
   });
+}
+
+export function plainText(html: string): string {
+  return html
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([\da-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;|&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\s+/g, " ")
+    .trim();
 }

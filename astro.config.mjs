@@ -3,7 +3,6 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
 import sitemap from "@astrojs/sitemap";
-import seoGraph from "@jdevalk/astro-seo-graph/integration";
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,16 +12,7 @@ export default defineConfig({
   adapter: cloudflare({
     platformProxy: { enabled: true },
   }),
-  integrations: [
-    sitemap(),
-    seoGraph({
-      validateH1: true,
-      validateUniqueMetadata: true,
-      validateImageAlt: true,
-      validateMetadataLength: true,
-      validateInternalLinks: true,
-    }),
-  ],
+  integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
   },
