@@ -5,7 +5,7 @@ const wordpressApi = "https://cms.campbellk9s.com/wp-json/wp/v2";
 ---
 
 <Layout
-  title="Campbell K9 Journal — Dog Training Field Notes & Stories"
+  title="Campbell K9's Journal — Dog Training Field Notes & Stories"
   description="Training insights, field notes, and stories from New England's most dedicated dog training practice."
 >
   <article data-blog-article>
@@ -48,7 +48,7 @@ const wordpressApi = "https://cms.campbellk9s.com/wp-json/wp/v2";
     <div class="mx-auto grid max-w-7xl gap-12 px-6 py-16 sm:px-10 sm:py-24 lg:grid-cols-12 lg:px-16 lg:py-28">
       <aside class="hidden lg:col-span-3 lg:block" aria-label="Article details">
         <div class="sticky top-28 border-t border-brand-line pt-5">
-          <p class="caption text-brand-muted">Campbell K9 Journal</p>
+          <p class="caption text-brand-muted">Campbell K9's Journal</p>
           <p class="mt-4 max-w-[14rem] font-serif text-lg italic leading-relaxed text-brand-primary/70">
             Training observations and lessons from life with the pack.
           </p>
@@ -121,7 +121,7 @@ const wordpressApi = "https://cms.campbellk9s.com/wp-json/wp/v2";
           const postCategory = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
           const postImage = post._embedded?.["wp:featuredmedia"]?.[0];
 
-          document.title = `${postTitle} — Campbell K9 Dog Training`;
+          document.title = `${postTitle} — Campbell K9's Dog Training`;
           if (title) title.textContent = postTitle;
           if (date) date.textContent = postDate;
           if (category) category.textContent = postCategory;

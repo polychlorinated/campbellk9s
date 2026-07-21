@@ -16,7 +16,7 @@ const posts = await getPosts();
 ---
 
 <Layout
-  title="Campbell K9 Journal — Dog Training Field Notes & Stories"
+  title="Campbell K9's Journal — Dog Training Field Notes & Stories"
   description="Training insights, field notes, and stories from New England's most dedicated dog training practice."
 >
   <section class="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32 lg:px-16">
@@ -60,7 +60,7 @@ const posts = await getPosts();
                     </div>
                   ) : (
                     <div class="aspect-[4/3] flex items-center justify-center bg-brand-primary/5">
-                      <span class="caption text-brand-muted">Campbell K9</span>
+                      <span class="caption text-brand-muted">Campbell K9's</span>
                     </div>
                   )}
                 </a>
@@ -165,7 +165,7 @@ const posts = await getPosts();
             } else {
               imageFrame.className += " flex items-center justify-center bg-brand-primary/5";
               imageFrame.append(
-                addText(document.createElement("span"), "Campbell K9")
+                addText(document.createElement("span"), "Campbell K9's")
               );
               imageFrame.firstElementChild?.classList.add(
                 "caption",

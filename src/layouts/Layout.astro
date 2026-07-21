@@ -18,7 +18,7 @@ interface Props {
 }
 
 const {
-  title = "Campbell K9 — Quietly Serious Dog Training | Boston & Providence",
+  title = "Campbell K9's — Quietly Serious Dog Training | Boston & Providence",
   description = "Coastal New England dog training, off-leash adventure hikes, and luxury boarding. By appointment, for a small number of dogs year-round.",
   ogImage = "/ck9-blue-logo@2x.webp",
 } = Astro.props;
@@ -42,7 +42,7 @@ const breadcrumbItems = [
     position: index + 2,
     name:
       index === breadcrumbParts.length - 1
-        ? cleanTitle.replace(" | Campbell K9", "").replace(" — Campbell K9", "")
+        ? cleanTitle.replace(" | Campbell K9's", "").replace(" — Campbell K9's", "")
         : part.replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase()),
     item: `${siteUrl}/${breadcrumbParts.slice(0, index + 1).join("/")}/`,
   })),
@@ -54,14 +54,14 @@ const graph = {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       url: `${siteUrl}/`,
-      name: "Campbell K9",
+      name: "Campbell K9's",
       publisher: { "@id": `${siteUrl}/#business` },
       inLanguage: "en-US",
     },
     {
       "@type": "LocalBusiness",
       "@id": `${siteUrl}/#business`,
-      name: "Campbell K9",
+      name: "Campbell K9's",
       description,
       url: `${siteUrl}/`,
       email: "k9campbellmatt@gmail.com",
@@ -128,10 +128,10 @@ const serializedGraph = JSON.stringify(graph).replace(/</g, "\\u003c");
     <meta property="og:title" content={cleanTitle} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={absoluteOgImage} />
-    <meta property="og:image:alt" content={`Campbell K9 — ${cleanTitle}`} />
+    <meta property="og:image:alt" content={`Campbell K9's — ${cleanTitle}`} />
     <meta property="og:url" content={canonical} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="Campbell K9" />
+    <meta property="og:site_name" content="Campbell K9's" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href="/ck9-icon-red-blue.png" />
