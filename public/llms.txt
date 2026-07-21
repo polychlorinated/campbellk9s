@@ -1,0 +1,22 @@
+# Campbell K9s — Dog Training in Greater Boston & Providence
+
+Campbell K9s provides board-and-train bootcamp, adventure hikes, behavior modification, and in-home pet sitting for dogs in Greater Boston, Providence, and coastal Rhode Island.
+
+## Services
+- [Board & Train Bootcamp](/services/#bootcamp) — 3-week residential training program
+- [Adventure Hikes](/services/#hikes) — Off-leash group hikes on conservation land
+- [Behavior Modification](/services/#behavior) — Reactivity, anxiety, aggression
+- [Leash Walks](/services/#leash-walks) — Structured neighborhood walks
+- [In-Home Pet Sitting](/services/#pet-sitting) — Overnight care in your home
+- [Scholarship Program](/services/#scholarship) — Reduced-cost training for rescue dogs
+
+## About the Team
+- [Matt Campbell](/our-team/#matt-campbell) — Lead Trainer & Founder
+- [Mary Campbell](/our-team/#mary-campbell) — Co-Founder & Pack Coordinator
+- [Joe Bergeron](/our-team/#joe-bergeron) — Adventure Hikes Lead
+
+## Resources
+- [Client Stories](/testimonials/)
+- [FAQs](/faqs/)
+- [Journal](/blog/)
+- [Contact & Intake Form](/contact/)
