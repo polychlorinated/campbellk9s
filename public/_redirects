@@ -1,6 +1,10 @@
 # Cloudflare Pages redirect rules
 # Format: <source> <destination> <status>
 #
+# Serve the client-side WordPress reader for every article slug.
+/blog/:slug/                      /blog-reader/                    200
+/blog/:slug                       /blog-reader/                    200
+#
 # Legacy Squarespace page URLs → new Astro URLs
 /home                              /                                301
 /contactus                         /contact/                        301

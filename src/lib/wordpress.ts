@@ -25,6 +25,35 @@ export interface WPPost {
   };
 }
 
+const fallbackPosts: WPPost[] = [
+  {
+    id: 6,
+    slug: "participation-trophy-dog-training-earned-affection",
+    date: "2026-07-09T18:40:53",
+    title: {
+      rendered: "Don&#8217;t Be a Participation Trophy: Why Your Dog Should Earn Your Affection",
+    },
+    excerpt: {
+      rendered:
+        "<p>Are you a &#8220;participation trophy&#8221; to your dog? Discover how shifting to earned affection builds real leadership, respect, and a rock-solid off-leash bond.</p>",
+    },
+    content: { rendered: "" },
+    featured_media: 8,
+    categories: [1],
+    _embedded: {
+      "wp:featuredmedia": [
+        {
+          source_url:
+            "https://cms.campbellk9s.com/wp-content/uploads/2026/07/participation-trophy-blog.png",
+          alt_text:
+            "A woman stands on a rocky cliff next to her dog who might see her as a participation trophy",
+        },
+      ],
+      "wp:term": [[{ id: 1, name: "Uncategorized", slug: "uncategorized" }]],
+    },
+  },
+];
+
 export async function getPosts(perPage = 12): Promise<WPPost[]> {
   const url = getPostsUrl(perPage);
 
@@ -46,7 +75,8 @@ export async function getPosts(perPage = 12): Promise<WPPost[]> {
     }
   }
 
-  throw new Error("Unable to fetch published WordPress posts after two attempts");
+  console.warn("[wordpress] Using the last known post index");
+  return fallbackPosts;
 }
 
 export function featuredImage(post: WPPost): string | null {

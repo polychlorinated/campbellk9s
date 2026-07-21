@@ -112,7 +112,7 @@ const posts = await getPosts();
     const grid = document.querySelector("[data-blog-grid]");
     const status = document.querySelector("[data-blog-status]");
 
-    if (grid instanceof HTMLElement && grid.children.length === 0) {
+    if (grid instanceof HTMLElement) {
       const decodeText = (html) => {
         const doc = new DOMParser().parseFromString(html, "text/html");
         return doc.body.textContent?.trim() || "";
@@ -136,6 +136,8 @@ const posts = await getPosts();
           if (!Array.isArray(posts) || posts.length === 0) {
             throw new Error("No published posts returned");
           }
+
+          grid.replaceChildren();
 
           for (const post of posts) {
             const href = `${siteUrl}/blog/${encodeURIComponent(post.slug)}/`;
@@ -223,8 +225,10 @@ const posts = await getPosts();
         })
         .catch((error) => {
           console.error("[blog] Unable to load posts", error);
-          if (status) {
+          if (status && grid.children.length === 0) {
             status.textContent = "The journal is temporarily unavailable. Please refresh shortly.";
+          } else {
+            status?.classList.add("hidden");
           }
         });
     }

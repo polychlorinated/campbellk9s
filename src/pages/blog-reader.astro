@@ -1,0 +1,142 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const wordpressApi = "https://cms.campbellk9s.com/wp-json/wp/v2";
+---
+
+<Layout
+  title="Campbell K9 Journal — Dog Training Field Notes & Stories"
+  description="Training insights, field notes, and stories from New England's most dedicated dog training practice."
+>
+  <article data-blog-article>
+    <header class="bg-brand-primary text-brand-bg">
+      <div class="mx-auto max-w-7xl px-6 pb-20 pt-12 sm:px-10 sm:pb-28 sm:pt-16 lg:px-16">
+        <a
+          href="/blog/"
+          class="caption inline-flex items-center gap-2 text-brand-bg/55 transition-colors hover:text-brand-accent"
+        >
+          <span aria-hidden="true">&larr;</span> The Journal
+        </a>
+
+        <div class="mt-16 grid gap-8 lg:grid-cols-12 lg:gap-12">
+          <div class="lg:col-span-3">
+            <p class="caption text-brand-accent">Field Note</p>
+            <div class="mt-5 h-px w-10 bg-brand-bg/20"></div>
+            <div class="mt-5 flex flex-wrap gap-x-4 gap-y-2 lg:block">
+              <p class="caption text-brand-bg/55" data-post-date>Loading&hellip;</p>
+              <p class="caption mt-0 text-brand-bg/55 lg:mt-2" data-post-category></p>
+            </div>
+          </div>
+          <div class="lg:col-span-9">
+            <h1
+              class="max-w-5xl text-balance font-serif text-[clamp(2.5rem,6vw,5.75rem)] leading-[0.98] text-brand-bg"
+              data-post-title
+            >
+              Loading field note&hellip;
+            </h1>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="mx-auto hidden max-w-7xl px-6 pt-10 sm:px-10 sm:pt-14 lg:px-16" data-image-wrap>
+      <div class="aspect-[16/9] overflow-hidden bg-brand-line">
+        <img class="h-full w-full object-cover" data-post-image />
+      </div>
+    </div>
+
+    <div class="mx-auto grid max-w-7xl gap-12 px-6 py-16 sm:px-10 sm:py-24 lg:grid-cols-12 lg:px-16 lg:py-28">
+      <aside class="hidden lg:col-span-3 lg:block" aria-label="Article details">
+        <div class="sticky top-28 border-t border-brand-line pt-5">
+          <p class="caption text-brand-muted">Campbell K9 Journal</p>
+          <p class="mt-4 max-w-[14rem] font-serif text-lg italic leading-relaxed text-brand-primary/70">
+            Training observations and lessons from life with the pack.
+          </p>
+        </div>
+      </aside>
+
+      <div class="article-prose lg:col-span-7" data-post-content>
+        <p>Retrieving this field note from the journal.</p>
+      </div>
+    </div>
+
+    <footer class="mx-auto max-w-7xl px-6 pb-20 sm:px-10 sm:pb-28 lg:px-16">
+      <div class="border-t border-brand-line pt-8">
+        <a
+          href="/blog/"
+          class="caption inline-flex items-center gap-2 text-brand-muted transition-colors hover:text-brand-accent"
+        >
+          <span aria-hidden="true">&larr;</span> Back to Journal
+        </a>
+      </div>
+    </footer>
+  </article>
+
+  <script define:vars={{ wordpressApi }}>
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    const slug = parts[0] === "blog" ? parts[1] : "";
+    const title = document.querySelector("[data-post-title]");
+    const date = document.querySelector("[data-post-date]");
+    const category = document.querySelector("[data-post-category]");
+    const imageWrap = document.querySelector("[data-image-wrap]");
+    const image = document.querySelector("[data-post-image]");
+    const content = document.querySelector("[data-post-content]");
+
+    const decodeText = (html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.textContent?.trim() || "";
+    };
+
+    const showError = () => {
+      if (title) title.textContent = "This field note could not be loaded.";
+      if (date) date.textContent = "Journal unavailable";
+      if (content) {
+        content.innerHTML =
+          '<p>Please return to <a href="/blog/">The Journal</a> and try again shortly.</p>';
+      }
+    };
+
+    if (!slug) {
+      showError();
+    } else {
+      fetch(`${wordpressApi}/posts?_embed&slug=${encodeURIComponent(slug)}&status=publish`, {
+        headers: { Accept: "application/json" },
+        cache: "no-store",
+        signal: AbortSignal.timeout(8000),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error(`WordPress returned ${response.status}`);
+          return response.json();
+        })
+        .then((posts) => {
+          const post = Array.isArray(posts) ? posts[0] : null;
+          if (!post) throw new Error("Post not found");
+
+          const postTitle = decodeText(post.title?.rendered || "Field Note");
+          const postDate = new Date(post.date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+          const postCategory = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
+          const postImage = post._embedded?.["wp:featuredmedia"]?.[0];
+
+          document.title = `${postTitle} — Campbell K9 Dog Training`;
+          if (title) title.textContent = postTitle;
+          if (date) date.textContent = postDate;
+          if (category) category.textContent = postCategory;
+          if (content) content.innerHTML = post.content?.rendered || "";
+
+          if (postImage?.source_url && image instanceof HTMLImageElement) {
+            image.src = postImage.source_url;
+            image.alt = postImage.alt_text || "";
+            imageWrap?.classList.remove("hidden");
+          }
+        })
+        .catch((error) => {
+          console.error("[blog] Unable to load article", error);
+          showError();
+        });
+    }
+  </script>
+</Layout>
