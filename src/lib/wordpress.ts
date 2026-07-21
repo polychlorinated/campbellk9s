@@ -38,6 +38,21 @@ export async function getPosts(perPage = 100): Promise<WPPost[]> {
   }
 }
 
+export async function getPostBySlug(slug: string): Promise<WPPost | null> {
+  try {
+    const url = `${WP_API}/posts?_embed&slug=${slug}&status=publish`;
+    console.log('[wordpress] Fetching post by slug:', url);
+    const res = await fetch(url);
+    console.log('[wordpress] Response status:', res.status);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data[0] ?? null;
+  } catch (err) {
+    console.error('[wordpress] Fetch post failed:', err);
+    return null;
+  }
+}
+
 export function featuredImage(post: WPPost): string | null {
   return post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null;
 }

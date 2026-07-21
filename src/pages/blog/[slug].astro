@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import {
-  getPosts,
+  getPostBySlug,
   featuredImage,
   featuredImageAlt,
   postCategories,
@@ -9,19 +9,15 @@ import {
 } from "../../lib/wordpress";
 import type { WPPost } from "../../lib/wordpress";
 
-export async function getStaticPaths() {
-  const posts = await getPosts();
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+const { slug } = Astro.params;
+if (!slug) throw new Error("Missing slug");
+
+const post = await getPostBySlug(slug);
+
+if (!post) {
+  return Astro.redirect("/blog/");
 }
 
-interface Props {
-  post: WPPost;
-}
-
-const { post } = Astro.props;
 const img = featuredImage(post);
 const alt = featuredImageAlt(post);
 const cats = postCategories(post);

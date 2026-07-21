@@ -8,10 +8,10 @@ import seoGraph from "@jdevalk/astro-seo-graph/integration";
 // https://astro.build/config
 export default defineConfig({
   site: "https://campbellk9s.com",
-  output: "static",
+  output: "server",
   trailingSlash: "always",
   adapter: cloudflare({
-    prerenderEnvironment: "node",
+    platformProxy: { enabled: true },
   }),
   integrations: [
     sitemap(),
