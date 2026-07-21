@@ -7,6 +7,7 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://campbellk9s.com",
   output: "static",
+  outDir: "./dist/client",
   trailingSlash: "always",
   integrations: [sitemap()],
   vite: {
