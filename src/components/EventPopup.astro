@@ -7,7 +7,7 @@ const CAL_URL = "https://cal.com/clearer-dogs-group-class-october";
 <dialog
   id="event-popup"
   aria-labelledby="event-popup-title"
-  class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-3xl overflow-y-auto border-0 bg-transparent p-0 outline-none"
+  class="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-4xl overflow-y-auto border-0 bg-transparent p-0 outline-none"
 >
   <div class="relative border border-brand-line bg-brand-bg">
     <span
@@ -41,18 +41,18 @@ const CAL_URL = "https://cal.com/clearer-dogs-group-class-october";
       </svg>
     </button>
 
-    <div class="grid sm:grid-cols-[2fr_3fr]">
-      <div class="relative min-h-56 sm:min-h-full">
+    <div class="grid sm:grid-cols-[5fr_6fr]">
+      <div class="relative aspect-[4/5] overflow-hidden bg-brand-line/40">
         <img
           src="/clearer-dogs-october-17.webp"
           alt="Clearer Dogs Group Class — Saturday, October 17, 2026"
-          class="absolute inset-0 h-full w-full object-cover object-top"
+          class="absolute inset-0 h-full w-full object-contain"
         />
       </div>
 
       <div class="p-8 sm:p-10 lg:p-12">
         <p class="caption text-brand-accent">
-          Saturday &middot; October 17, 2026 &middot; 10:00 AM Eastern
+          Saturday &middot; October 17, 2026 &middot; 10:00 AM &ndash; 12:00 PM Eastern
         </p>
         <h2
           id="event-popup-title"
@@ -71,7 +71,7 @@ const CAL_URL = "https://cal.com/clearer-dogs-group-class-october";
           <div class="flex items-start gap-4">
             <dt class="caption w-24 shrink-0 pt-1 text-brand-primary/55">When</dt>
             <dd class="text-sm leading-relaxed text-brand-primary/80 sm:text-base">
-              Saturday, October 17, 2026<br />10:00 AM Eastern
+              Saturday, October 17, 2026<br />10:00 AM &ndash; 12:00 PM Eastern
             </dd>
           </div>
           <div class="flex items-start gap-4">
@@ -83,7 +83,7 @@ const CAL_URL = "https://cal.com/clearer-dogs-group-class-october";
           <div class="flex items-start gap-4">
             <dt class="caption w-24 shrink-0 pt-1 text-brand-primary/55">Spots</dt>
             <dd class="text-sm leading-relaxed text-brand-primary/80 sm:text-base">
-              Limited &mdash; by reservation only
+              Limited to 15 dogs &mdash; by reservation only
             </dd>
           </div>
         </dl>
