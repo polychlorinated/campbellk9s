@@ -1,9 +1,8 @@
 # Cloudflare Pages redirect rules
 # Format: <source> <destination> <status>
 #
-# Serve the client-side WordPress reader for every article slug.
-/blog/:slug/                      /blog-reader/                    200
-/blog/:slug                       /blog-reader/                    200
+# Blog articles are prerendered at build time (src/pages/blog/[slug].astro),
+# so no rewrite to /blog-reader/ is needed — unknown slugs 404 gracefully.
 #
 # Legacy Squarespace page URLs → new Astro URLs
 /home                              /                                301

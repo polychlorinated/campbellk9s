@@ -1,4 +1,28 @@
+# Campbell K9s — search & AI crawler access policy
+# Everyone is welcome by default; the explicit groups below
+# document first-class access for search and AI engines.
+
 User-agent: *
+Allow: /
+
+# Search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# AI search & assistants (explicitly invited)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
 Allow: /
 
 Sitemap: https://campbellk9s.com/sitemap-index.xml

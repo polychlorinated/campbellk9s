@@ -1,0 +1,142 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const wordpressApi = "https://cms.campbellk9s.com/wp-json/wp/v2";
+---
+
+<Layout
+  title="Page Not Found — Campbell K9s"
+  description="The page you were looking for could not be found. Return to Campbell K9s dog training, or browse the journal."
+>
+  <section
+    class="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32 lg:px-16 lg:py-40"
+    data-not-found
+  >
+    <div class="max-w-2xl">
+      <p class="caption text-brand-accent">404</p>
+      <h1
+        class="mt-4 font-serif text-5xl font-bold leading-tight sm:text-6xl lg:text-7xl"
+      >
+        Off the trail.
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-brand-primary/70">
+        The page you were looking for doesn't exist here. If you were reading a
+        field note, we're retrieving it now.
+      </p>
+      <p
+        class="mt-4 max-w-xl text-base leading-relaxed text-brand-primary/55"
+        data-not-found-status
+        role="status"
+      ></p>
+      <div class="mt-10 flex flex-wrap gap-6">
+        <a
+          href="/"
+          class="inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-brand-bg"
+        >
+          Back Home
+        </a>
+        <a
+          href="/blog/"
+          class="inline-flex items-center gap-3 border border-brand-primary/20 px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-colors hover:border-brand-accent hover:text-brand-accent"
+        >
+          The Journal
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="hidden mx-auto max-w-7xl px-6 pb-24 sm:px-10 lg:px-16" data-post-fallback>
+    <article>
+      <header class="bg-brand-primary text-brand-bg">
+        <div
+          class="mx-auto max-w-7xl px-6 pb-20 pt-12 sm:px-10 sm:pb-28 sm:pt-16 lg:px-16"
+        >
+          <a
+            href="/blog/"
+            class="caption inline-flex items-center gap-2 text-brand-bg/55 transition-colors hover:text-brand-accent"
+          >
+            <span aria-hidden="true">&larr;</span> The Journal
+          </a>
+          <div class="mt-16 grid gap-8 lg:grid-cols-12 lg:gap-12">
+            <div class="lg:col-span-3">
+              <p class="caption text-brand-accent">Field Note</p>
+              <div class="mt-5 h-px w-10 bg-brand-bg/20"></div>
+              <div class="mt-5 flex flex-wrap gap-x-4 gap-y-2 lg:block">
+                <p class="caption text-brand-bg/55" data-post-date></p>
+                <p class="caption mt-0 text-brand-bg/55 lg:mt-2" data-post-category></p>
+              </div>
+            </div>
+            <div class="lg:col-span-9">
+              <h1
+                class="max-w-5xl text-balance font-serif text-[clamp(2.5rem,6vw,5.75rem)] leading-[0.98] text-brand-bg"
+                data-post-title
+              >
+              </h1>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="mx-auto max-w-7xl px-6 py-16 sm:px-10 sm:py-24 lg:px-16">
+        <div class="article-prose mx-auto lg:col-span-7" data-post-content></div>
+      </div>
+    </article>
+  </section>
+
+  <script define:vars={{ wordpressApi }}>
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    const slug = parts[0] === "blog" ? parts[1] : "";
+    const notFound = document.querySelector("[data-not-found]");
+    const status = document.querySelector("[data-not-found-status]");
+    const fallback = document.querySelector("[data-post-fallback]");
+    const title = document.querySelector("[data-post-title]");
+    const date = document.querySelector("[data-post-date]");
+    const category = document.querySelector("[data-post-category]");
+    const content = document.querySelector("[data-post-content]");
+
+    const decodeText = (html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.textContent?.trim() || "";
+    };
+
+    if (!slug || !(fallback instanceof HTMLElement)) {
+      if (status) status.textContent = "Check the address, or head back to the journal.";
+      return;
+    }
+
+    fetch(
+      `${wordpressApi}/posts?_embed&slug=${encodeURIComponent(slug)}&status=publish`,
+      {
+        headers: { Accept: "application/json" },
+        cache: "no-store",
+        signal: AbortSignal.timeout(8000),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) throw new Error(`WordPress returned ${response.status}`);
+        return response.json();
+      })
+      .then((posts) => {
+        const post = Array.isArray(posts) ? posts[0] : null;
+        if (!post) throw new Error("Post not found");
+
+        document.title = `${decodeText(post.title?.rendered || "Field Note")} — Campbell K9's Dog Training`;
+        if (title) title.textContent = decodeText(post.title?.rendered || "Field Note");
+        if (date)
+          date.textContent = new Date(post.date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        if (category) category.textContent = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
+        if (content) content.innerHTML = post.content?.rendered || "";
+
+        notFound?.classList.add("hidden");
+        fallback.classList.remove("hidden");
+      })
+      .catch(() => {
+        if (status)
+          status.textContent =
+            "We couldn't retrieve that field note. Try again shortly, or browse the journal.";
+      });
+  </script>
+</Layout>

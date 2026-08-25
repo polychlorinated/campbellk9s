@@ -344,6 +344,12 @@ const goalOptions = [
       });
 
       if (res.ok) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "contactFormSubmit",
+          goal: data.goal ?? "",
+          referral: data.referral ?? "",
+        });
         form.reset();
         showMessage(
           "Thank you. Our lead trainer will write back within twenty-four hours.",

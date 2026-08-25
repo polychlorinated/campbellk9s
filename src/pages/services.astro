@@ -59,12 +59,77 @@ const services = [
     price: "By application",
   },
 ];
+
+const siteUrl = "https://campbellk9s.com";
+
+const priceSpec: Record<string, { price?: number; minPrice?: number }> = {
+  "Puppy Training Program": { price: 150 },
+  "Basic Obedience Training": { price: 150 },
+  "Board & Train Program": { price: 2300 },
+  "Adventure Hikes": { price: 60 },
+  "Leash Walks": { minPrice: 30 },
+  "In-Home Pet Sitting": { minPrice: 125 },
+};
+
+const servicesGraph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ItemList",
+      "@id": `${siteUrl}/services/#services`,
+      name: "Campbell K9s Dog Training Services",
+      itemListElement: services.map((service, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Service",
+          name: service.title,
+          url: `${siteUrl}${service.path.replace(/^\/?/, "/")}`,
+          description: service.description,
+          provider: { "@id": `${siteUrl}/#business` },
+          areaServed: [
+            { "@type": "City", name: "Boston", containedInPlace: "Massachusetts" },
+            {
+              "@type": "City",
+              name: "Providence",
+              containedInPlace: "Rhode Island",
+            },
+            { "@type": "City", name: "Newport", containedInPlace: "Rhode Island" },
+          ],
+          ...(priceSpec[service.title]
+            ? {
+                offers: {
+                  "@type": "Offer",
+                  priceCurrency: "USD",
+                  ...(priceSpec[service.title].price !== undefined
+                    ? { price: String(priceSpec[service.title].price) }
+                    : {
+                        priceSpecification: {
+                          "@type": "PriceSpecification",
+                          minPrice: priceSpec[service.title].minPrice,
+                          priceCurrency: "USD",
+                        },
+                      }),
+                },
+              }
+            : {}),
+        },
+      })),
+    },
+  ],
+};
+const serializedServicesGraph = JSON.stringify(servicesGraph).replace(
+  /</g,
+  "\\u003c"
+);
 ---
 
 <Layout
   title="Campbell K9s Dog Training Services — Boston & Providence"
   description="Board and train bootcamp, adventure hikes, behavior modification, overnight boarding, and hourly training across Greater Boston and Providence."
 >
+  <script type="application/ld+json" set:html={serializedServicesGraph}></script>
+
   <!-- Page header -->
   <section class="relative bg-brand-primary text-brand-bg">
     <span

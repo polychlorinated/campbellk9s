@@ -1,7 +1,10 @@
 ---
-// To enable the live calendar: open Google Calendar → Settings → [Your Calendar]
-// → "Integrate calendar" → copy the embed src URL into CALENDAR_EMBED_URL below.
-const CALENDAR_EMBED_URL = "";
+// Live calendar: Google Calendar embed for the shared Campbell K9s calendar.
+// Google Calendar → Settings → [Calendar] → "Integrate calendar" → embed src.
+const CALENDAR_EMBED_URL =
+  "https://calendar.google.com/calendar/embed?src=k9campbellpayments%40gmail.com&ctz=America%2FNew_York";
+
+import EventListing from "./EventListing.astro";
 ---
 
 <section
@@ -44,6 +47,7 @@ const CALENDAR_EMBED_URL = "";
       <div class="lg:col-span-7">
         <p class="caption text-brand-primary/55">Upcoming Events</p>
         <div class="mt-6 hairline max-w-[3rem]"></div>
+        <EventListing />
         {CALENDAR_EMBED_URL ? (
           <>
             <div

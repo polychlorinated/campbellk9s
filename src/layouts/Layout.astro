@@ -8,6 +8,8 @@ import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
 
 import "../styles/global.css";
+import EventBanner from "../components/EventBanner.astro";
+import EventPopup from "../components/EventPopup.astro";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
 
@@ -15,14 +17,17 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  robots?: string;
 }
 
 const {
   title = "Campbell K9's — Quietly Serious Dog Training | Boston & Providence",
   description = "Coastal New England dog training, off-leash adventure hikes, and luxury boarding. By appointment, for a small number of dogs year-round.",
   ogImage = "/ck9-blue-logo@2x.webp",
+  robots = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
 } = Astro.props;
 
+const gtmContainerId = "GTM-PHL4WNF6";
 const siteUrl = "https://campbellk9s.com";
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const absoluteOgImage = new URL(ogImage, Astro.site).toString();
@@ -67,6 +72,10 @@ const graph = {
       email: "k9campbellmatt@gmail.com",
       image: absoluteOgImage,
       priceRange: "$$$$",
+      sameAs: [
+        "https://www.instagram.com/campbell_k9s",
+        "https://www.tiktok.com/@campbell_k9s",
+      ],
       areaServed: [
         { "@type": "City", name: "Boston", containedInPlace: "Massachusetts" },
         {
@@ -124,7 +133,7 @@ const serializedGraph = JSON.stringify(graph).replace(/</g, "\\u003c");
     <title>{cleanTitle}</title>
     <link rel="canonical" href={canonical} />
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="robots" content={robots} />
     <meta property="og:title" content={cleanTitle} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={absoluteOgImage} />
@@ -137,12 +146,34 @@ const serializedGraph = JSON.stringify(graph).replace(/</g, "\\u003c");
     <link rel="icon" type="image/png" href="/ck9-icon-red-blue.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script type="application/ld+json" set:html={serializedGraph}></script>
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://campbellk9s.com/metrics/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-PHL4WNF6");
+    </script>
   </head>
   <body class="flex min-h-screen flex-col bg-brand-bg text-brand-primary">
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${gtmContainerId}`}
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe>
+    </noscript>
+    <EventBanner />
     <Navigation />
     <main class="flex-1">
       <slot />
     </main>
     <Footer />
+    <EventPopup />
   </body>
 </html>

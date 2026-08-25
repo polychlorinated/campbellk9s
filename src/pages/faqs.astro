@@ -1,5 +1,8 @@
 ---
+
 import Layout from "../layouts/Layout.astro";
+
+const siteUrl = "https://campbellk9s.com";
 
 const faqs = [
   {
@@ -63,12 +66,42 @@ const faqs = [
       "Yes. We want to partner with you through the ups and downs of your life with your pet. Every Adventure Hike is a reinforcing activity, where your dog thrives by assimilating with the pack in nature. We correct behavior when we notice it. If you notice undesirable behavior at home, give us a call and we'll be happy to consult over the phone and, if necessary, offer a 1:1 session.",
   },
 ];
+
+const stripTags = (html: string) =>
+  html
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const faqGraph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/faqs/#faqpage`,
+      url: `${siteUrl}/faqs/`,
+      name: "Frequently Asked Questions About Campbell K9s Training",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: stripTags(faq.answer),
+        },
+      })),
+      inLanguage: "en-US",
+    },
+  ],
+};
+const serializedFaqGraph = JSON.stringify(faqGraph).replace(/</g, "\\u003c");
 ---
 
 <Layout
   title="Frequently Asked Questions About Campbell K9s Training"
   description="Answers to common questions about Campbell K9s dog training, bootcamp, adventure hikes, behavioral issues, and follow-up support."
 >
+  <script type="application/ld+json" set:html={serializedFaqGraph}></script>
+
   <!-- Page header -->
   <section class="relative bg-brand-primary text-brand-bg">
     <span

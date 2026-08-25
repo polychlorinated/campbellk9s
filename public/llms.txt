@@ -1,22 +1,39 @@
 # Campbell K9s — Dog Training in Greater Boston & Providence
 
-Campbell K9s provides board-and-train bootcamp, adventure hikes, behavior modification, and in-home pet sitting for dogs in Greater Boston, Providence, and coastal Rhode Island.
+Campbell K9s provides board-and-train bootcamp, adventure hikes, behavior modification, and in-home pet sitting for dogs in Greater Boston, Providence, and coastal Rhode Island. By appointment, for a small number of dogs year-round.
+
+> Founded and run by Matt Campbell, Mary Campbell, and Joe Bergeron. Contact: k9campbellmatt@gmail.com. Intake: https://campbellk9s.com/contact/
 
 ## Services
-- [Board & Train Bootcamp](/services/#bootcamp) — 3-week residential training program
-- [Adventure Hikes](/services/#hikes) — Off-leash group hikes on conservation land
-- [Behavior Modification](/services/#behavior) — Reactivity, anxiety, aggression
-- [Leash Walks](/services/#leash-walks) — Structured neighborhood walks
-- [In-Home Pet Sitting](/services/#pet-sitting) — Overnight care in your home
-- [Scholarship Program](/services/#scholarship) — Reduced-cost training for rescue dogs
+- [Board & Train Bootcamp](/dog-board-and-train-bootcamp/) — 3-week residential training program; off-leash recall, leash manners, daily routines, behavior work. $2,300.
+- [Adventure Hikes](/services/#hikes) — Off-leash group hikes on conservation land for bootcamp graduates. $60 per hike.
+- [Behavior Modification](/dog-behavior-modification/) — Reactivity, anxiety, aggression, resource guarding. Pricing after assessment.
+- [Puppy Training](/services/) — Foundations, socialization, house training, leash manners. $150 per one-hour session.
+- [Basic Obedience](/services/) — Sit, stay, come, down, leash walking for dogs of all ages. $150 per one-hour session.
+- [Leash Walks](/services/#leash-walks) — Structured 30–60 minute neighborhood walks. Starting at $30 per walk.
+- [In-Home Pet Sitting](/dog-sitting-rhode-island/) — Overnight care in your home across Rhode Island and coastal Massachusetts. Starting at $125 per night.
+- [Scholarship Program](/dog-training-scholarship-new-england/) — Reduced-cost training for rescue dogs in New England. By application.
 
 ## About the Team
 - [Matt Campbell](/our-team/#matt-campbell) — Lead Trainer & Founder
 - [Mary Campbell](/our-team/#mary-campbell) — Co-Founder & Pack Coordinator
 - [Joe Bergeron](/our-team/#joe-bergeron) — Adventure Hikes Lead
 
-## Resources
+## Key Questions
+- [FAQs](/faqs/) — Training approach, behavioral issues, tools, hikes, payment plans, follow-up support.
+- [Aggression & Reactivity](/dog-aggression-training-tips/)
+- [E-Collar Training](/e-collar-training-tips/)
+- [Glossary of Terms](/dog-training-glossary-definitions/)
+
+## Authority Pages
 - [Client Stories](/testimonials/)
-- [FAQs](/faqs/)
-- [Journal](/blog/)
+- [Reviews](/reviews/)
+- [The Journal](/blog/) — Training field notes and stories.
 - [Contact & Intake Form](/contact/)
+
+## Service Area
+Boston, MA · Providence, RI · Newport, RI · coastal Rhode Island and southeastern Massachusetts.
+
+## Social
+- Instagram: https://www.instagram.com/campbell_k9s
+- TikTok: https://www.tiktok.com/@campbell_k9s
