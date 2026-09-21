@@ -394,7 +394,7 @@ const contributorTiers = [
               ></textarea>
             </div>
 
-            <div class="field">
+            <div class="field hidden" data-contribute-optin>
               <label class="flex cursor-pointer items-start gap-3">
                 <input
                   type="checkbox"
@@ -551,6 +551,12 @@ const contributorTiers = [
   const nomineeInput = form?.querySelector<HTMLInputElement>(
     "#scholarship-nominee"
   );
+  const contributeOptin = form?.querySelector<HTMLElement>(
+    "[data-contribute-optin]"
+  );
+  const contributeCheckbox = form?.querySelector<HTMLInputElement>(
+    'input[name="wantsToContribute"]'
+  );
 
   function updateNomineeFields() {
     if (!form || !nomineeFields) return;
@@ -561,6 +567,12 @@ const contributorTiers = [
     nomineeFields.classList.toggle("hidden", !isNomination);
     if (nomineeInput) {
       nomineeInput.toggleAttribute("required", isNomination);
+    }
+    if (contributeOptin) {
+      contributeOptin.classList.toggle("hidden", !isNomination);
+      if (!isNomination && contributeCheckbox) {
+        contributeCheckbox.checked = false;
+      }
     }
   }
 
