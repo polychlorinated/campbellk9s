@@ -1,6 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
 
+const n8nWebhookUrl =
+  import.meta.env.N8N_SCHOLARSHIP_WEBHOOK_URL ??
+  import.meta.env.N8N_WEBHOOK_URL ??
+  "https://n8n.srv725961.hstgr.cloud/webhook/ec01ad68-6e29-4130-b016-76452eded072";
+
 const criteria = [
   {
     title: "Real Need",
@@ -18,11 +23,25 @@ const criteria = [
       "Applicants must live in New England and be able to transport their dog to our location for bootcamp or attend scheduled sessions in the Greater Boston or Providence area.",
   },
 ];
+
+const needOptions = [
+  { value: "bootcamp", label: "Board & Train Bootcamp" },
+  { value: "behavior", label: "Behavior Modification" },
+  { value: "hourly", label: "Hourly Training Sessions" },
+  { value: "not-sure", label: "Not sure yet" },
+];
+
+const contributorTiers = [
+  { name: "Pack Friend", amount: "$20" },
+  { name: "Pack Supporter", amount: "$50" },
+  { name: "Pack Advocate", amount: "$100" },
+  { name: "Pack Champion", amount: "$250" },
+];
 ---
 
 <Layout
   title="Dog Training Scholarship for New England — Campbell K9s"
-  description="A limited scholarship program for New England dogs and families facing financial barriers. Apply for board and train bootcamp or behavior work with Campbell K9s."
+  description="Apply for a dog training scholarship or contribute to fund professional training that keeps dogs out of shelters and makes them more adoptable."
 >
   <!-- Page header -->
   <section class="relative bg-brand-primary text-brand-bg">
@@ -47,9 +66,29 @@ const criteria = [
       </h1>
       <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
         A limited number of scholarship spots each year for New England families
-        facing financial barriers. Good training should not be out of reach for
-        the dogs who need it most.
+        facing financial barriers — funded by people like you. Apply below, or
+        give to help the next dog get in.
       </p>
+      <div class="mt-10 flex flex-wrap items-center gap-4">
+        <a
+          href="#apply"
+          class="group inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-bg hover:text-brand-primary"
+        >
+          Apply or Nominate
+          <span
+            class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+            aria-hidden="true"
+          >
+            &rarr;
+          </span>
+        </a>
+        <a
+          href="#contribute"
+          class="inline-flex items-center gap-3 border border-brand-bg/30 px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:border-brand-accent hover:text-brand-accent"
+        >
+          Contribute
+        </a>
+      </div>
     </div>
   </section>
 
@@ -79,8 +118,8 @@ const criteria = [
               our full-rate clients. The only difference is the price.
             </p>
             <p>
-              Funding comes from client contributions, community donations, and
-              a portion of every full-rate program. When you train with us, you
+              Funding comes from community and client contributions, and a
+              portion of every full-rate program. When you train with us, you
               help another dog get the help they need.
             </p>
           </div>
@@ -120,39 +159,478 @@ const criteria = [
   </section>
 
   <!-- Apply -->
-  <section class="relative bg-brand-bg">
+  <section id="apply" class="relative bg-brand-bg" aria-labelledby="apply-heading">
     <div class="hairline mx-auto max-w-7xl"></div>
     <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
       <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
-        <div class="lg:col-span-7">
+        <div class="lg:col-span-5">
           <p class="caption text-brand-accent">Apply</p>
-          <h2 class="mt-6 max-w-xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl">
-            Reach out and
-            <span class="italic text-brand-accent">tell us your story.</span>
+          <h2
+            id="apply-heading"
+            class="mt-6 max-w-xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl"
+          >
+            Apply for yourself, or
+            <span class="italic text-brand-accent">nominate a dog.</span>
           </h2>
-        </div>
-        <div class="flex flex-col justify-center lg:col-span-5">
-          <p class="text-base leading-relaxed text-brand-primary/70 sm:text-lg">
-            There is no formal application form. Send us a note explaining your
-            dog, your situation, and what you hope training will change. We read
-            every message and respond as quickly as we can.
+          <p class="mt-8 max-w-md text-base leading-relaxed text-brand-primary/70 sm:text-lg">
+            You can apply directly for your own dog or nominate a dog and family
+            you believe need this help. We read every application and respond as
+            quickly as we can.
           </p>
-          <div class="mt-10">
-            <a
-              href="/contact/"
-              class="group inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-brand-bg"
-            >
-              Apply for the Scholarship
-              <span
-                class="inline-block transition-transform duration-300 group-hover:translate-x-1"
-                aria-hidden="true"
+        </div>
+
+        <div class="lg:col-span-7">
+          <form
+            class="space-y-10"
+            data-scholarship-form
+            data-webhook-url={n8nWebhookUrl}
+            novalidate
+            aria-describedby="scholarship-form-status"
+          >
+            <fieldset>
+              <legend class="caption text-brand-primary/55">I am…</legend>
+              <div class="mt-4 flex flex-wrap gap-4">
+                <label class="flex cursor-pointer items-center gap-3 border border-brand-primary/20 px-5 py-3 text-sm text-brand-primary transition-colors hover:border-brand-accent has-[:checked]:border-brand-accent has-[:checked]:bg-brand-accent/5">
+                  <input
+                    type="radio"
+                    name="applicationType"
+                    value="self"
+                    class="h-4 w-4 border-brand-primary/25 text-brand-accent focus:ring-brand-accent"
+                    checked
+                  />
+                  Applying for my own dog
+                </label>
+                <label class="flex cursor-pointer items-center gap-3 border border-brand-primary/20 px-5 py-3 text-sm text-brand-primary transition-colors hover:border-brand-accent has-[:checked]:border-brand-accent has-[:checked]:bg-brand-accent/5">
+                  <input
+                    type="radio"
+                    name="applicationType"
+                    value="nomination"
+                    class="h-4 w-4 border-brand-primary/25 text-brand-accent focus:ring-brand-accent"
+                  />
+                  Nominating a dog or family
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="grid gap-x-6 gap-y-10 sm:grid-cols-2">
+              <div class="field">
+                <label for="scholarship-first-name" class="caption text-brand-primary/55">
+                  First Name
+                </label>
+                <input
+                  id="scholarship-first-name"
+                  name="firstName"
+                  type="text"
+                  autocomplete="given-name"
+                  required
+                  class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                  placeholder="First"
+                />
+              </div>
+              <div class="field">
+                <label for="scholarship-last-name" class="caption text-brand-primary/55">
+                  Last Name
+                </label>
+                <input
+                  id="scholarship-last-name"
+                  name="lastName"
+                  type="text"
+                  autocomplete="family-name"
+                  required
+                  class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                  placeholder="Last"
+                />
+              </div>
+            </div>
+
+            <div class="grid gap-x-6 gap-y-10 sm:grid-cols-2">
+              <div class="field">
+                <label for="scholarship-email" class="caption text-brand-primary/55">
+                  Email
+                </label>
+                <input
+                  id="scholarship-email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                  placeholder="you@example.com"
+                />
+              </div>
+              <div class="field">
+                <label for="scholarship-phone" class="caption text-brand-primary/55">
+                  Phone <span class="text-brand-primary/40">(optional)</span>
+                </label>
+                <input
+                  id="scholarship-phone"
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                  placeholder="(401) 555-0100"
+                />
+              </div>
+            </div>
+
+            <div class="grid gap-x-6 gap-y-10 sm:grid-cols-2">
+              <div class="field">
+                <label for="scholarship-dog-name" class="caption text-brand-primary/55">
+                  Dog&rsquo;s Name
+                </label>
+                <input
+                  id="scholarship-dog-name"
+                  name="dogName"
+                  type="text"
+                  required
+                  class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                  placeholder="Dog&rsquo;s name"
+                />
+              </div>
+              <div class="field">
+                <label for="scholarship-dog-details" class="caption text-brand-primary/55">
+                  Breed &amp; Age
+                </label>
+                <input
+                  id="scholarship-dog-details"
+                  name="dogDetails"
+                  type="text"
+                  class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                  placeholder="e.g. two-year-old Lab mix"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="scholarship-location" class="caption text-brand-primary/55">
+                Town &amp; State
+              </label>
+              <input
+                id="scholarship-location"
+                name="location"
+                type="text"
+                required
+                class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                placeholder="e.g. Cranston, RI"
+              />
+            </div>
+
+            <div class="field hidden" data-nominee-fields>
+              <label for="scholarship-nominee" class="caption text-brand-primary/55">
+                Nominee&rsquo;s Name &amp; Contact
+              </label>
+              <input
+                id="scholarship-nominee"
+                name="nomineeContact"
+                type="text"
+                class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                placeholder="Name, phone, or email of the family you&rsquo;re nominating"
+              />
+              <p class="mt-3 text-sm leading-relaxed text-brand-primary/55">
+                If you&rsquo;d rather not share their contact details yet, tell us
+                about them below and we&rsquo;ll take it from there.
+              </p>
+            </div>
+
+            <div class="field">
+              <label for="scholarship-story" class="caption text-brand-primary/55">
+                Why this dog is being nominated <span class="text-brand-accent">*</span>
+              </label>
+              <textarea
+                id="scholarship-story"
+                name="story"
+                rows="6"
+                required
+                class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                placeholder="Tell us about the dog, the family, and what training could change. What happens without it?"
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label for="scholarship-need" class="caption text-brand-primary/55">
+                What kind of help does the dog need?
+              </label>
+              <select
+                id="scholarship-need"
+                name="need"
+                class="peer mt-3 block w-full appearance-none border-0 border-b border-brand-primary/25 bg-transparent pb-3 pr-10 font-serif text-lg text-brand-primary focus:border-brand-accent focus:outline-none focus:ring-0"
               >
-                &rarr;
-              </span>
-            </a>
+                <option value="" disabled selected>Select an option…</option>
+                {
+                  needOptions.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="scholarship-situation" class="caption text-brand-primary/55">
+                A little about the financial situation
+                <span class="text-brand-primary/40">(kept confidential)</span>
+              </label>
+              <textarea
+                id="scholarship-situation"
+                name="situation"
+                rows="3"
+                class="mt-3 block w-full border-0 border-b border-brand-primary/25 bg-transparent pb-3 font-serif text-lg text-brand-primary placeholder:font-serif placeholder:italic placeholder:text-brand-primary/35 focus:border-brand-accent focus:outline-none focus:ring-0"
+                placeholder="Share what you&rsquo;re comfortable with. It helps us match funding to need."
+              ></textarea>
+            </div>
+
+            <div class="pt-4">
+              <button
+                type="submit"
+                class="group relative inline-flex items-center gap-3 bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <span data-submit-label>Submit Application</span>
+                <span
+                  class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                >
+                  &rarr;
+                </span>
+              </button>
+              <p
+                id="scholarship-form-status"
+                data-form-message
+                role="status"
+                aria-live="polite"
+                class="mt-6 hidden font-serif text-base italic"
+              >
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contribute -->
+  <section
+    id="contribute"
+    class="relative bg-brand-primary text-brand-bg"
+    aria-labelledby="contribute-heading"
+  >
+    <div class="hairline mx-auto max-w-7xl bg-brand-bg/10"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-16 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-7">
+          <p class="caption text-brand-accent">Give</p>
+          <h2
+            id="contribute-heading"
+            class="mt-6 max-w-2xl text-balance font-serif text-4xl leading-[1.05] sm:text-5xl"
+          >
+            Help Families Keep Their Dogs.
+            <span class="italic text-brand-accent"
+              >Help Shelter Dogs Find Homes.</span
+            >
+          </h2>
+          <p class="mt-7 max-w-xl text-base leading-relaxed text-brand-bg/70 sm:text-lg">
+            Your contribution funds professional training that keeps dogs out of
+            shelters and makes them more adoptable.
+          </p>
+
+          <div class="mt-12" data-contribute-widget>
+            <style>
+              .pp-DEDSRBHXU5KVC {
+                text-align: center;
+                border: none;
+                border-radius: 0.25rem;
+                min-width: 11.625rem;
+                padding: 0 2rem;
+                height: 2.625rem;
+                font-weight: bold;
+                background-color: #ffd140;
+                color: #000000;
+                font-family: "Helvetica Neue", Arial, sans-serif;
+                font-size: 1rem;
+                line-height: 1.25rem;
+                cursor: pointer;
+              }
+            </style>
+            <form
+              action="https://www.paypal.com/ncp/payment/DEDSRBHXU5KVC"
+              method="post"
+              target="_blank"
+              style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;"
+            >
+              <input
+                class="pp-DEDSRBHXU5KVC"
+                type="submit"
+                value="Contribute"
+                data-contribute-submit
+              />
+              <img
+                src="https://www.paypalobjects.com/images/Debit_Credit_APM.svg"
+                alt="cards"
+              />
+              <section style="font-size: 0.75rem;">
+                Powered by
+                <img
+                  src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg"
+                  alt="paypal"
+                  style="height:0.875rem;vertical-align:middle;"
+                />
+              </section>
+            </form>
+
+            <p class="mt-6 max-w-lg text-sm leading-relaxed text-brand-bg/55">
+              Prefer to give anonymously? Simply contribute — we only list
+              contributors on our contributor roll when they tell us
+              they&rsquo;d like to be recognized.
+            </p>
+            <p class="mt-4 max-w-lg text-sm leading-relaxed text-brand-bg/55">
+              These contributions are not tax-deductible at this time. They are
+              used exclusively to fund training services delivered through
+              Campbell K9&rsquo;s.
+            </p>
           </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <p class="caption text-brand-accent">Contributor Roll</p>
+          <h3 class="mt-6 font-serif text-3xl leading-tight text-brand-bg">
+            Every tier keeps a dog
+            <span class="italic text-brand-accent">with their family.</span>
+          </h3>
+          <ul class="mt-8 space-y-6">
+            {
+              contributorTiers.map((tier) => (
+                <li class="flex items-baseline justify-between border-b border-brand-bg/15 pb-5">
+                  <span class="font-serif text-xl text-brand-bg">{tier.name}</span>
+                  <span class="caption text-brand-accent">{tier.amount}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="mt-8 text-sm leading-relaxed text-brand-bg/60">
+            Monthly contributions of the same amount are celebrated the same
+            way. Our first contributor roll is coming soon — names are published
+            only with permission.
+          </p>
         </div>
       </div>
     </div>
   </section>
 </Layout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-scholarship-form]");
+  const submitBtn = form?.querySelector<HTMLButtonElement>(
+    'button[type="submit"]'
+  );
+  const submitLabel = form?.querySelector<HTMLSpanElement>(
+    "[data-submit-label]"
+  );
+  const message = form?.querySelector<HTMLParagraphElement>(
+    "[data-form-message]"
+  );
+
+  function showMessage(text: string, tone: "success" | "error") {
+    if (!message) return;
+    message.textContent = text;
+    message.classList.remove("hidden", "text-brand-accent", "text-red-700");
+    message.classList.add(
+      tone === "success" ? "text-brand-accent" : "text-red-700"
+    );
+  }
+
+  const applicationRadios = form?.querySelectorAll<HTMLInputElement>(
+    'input[name="applicationType"]'
+  );
+  const nomineeFields = form?.querySelector<HTMLElement>("[data-nominee-fields]");
+  const nomineeInput = form?.querySelector<HTMLInputElement>(
+    "#scholarship-nominee"
+  );
+
+  function updateNomineeFields() {
+    if (!form || !nomineeFields) return;
+    const isNomination =
+      form.querySelector<HTMLInputElement>(
+        'input[name="applicationType"]:checked'
+      )?.value === "nomination";
+    nomineeFields.classList.toggle("hidden", !isNomination);
+    if (nomineeInput) {
+      nomineeInput.toggleAttribute("required", isNomination);
+    }
+  }
+
+  applicationRadios?.forEach((radio) =>
+    radio.addEventListener("change", updateNomineeFields)
+  );
+  updateNomineeFields();
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!form || !submitBtn || !submitLabel) return;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.form = "scholarship";
+
+    submitBtn.disabled = true;
+    submitLabel.textContent = "Sending…";
+
+    const webhookUrl = form.dataset.webhookUrl;
+    if (!webhookUrl) {
+      showMessage(
+        "The form is not configured. Please write to k9campbellmatt@gmail.com.",
+        "error"
+      );
+      return;
+    }
+
+    try {
+      const res = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "scholarshipFormSubmit",
+          applicationType: data.applicationType ?? "",
+          need: data.need ?? "",
+        });
+        form.reset();
+        updateNomineeFields();
+        showMessage(
+          "Thank you. We read every application and will respond as quickly as we can.",
+          "success"
+        );
+      } else {
+        const text = await res.text().catch(() => "");
+        console.error("[scholarship] n8n error", res.status, text);
+        showMessage(
+          "Something went wrong. Please try again, or write to k9campbellmatt@gmail.com.",
+          "error"
+        );
+      }
+    } catch (err) {
+      console.error("[scholarship] network error", err);
+      showMessage(
+        "We couldn't reach our intake system. Please try again, or write to k9campbellmatt@gmail.com.",
+        "error"
+      );
+    } finally {
+      submitBtn.disabled = false;
+      submitLabel.textContent = "Submit Application";
+    }
+  });
+
+  const contributeButton = document.querySelector<HTMLInputElement>(
+    "[data-contribute-submit]"
+  );
+
+  contributeButton?.addEventListener("click", () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: "scholarshipContributeClick" });
+  });
+</script>
