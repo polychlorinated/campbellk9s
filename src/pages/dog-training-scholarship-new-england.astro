@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ContributeButton from "../components/ContributeButton.astro";
 
 const n8nWebhookUrl =
   import.meta.env.N8N_SCHOLARSHIP_WEBHOOK_URL ??
@@ -31,10 +32,26 @@ const needOptions = [
 ];
 
 const contributorTiers = [
-  { name: "Pack Friend", amount: "$20" },
-  { name: "Pack Supporter", amount: "$50" },
-  { name: "Pack Advocate", amount: "$100" },
-  { name: "Pack Champion", amount: "$250" },
+  {
+    name: "Pack Friend",
+    amount: "$20",
+    note: "Every bit helps get the next dog started.",
+  },
+  {
+    name: "Pack Supporter",
+    amount: "$175",
+    note: "Covers one hour of training.",
+  },
+  {
+    name: "Pack Advocate",
+    amount: "$1,250",
+    note: "Covers half of a Board & Train Bootcamp.",
+  },
+  {
+    name: "Pack Champion",
+    amount: "$2,500",
+    note: "Covers a full Board & Train Bootcamp.",
+  },
 ];
 ---
 
@@ -377,6 +394,19 @@ const contributorTiers = [
               ></textarea>
             </div>
 
+            <div class="field">
+              <label class="flex cursor-pointer items-start gap-3">
+                <input
+                  type="checkbox"
+                  name="wantsToContribute"
+                  class="mt-1 h-4 w-4 shrink-0 border-brand-primary/25 text-brand-accent focus:ring-brand-accent"
+                />
+                <span class="text-sm leading-relaxed text-brand-primary/75">
+                  I&rsquo;d like to contribute to the scholarship fund, too.
+                </span>
+              </label>
+            </div>
+
             <div class="pt-4">
               <button
                 type="submit"
@@ -398,6 +428,15 @@ const contributorTiers = [
                 class="mt-6 hidden font-serif text-base italic"
               >
               </p>
+              <div class="mt-6 hidden" data-post-submit-contribute>
+                <p class="caption text-brand-primary/55">
+                  Thank you for giving back. Every contribution funds the next
+                  dog&rsquo;s training.
+                </p>
+                <div class="mt-4">
+                  <ContributeButton placement="form" />
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -431,48 +470,10 @@ const contributorTiers = [
           </p>
 
           <div class="mt-12" data-contribute-widget>
-            <style>
-              .pp-DEDSRBHXU5KVC {
-                text-align: center;
-                border: none;
-                border-radius: 0.25rem;
-                min-width: 11.625rem;
-                padding: 0 2rem;
-                height: 2.625rem;
-                font-weight: bold;
-                background-color: #ffd140;
-                color: #000000;
-                font-family: "Helvetica Neue", Arial, sans-serif;
-                font-size: 1rem;
-                line-height: 1.25rem;
-                cursor: pointer;
-              }
-            </style>
-            <form
-              action="https://www.paypal.com/ncp/payment/DEDSRBHXU5KVC"
-              method="post"
-              target="_blank"
-              style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;"
-            >
-              <input
-                class="pp-DEDSRBHXU5KVC"
-                type="submit"
-                value="Contribute"
-                data-contribute-submit
-              />
-              <img
-                src="https://www.paypalobjects.com/images/Debit_Credit_APM.svg"
-                alt="cards"
-              />
-              <section style="font-size: 0.75rem;">
-                Powered by
-                <img
-                  src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg"
-                  alt="paypal"
-                  style="height:0.875rem;vertical-align:middle;"
-                />
-              </section>
-            </form>
+            <p class="caption text-brand-bg/55">One-time contributions</p>
+            <div class="mt-4">
+              <ContributeButton placement="section" />
+            </div>
 
             <p class="mt-6 max-w-lg text-sm leading-relaxed text-brand-bg/55">
               Prefer to give anonymously? Simply contribute — we only list
@@ -480,9 +481,9 @@ const contributorTiers = [
               they&rsquo;d like to be recognized.
             </p>
             <p class="mt-4 max-w-lg text-sm leading-relaxed text-brand-bg/55">
-              These contributions are not tax-deductible at this time. They are
-              used exclusively to fund training services delivered through
-              Campbell K9&rsquo;s.
+              These one-time contributions are not tax-deductible at this time.
+              They are used exclusively to fund training services delivered
+              through Campbell K9&rsquo;s.
             </p>
           </div>
         </div>
@@ -496,17 +497,22 @@ const contributorTiers = [
           <ul class="mt-8 space-y-6">
             {
               contributorTiers.map((tier) => (
-                <li class="flex items-baseline justify-between border-b border-brand-bg/15 pb-5">
-                  <span class="font-serif text-xl text-brand-bg">{tier.name}</span>
-                  <span class="caption text-brand-accent">{tier.amount}</span>
+                <li class="border-b border-brand-bg/15 pb-5">
+                  <div class="flex items-baseline justify-between">
+                    <span class="font-serif text-xl text-brand-bg">{tier.name}</span>
+                    <span class="caption text-brand-accent">{tier.amount}</span>
+                  </div>
+                  <p class="mt-2 text-sm leading-relaxed text-brand-bg/60">
+                    {tier.note}
+                  </p>
                 </li>
               ))
             }
           </ul>
           <p class="mt-8 text-sm leading-relaxed text-brand-bg/60">
-            Monthly contributions of the same amount are celebrated the same
-            way. Our first contributor roll is coming soon — names are published
-            only with permission.
+            Contributions of any size are celebrated the same way. Our first
+            contributor roll is coming soon — names are published only with
+            permission.
           </p>
         </div>
       </div>
@@ -524,6 +530,9 @@ const contributorTiers = [
   );
   const message = form?.querySelector<HTMLParagraphElement>(
     "[data-form-message]"
+  );
+  const postSubmitContribute = form?.querySelector<HTMLElement>(
+    "[data-post-submit-contribute]"
   );
 
   function showMessage(text: string, tone: "success" | "error") {
@@ -571,7 +580,9 @@ const contributorTiers = [
 
     const data = Object.fromEntries(new FormData(form).entries());
     data.form = "scholarship";
+    const wantsToContribute = data.wantsToContribute === "on";
 
+    postSubmitContribute?.classList.add("hidden");
     submitBtn.disabled = true;
     submitLabel.textContent = "Sending…";
 
@@ -600,6 +611,7 @@ const contributorTiers = [
         });
         form.reset();
         updateNomineeFields();
+        postSubmitContribute?.classList.toggle("hidden", !wantsToContribute);
         showMessage(
           "Thank you. We read every application and will respond as quickly as we can.",
           "success"
@@ -624,12 +636,17 @@ const contributorTiers = [
     }
   });
 
-  const contributeButton = document.querySelector<HTMLInputElement>(
+  const contributeButtons = document.querySelectorAll<HTMLInputElement>(
     "[data-contribute-submit]"
   );
 
-  contributeButton?.addEventListener("click", () => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: "scholarshipContributeClick" });
-  });
+  contributeButtons.forEach((button) =>
+    button.addEventListener("click", () => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "scholarshipContributeClick",
+        placement: button.dataset.placement ?? "section",
+      });
+    })
+  );
 </script>
