@@ -6,6 +6,11 @@ const navLinks = [
   { href: "/faqs/", label: "FAQs" },
   { href: "/blog/", label: "Journal" },
   { href: "/contact/", label: "Contact" },
+  {
+    href: "https://campbell-k9s.printify.me/",
+    label: "Shop",
+    external: true,
+  },
 ];
 ---
 
@@ -35,6 +40,8 @@ const navLinks = [
           <li>
             <a
               href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               class="caption group relative inline-block text-brand-primary/70 transition-colors hover:text-brand-primary"
             >
               {link.label}
@@ -121,6 +128,8 @@ const navLinks = [
           <li>
             <a
               href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               class="caption block py-3 text-brand-primary/80 transition-colors hover:text-brand-accent"
             >
               {link.label}
