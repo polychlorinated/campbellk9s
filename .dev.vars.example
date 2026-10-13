@@ -1,0 +1,20 @@
+# Cloudflare Pages Function environment variables for the Square storefront
+# (/api/square/*). Copy this file to `.dev.vars` for local development with
+# `npm run pages:dev`, or set the same variables in the Cloudflare Pages
+# dashboard (Project → Settings → Environment variables).
+#
+# Never commit real tokens.
+
+# Square personal access token (required)
+# Square Developer Dashboard → Applications → your app → Production/Sandbox keys
+SQUARE_ACCESS_TOKEN=
+
+# "production" (default) or "sandbox"
+SQUARE_ENVIRONMENT=production
+
+# Optional — auto-discovered from the first active location if omitted
+SQUARE_LOCATION_ID=
+
+# "true" asks buyers for a shipping address at checkout.
+# Requires shipping fulfillment to be enabled on the Square location.
+SQUARE_ASK_FOR_SHIPPING=false

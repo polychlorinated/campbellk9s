@@ -7,8 +7,9 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/copy-functions.mjs",
     "preview": "astro preview",
+    "pages:dev": "npm run build && wrangler pages dev dist/client",
     "astro": "astro"
   },
   "dependencies": {
@@ -20,5 +21,8 @@
     "astro": "^6.2.1",
     "astro-static-headers": "^1.0.4",
     "tailwindcss": "^4.2.4"
+  },
+  "devDependencies": {
+    "wrangler": "^4.149.0"
   }
 }
