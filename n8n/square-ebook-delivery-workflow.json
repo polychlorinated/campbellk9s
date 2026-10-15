@@ -1,0 +1,264 @@
+{
+  "name": "Campbell K9s — Digital delivery on Square payment",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "square-ebook-delivery",
+        "responseMode": "onReceived",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "webhook-square-payment",
+      "name": "Square Payment Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "square-ebook-delivery"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "status-completed",
+              "leftValue": "={{ $json.body.data.object.payment.status }}",
+              "rightValue": "COMPLETED",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "has-email",
+              "leftValue": "={{ $json.body.data.object.payment.buyer_email_address }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "filter-completed",
+      "name": "Payment Completed?",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://campbellk9s.com/api/delivery/resolve",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ orderId: $json.body.data.object.payment.order_id, expirySeconds: 604800 }) }}",
+        "options": {}
+      },
+      "id": "resolve-downloads",
+      "name": "Resolve Download Files",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "has-files",
+              "leftValue": "={{ $json.files.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "filter-has-files",
+      "name": "Digital Item In Order?",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [660, 0]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.files[0].url }}",
+        "sendHeaders": false,
+        "options": {},
+        "response": {
+          "response": {
+            "responseFormat": "file",
+            "outputPropertyName": "data"
+          }
+        }
+      },
+      "id": "fetch-first-file",
+      "name": "Fetch File (Attachment)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [880, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "subject",
+              "name": "subject",
+              "value": "={{ 'Your ' + $('Resolve Download Files').item.json.files[0].name.replace(/ \\(.*\\)$/, '') + \" is here — Campbell K9's\" }}",
+              "type": "string"
+            },
+            {
+              "id": "linksHtml",
+              "name": "linksHtml",
+              "value": "={{ $('Resolve Download Files').item.json.files.map(f => '<a href=\"' + f.url + '\">Download ' + f.name + '</a>').join('<br/>') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "build-email",
+      "name": "Build Email Content",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1100, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ from: \"Campbell K9's <shop@campbellk9s.com>\", to: [$('Square Payment Webhook').item.json.body.data.object.payment.buyer_email_address], reply_to: 'k9campbellmatt@gmail.com', subject: $json.subject, html: '<p>Thank you for your order — the pack appreciates it.</p><p>Your download is attached, and the links below stay valid for 7 days:</p><p>' + $json.linksHtml + '</p><p>If anything looks off, just reply to this email or reach us at <a href=\"mailto:k9campbellmatt@gmail.com\">k9campbellmatt@gmail.com</a>.</p><p>— Campbell K9&#39;s</p>', attachments: [{ filename: $('Resolve Download Files').item.json.files[0].name, content: $binary.data.data }] }) }}",
+        "options": {}
+      },
+      "id": "send-resend",
+      "name": "Send via Resend",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1320, 0]
+    }
+  ],
+  "connections": {
+    "Square Payment Webhook": {
+      "main": [
+        [
+          {
+            "node": "Payment Completed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Payment Completed?": {
+      "main": [
+        [
+          {
+            "node": "Resolve Download Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resolve Download Files": {
+      "main": [
+        [
+          {
+            "node": "Digital Item In Order?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Digital Item In Order?": {
+      "main": [
+        [
+          {
+            "node": "Fetch File (Attachment)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch File (Attachment)": {
+      "main": [
+        [
+          {
+            "node": "Build Email Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Email Content": {
+      "main": [
+        [
+          {
+            "node": "Send via Resend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "ck9-ebook-delivery"
+  },
+  "tags": []
+}

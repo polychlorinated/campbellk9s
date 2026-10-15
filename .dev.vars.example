@@ -1,5 +1,6 @@
 # Cloudflare Pages Function environment variables for the Square storefront
-# (/api/square/*). Copy this file to `.dev.vars` for local development with
+# (/api/square/*) and digital delivery (/api/delivery/*).
+# Copy this file to `.dev.vars` for local development with
 # `npm run pages:dev`, or set the same variables in the Cloudflare Pages
 # dashboard (Project → Settings → Environment variables).
 #
@@ -18,3 +19,28 @@ SQUARE_LOCATION_ID=
 # "true" asks buyers for a shipping address at checkout.
 # Requires shipping fulfillment to be enabled on the Square location.
 SQUARE_ASK_FOR_SHIPPING=false
+
+# --- Digital delivery (/api/delivery/*) ---
+
+# Secret for signing download tokens. Generate one: `openssl rand -hex 32`
+DOWNLOAD_SECRET=
+
+# --- Storage ---
+# Deliverable files live in a private Cloudflare R2 bucket and are streamed
+# only through /api/delivery/file after order verification.
+#
+# Naming convention IS the config: an object key of "<SQUARE_ITEM_ID>.pdf"
+# (or .epub) is the download for the Square catalog item whose ITEM ID is the
+# filename prefix. Item IDs are visible in the browser URL when editing the
+# item in the Square dashboard.
+#
+# One-time setup:
+# 1. Cloudflare Dashboard → R2 → Create bucket (e.g. "ck9-downloads")
+# 2. Upload files via the dashboard drag-drop uploader:
+#      <ITEM_ID>.pdf   e.g. "AB12CD34EF.pdf"
+#      <ITEM_ID>.epub
+# 3. Cloudflare Pages → your project → Settings → Functions → R2 bucket
+#    bindings → add binding variable DOWNLOADS → ck9-downloads
+#
+# The repo downloads/ folder is only a versioned staging copy — it is not
+# deployed or served.
