@@ -44,3 +44,17 @@ DOWNLOAD_SECRET=
 #
 # The repo downloads/ folder is only a versioned staging copy — it is not
 # deployed or served.
+
+# --- Live banner (/api/live) ---
+# The homepage "Follow the work in real time" strip becomes
+# "Join us Live on {channel} now" while a channel is live.
+#
+# Manual override (covers Instagram & TikTok — their APIs don't expose live
+# status to third parties). Set both while streaming, clear them after:
+# LIVE_CHANNEL=Instagram
+# LIVE_URL=https://www.instagram.com/campbell_k9s
+#
+# Automatic Facebook detection (optional):
+# A long-lived Facebook page access token with live-videos read access.
+# FACEBOOK_PAGE_ID=
+# FACEBOOK_PAGE_TOKEN=
