@@ -1,14 +1,9 @@
 ---
-import { getVisitState } from "../lib/visit";
-
-const CAL_URL = "https://cal.com/clearer-dogs-group-class-october";
 ---
 
 <div
-  data-event-banner
-  hidden
   role="region"
-  aria-label="Upcoming event"
+  aria-label="Upcoming events"
   class="relative bg-brand-primary"
 >
   <div class="absolute inset-x-0 top-0 h-0.5 bg-brand-accent" aria-hidden="true"></div>
@@ -17,31 +12,11 @@ const CAL_URL = "https://cal.com/clearer-dogs-group-class-october";
   >
     <p class="min-w-64 flex-1">
       <span class="caption block text-brand-accent">
-        Saturday &middot; October 17 &middot; 10 AM &ndash; Noon Eastern
+        No Events Yet
       </span>
       <span class="mt-1 block font-serif text-lg leading-snug text-brand-bg sm:text-xl">
-        Clearer Dogs Group Class &mdash;{" "}
-        <em class="italic text-brand-accent">limited to 15 dogs.</em>
+        Check back here for our next event!
       </span>
     </p>
-    <a
-      href={CAL_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-flex items-center gap-2 bg-brand-accent px-6 py-3 text-[10px] font-medium uppercase tracking-[0.2em] text-brand-primary transition-colors duration-300 hover:bg-brand-bg"
-    >
-      Reserve Your Spot <span aria-hidden="true">&rarr;</span>
-    </a>
   </div>
 </div>
-
-<script>
-  import { getVisitState } from "../lib/visit";
-
-  const { count } = getVisitState();
-  if (count === 2 || count === 3) {
-    document
-      .querySelector<HTMLElement>("[data-event-banner]")
-      ?.removeAttribute("hidden");
-  }
-</script>

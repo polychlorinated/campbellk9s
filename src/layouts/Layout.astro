@@ -9,7 +9,6 @@ import "@fontsource/jetbrains-mono/500.css";
 
 import "../styles/global.css";
 import EventBanner from "../components/EventBanner.astro";
-import EventPopup from "../components/EventPopup.astro";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
 
@@ -174,6 +173,5 @@ const serializedGraph = JSON.stringify(graph).replace(/</g, "\\u003c");
       <slot />
     </main>
     <Footer />
-    <EventPopup />
   </body>
 </html>
