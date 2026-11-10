@@ -157,12 +157,7 @@ const webhookPath = "/api/newsletter";
   if (popup && !seen) {
     popup.classList.remove("hidden");
     requestAnimationFrame(() => {
-      popup.classList.add(
-        "translate-y-0",
-        "opacity-100",
-        "transition-all",
-        "duration-500"
-      );
+      popup.classList.add("is-visible");
     });
   }
 </script>
@@ -171,5 +166,13 @@ const webhookPath = "/api/newsletter";
   [data-email-capture-popup] {
     transform: translateY(1rem);
     opacity: 0;
+    transition:
+      opacity 500ms ease,
+      transform 500ms ease;
+  }
+
+  [data-email-capture-popup].is-visible {
+    transform: translateY(0);
+    opacity: 1;
   }
 </style>
