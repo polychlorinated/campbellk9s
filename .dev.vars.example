@@ -49,7 +49,7 @@ DOWNLOAD_SECRET=
 # POST /api/newsletter forwards submissions from the corner email popup
 # to an n8n webhook. Set this when the webhook URL is finalized; until
 # then the fallback in functions/api/newsletter/[[path]].js is used.
-# NEWSLETTER_WEBHOOK_URL=https://n8n.srv725961.hstgr.cloud/webhook/...
+# NEWSLETTER_WEBHOOK_URL=https://n8n.srv725961.hstgr.cloud/webhook/c40db083-85c6-416c-bdc4-5d01c845a45f
 
 # --- Live banner (/api/live) ---
 # The homepage "Follow the work in real time" strip becomes

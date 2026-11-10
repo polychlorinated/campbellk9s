@@ -5,13 +5,12 @@
  *   → forwards to the n8n webhook and returns { "ok": true }
  *
  * The webhook URL is set via the NEWSLETTER_WEBHOOK_URL env variable
- * (Cloudflare Pages → Settings → Environment variables). The fallback
- * below is the current n8n test webhook; replace it when the form is
- * finalized.
+ * (Cloudflare Pages → Settings → Environment variables) and falls back
+ * to the production n8n webhook below.
  */
 
 const DEFAULT_WEBHOOK_URL =
-  "https://n8n.srv725961.hstgr.cloud/webhook-test/c40db083-85c6-416c-bdc4-5d01c845a45f";
+  "https://n8n.srv725961.hstgr.cloud/webhook/c40db083-85c6-416c-bdc4-5d01c845a45f";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
