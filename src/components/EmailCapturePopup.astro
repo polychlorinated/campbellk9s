@@ -1,0 +1,175 @@
+---
+const webhookPath = "/api/newsletter";
+---
+
+<aside
+  id="email-capture-popup"
+  class="fixed bottom-5 right-5 z-[70] hidden w-[min(24rem,calc(100vw-2.5rem))]"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="email-capture-title"
+  data-email-capture-popup
+>
+  <div
+    class="relative overflow-hidden border border-white/50 bg-brand-bg/60 shadow-[0_24px_60px_-12px_rgba(15,28,46,0.35)] ring-1 ring-brand-primary/10 backdrop-blur-xl backdrop-saturate-150"
+  >
+    <div
+      class="absolute inset-x-0 top-0 h-0.5 bg-brand-accent"
+      aria-hidden="true"
+    ></div>
+
+    <button
+      type="button"
+      class="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full text-brand-primary/60 transition-colors hover:bg-brand-primary/5 hover:text-brand-primary"
+      aria-label="Close"
+      data-email-capture-close
+    >
+      <svg
+        class="h-4 w-4"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+
+    <div class="px-7 pt-8 pb-7 sm:px-8" data-email-capture-panel>
+      <p class="caption text-brand-accent">Coming Soon</p>
+      <h2
+        id="email-capture-title"
+        class="mt-2 font-serif text-xl leading-snug text-brand-primary sm:text-2xl"
+      >
+        Be the first to hear about our Clearer Dogs Community, launching soon!
+      </h2>
+
+      <form class="mt-5" data-email-capture-form novalidate>
+        <label for="email-capture-input" class="sr-only">Email address</label>
+        <input
+          id="email-capture-input"
+          type="email"
+          name="email"
+          autocomplete="email"
+          required
+          placeholder="Your email address"
+          class="w-full border border-brand-primary/15 bg-white/70 px-4 py-3 text-sm text-brand-primary placeholder:text-brand-muted focus:border-brand-accent focus:outline-none"
+          data-email-capture-input
+        />
+        <p
+          class="mt-2 hidden text-xs text-red-700"
+          role="alert"
+          data-email-capture-error
+        ></p>
+        <button
+          type="submit"
+          class="mt-3 inline-flex w-full items-center justify-center gap-2 bg-brand-accent px-6 py-3 text-xs font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-brand-bg"
+        >
+          Notify Me
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</aside>
+
+<script>
+  const POPUP_KEY = "ck9-email-popup";
+  const popup = document.querySelector<HTMLElement>("[data-email-capture-popup]");
+  const panel = popup?.querySelector<HTMLElement>("[data-email-capture-panel]");
+  const closeBtn = popup?.querySelector<HTMLButtonElement>(
+    "[data-email-capture-close]"
+  );
+  const form = popup?.querySelector<HTMLFormElement>(
+    "[data-email-capture-form]"
+  );
+  const input = popup?.querySelector<HTMLInputElement>(
+    "[data-email-capture-input]"
+  );
+  const error = popup?.querySelector<HTMLElement>("[data-email-capture-error]");
+
+  const dismiss = () => {
+    try {
+      sessionStorage.setItem(POPUP_KEY, "1");
+    } catch {
+      // Private mode / storage blocked — just close the popup.
+    }
+    popup?.remove();
+  };
+
+  const showSuccess = () => {
+    if (!panel) return;
+    panel.innerHTML = `
+      <p class="caption text-brand-accent">You&rsquo;re on the list</p>
+      <h2 class="mt-2 font-serif text-xl leading-snug text-brand-primary sm:text-2xl">
+        Thanks &mdash; we&rsquo;ll be in touch when the Clearer Dogs
+        Community opens its doors.
+      </h2>
+    `;
+    try {
+      sessionStorage.setItem(POPUP_KEY, "1");
+    } catch {
+      // Ignore — the popup is already replaced.
+    }
+  };
+
+  closeBtn?.addEventListener("click", dismiss);
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!input || !error) return;
+
+    const email = input.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      error.textContent = "Please enter a valid email address.";
+      error.classList.remove("hidden");
+      input.focus();
+      return;
+    }
+    error.classList.add("hidden");
+
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      showSuccess();
+    } catch {
+      error.textContent =
+        "Something went wrong. Please try again in a moment.";
+      error.classList.remove("hidden");
+    }
+  });
+
+  let seen = false;
+  try {
+    seen = !!sessionStorage.getItem(POPUP_KEY);
+  } catch {
+    // Storage blocked — still show the popup.
+  }
+
+  if (popup && !seen) {
+    popup.classList.remove("hidden");
+    requestAnimationFrame(() => {
+      popup.classList.add(
+        "translate-y-0",
+        "opacity-100",
+        "transition-all",
+        "duration-500"
+      );
+    });
+  }
+</script>
+
+<style>
+  [data-email-capture-popup] {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+</style>

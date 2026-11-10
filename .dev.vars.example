@@ -45,6 +45,12 @@ DOWNLOAD_SECRET=
 # The repo downloads/ folder is only a versioned staging copy — it is not
 # deployed or served.
 
+# --- Email capture popup (/api/newsletter) ---
+# POST /api/newsletter forwards submissions from the corner email popup
+# to an n8n webhook. Set this when the webhook URL is finalized; until
+# then the fallback in functions/api/newsletter/[[path]].js is used.
+# NEWSLETTER_WEBHOOK_URL=https://n8n.srv725961.hstgr.cloud/webhook/...
+
 # --- Live banner (/api/live) ---
 # The homepage "Follow the work in real time" strip becomes
 # "Join us Live on {channel} now" while a channel is live.
