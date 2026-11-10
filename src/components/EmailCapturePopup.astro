@@ -115,6 +115,10 @@ const webhookPath = "/api/newsletter";
     } catch {
       // Ignore — the popup is already replaced.
     }
+    window.setTimeout(() => {
+      popup?.classList.remove("is-visible");
+      window.setTimeout(() => popup?.remove(), 500);
+    }, 5000);
   };
 
   closeBtn?.addEventListener("click", dismiss);
@@ -136,7 +140,7 @@ const webhookPath = "/api/newsletter";
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, source: "pop-up modal" }),
       });
       if (!res.ok) throw new Error("Request failed");
       showSuccess();

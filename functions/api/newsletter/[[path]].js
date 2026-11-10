@@ -1,8 +1,11 @@
 /**
  * Campbell K9s — email capture endpoint (Cloudflare Pages Function)
  *
- * POST /api/newsletter  { "email": "name@example.com" }
+ * POST /api/newsletter  { "email": "name@example.com", "source": "..." }
  *   → forwards to the n8n webhook and returns { "ok": true }
+ *
+ * `source` tags where the submission came from — the pop-up modal sends
+ * "pop-up modal", the footer form sends "website footer".
  *
  * The webhook URL is set via the NEWSLETTER_WEBHOOK_URL env variable
  * (Cloudflare Pages → Settings → Environment variables) and falls back
@@ -35,17 +38,23 @@ export async function onRequest(context) {
     return json({ error: "Method not allowed" }, 405);
   }
 
-  let email;
+  let payload;
   try {
-    ({ email } = await request.json());
+    payload = await request.json();
   } catch {
     return json({ error: "Invalid request body" }, 400);
   }
 
-  email = typeof email === "string" ? email.trim().toLowerCase() : "";
+  const email =
+    typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
   if (!EMAIL_RE.test(email) || email.length > 254) {
     return json({ error: "Please enter a valid email address" }, 400);
   }
+
+  let source =
+    typeof payload.source === "string" ? payload.source.trim() : "";
+  if (!source) source = "pop-up modal";
+  if (source.length > 80) source = source.slice(0, 80);
 
   const webhookUrl = env.NEWSLETTER_WEBHOOK_URL || DEFAULT_WEBHOOK_URL;
 
@@ -55,7 +64,7 @@ export async function onRequest(context) {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         email,
-        source: "campbellk9s.com email capture popup",
+        source,
         submittedAt: new Date().toISOString(),
       }),
     });

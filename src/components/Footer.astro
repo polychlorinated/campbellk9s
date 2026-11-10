@@ -47,6 +47,43 @@ const serviceAreas = [
           Quietly serious dog training, off-leash adventures, and a rewarding lifestyle for dogs and their families.
         </p>
 
+        <div class="mt-10 max-w-sm" data-footer-newsletter>
+          <p class="caption text-brand-accent">
+            Be the first to hear about our community!
+          </p>
+          <form
+            class="mt-4 flex flex-col gap-3 sm:flex-row"
+            data-footer-newsletter-form
+            novalidate
+          >
+            <label for="footer-email-input" class="sr-only">
+              Email address
+            </label>
+            <input
+              id="footer-email-input"
+              type="email"
+              name="email"
+              autocomplete="email"
+              required
+              placeholder="Your email address"
+              class="w-full flex-1 border border-brand-bg/25 bg-brand-bg/10 px-4 py-3 text-sm text-brand-bg placeholder:text-brand-bg/40 focus:border-brand-accent focus:outline-none"
+              data-footer-newsletter-input
+            />
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center gap-2 bg-brand-accent px-6 py-3 text-xs font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-bg"
+            >
+              Notify Me
+              <span aria-hidden="true">&rarr;</span>
+            </button>
+          </form>
+          <p
+            class="mt-2 hidden text-xs text-red-400"
+            role="alert"
+            data-footer-newsletter-error
+          ></p>
+        </div>
+
         <div class="mt-10 flex items-center gap-3">
           <a
             href="https://www.instagram.com/campbell_k9s"
@@ -148,3 +185,49 @@ const serviceAreas = [
     </div>
   </div>
 </footer>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>("[data-footer-newsletter]");
+  const form = wrap?.querySelector<HTMLFormElement>(
+    "[data-footer-newsletter-form]"
+  );
+  const input = wrap?.querySelector<HTMLInputElement>(
+    "[data-footer-newsletter-input]"
+  );
+  const error = wrap?.querySelector<HTMLElement>(
+    "[data-footer-newsletter-error]"
+  );
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!wrap || !input || !error) return;
+
+    const email = input.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      error.textContent = "Please enter a valid email address.";
+      error.classList.remove("hidden");
+      input.focus();
+      return;
+    }
+    error.classList.add("hidden");
+
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email, source: "website footer" }),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      wrap.innerHTML = `
+        <p class="caption text-brand-accent">You&rsquo;re on the list</p>
+        <p class="mt-2 font-serif text-lg leading-snug text-brand-bg">
+          We&rsquo;ll be in touch when the Clearer Dogs Community opens.
+        </p>
+      `;
+    } catch {
+      error.textContent =
+        "Something went wrong. Please try again in a moment.";
+      error.classList.remove("hidden");
+    }
+  });
+</script>
