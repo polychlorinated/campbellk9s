@@ -6,6 +6,9 @@
  * (/clearer-dogs-club/login/) detects that flag and forces a new password
  * before the member can continue.
  *
+ * Also upserts a matching row in the public.members table with
+ * role = 'admin', so admins appear alongside paying members.
+ *
  * Usage:
  *   node scripts/create-club-admins.mjs
  *
@@ -98,6 +101,22 @@ async function main() {
         res.ok ? `created ${email}` : `FAILED  ${email} (HTTP ${res.status})`
       );
     }
+
+    const memberRes = await fetch(`${url}/rest/v1/members?on_conflict=email`, {
+      method: "POST",
+      headers: { ...headers, Prefer: "return=minimal" },
+      body: JSON.stringify({
+        email,
+        role: "admin",
+        status: "active",
+        updated_at: new Date().toISOString(),
+      }),
+    });
+    console.log(
+      memberRes.ok
+        ? `member  ${email} (role: admin)`
+        : `MEMBER FAILED ${email} (HTTP ${memberRes.status}) — run the SQL from the setup guide to add the role column`
+    );
   }
 
   console.log(`\nTemporary password for all: ${TEMP_PASSWORD}`);

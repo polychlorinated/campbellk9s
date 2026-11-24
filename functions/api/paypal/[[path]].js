@@ -165,7 +165,7 @@ export async function onRequest(context) {
     }
 
     const term = Number(payload.term);
-    const withOwnMembership = payload.withOwnMembership === true;
+    const ownTerm = payload.ownTerm ? Number(payload.ownTerm) : null;
     const recipients = Array.isArray(payload.recipients)
       ? payload.recipients
           .map((email) => (typeof email === "string" ? email.trim().toLowerCase() : ""))
@@ -174,6 +174,12 @@ export async function onRequest(context) {
 
     if (!GIFT_TERM_PRICE_USD[term]) {
       return json({ error: "Choose a gift term of 3, 6, or 12 months" }, 400);
+    }
+    if (ownTerm && !GIFT_TERM_PRICE_USD[ownTerm]) {
+      return json(
+        { error: "Choose an own-membership term of 3 or 6 months" },
+        400
+      );
     }
     if (
       recipients.length < 1 ||
@@ -188,11 +194,16 @@ export async function onRequest(context) {
       );
     }
 
-    const base = GIFT_TERM_PRICE_USD[term] * recipients.length;
-    const discounted = withOwnMembership && recipients.length >= 1;
-    const total = discounted
-      ? Math.round(base * (1 - MULTI_GIFT_DISCOUNT) * 100) / 100
-      : base;
+    const giftsBase = GIFT_TERM_PRICE_USD[term] * recipients.length;
+    const ownPrice = ownTerm ? GIFT_TERM_PRICE_USD[ownTerm] : 0;
+    const giftDiscount = ownTerm
+      ? Math.round(giftsBase * MULTI_GIFT_DISCOUNT * 100) / 100
+      : 0;
+    const total = Math.round((ownPrice + giftsBase - giftDiscount) * 100) / 100;
+
+    const description = ownTerm
+      ? `Clearer Dogs Club — own membership (${ownTerm} months) + ${term}-month gift × ${recipients.length} (gifts 20% off)`
+      : `Clearer Dogs Club gift membership — ${term} months × ${recipients.length}`;
 
     const result = await paypalFetch(env, "/v2/checkout/orders", {
       method: "POST",
@@ -200,7 +211,7 @@ export async function onRequest(context) {
         intent: "CAPTURE",
         purchase_units: [
           {
-            description: `Clearer Dogs Club gift membership — ${term} months × ${recipients.length}${discounted ? " (20% off gifts added to own membership)" : ""}`,
+            description,
             amount: { currency_code: "USD", value: total.toFixed(2) },
           },
         ],
@@ -247,19 +258,55 @@ export async function onRequest(context) {
     const capture = result.data?.purchase_units?.[0]?.payments?.captures?.[0];
     const payerEmail = result.data?.payer?.email_address || "";
     if (capture && supabaseEnabled(env)) {
-      await supabaseFetch(env, "gifts", {
-        method: "POST",
-        body: {
-          paypal_order_id: orderId,
-          paypal_capture_id: capture.id,
-          payer_email: payerEmail.toLowerCase(),
-          amount: capture.amount?.value || null,
-          currency: capture.amount?.currency_code || "USD",
-          status: capture.status === "COMPLETED" ? "paid" : "pending",
-          created_at: new Date().toISOString(),
-        },
-        headers: { Prefer: "return=minimal" },
-      });
+      const giftTerm = Number(payload.term);
+      const ownTerm = payload.ownTerm ? Number(payload.ownTerm) : null;
+      const recipients = Array.isArray(payload.recipients)
+        ? payload.recipients
+            .map((email) =>
+              typeof email === "string" ? email.trim().toLowerCase() : ""
+            )
+            .filter((email) => EMAIL_RE.test(email))
+        : [];
+      const giftUnitPrice = GIFT_TERM_PRICE_USD[giftTerm]
+        ? Math.round(
+            (GIFT_TERM_PRICE_USD[giftTerm] * (ownTerm ? 0.8 : 1)) * 100
+          ) / 100
+        : null;
+
+      if (giftTerm && recipients.length > 0) {
+        for (const recipientEmail of recipients) {
+          await supabaseFetch(env, "gifts", {
+            method: "POST",
+            body: {
+              paypal_order_id: orderId,
+              paypal_capture_id: capture.id,
+              payer_email: payerEmail.toLowerCase(),
+              recipient_email: recipientEmail,
+              term_months: giftTerm,
+              amount: giftUnitPrice,
+              currency: capture.amount?.currency_code || "USD",
+              status: capture.status === "COMPLETED" ? "paid" : "pending",
+              created_at: new Date().toISOString(),
+            },
+            headers: { Prefer: "return=minimal" },
+          });
+        }
+      }
+
+      if (ownTerm && payerEmail) {
+        await supabaseFetch(env, "members?on_conflict=email", {
+          method: "POST",
+          body: {
+            email: payerEmail.toLowerCase(),
+            supabase_user_id: null,
+            paypal_subscription_id: null,
+            plan: `term_${ownTerm}m`,
+            status: "active",
+            updated_at: new Date().toISOString(),
+          },
+          headers: { Prefer: "return=minimal" },
+        });
+      }
     }
     return json({ ok: true, status: capture?.status || "COMPLETED" });
   }
