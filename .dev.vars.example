@@ -64,3 +64,24 @@ DOWNLOAD_SECRET=
 # A long-lived Facebook page access token with live-videos read access.
 # FACEBOOK_PAGE_ID=
 # FACEBOOK_PAGE_TOKEN=
+
+# --- Clearer Dogs Club (/api/paypal/*, /api/supabase/*) ---
+
+# PayPal REST app credentials (PayPal Developer Dashboard → Apps & Credentials).
+# The client ID below is the live ID used by the subscription buttons; the
+# secret must come from the REST app in the SAME developer account.
+PAYPAL_CLIENT_ID=
+PAYPAL_CLIENT_SECRET=
+
+# "live" (default) or "sandbox"
+PAYPAL_ENVIRONMENT=live
+
+# Optional — PayPal webhook ID enables signature verification on
+# /api/paypal/webhook (set after creating the webhook in the dashboard).
+PAYPAL_WEBHOOK_ID=
+
+# Supabase project (Project Settings → API). The anon key is public by design;
+# the service role key must never be exposed to the browser.
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=

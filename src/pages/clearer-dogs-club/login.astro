@@ -1,0 +1,279 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const siteUrl = "https://campbellk9s.com";
+---
+
+<Layout
+  title="Clearer Dogs Club — Account | Campbell K9's"
+  description="Create your Clearer Dogs Club account or sign in to access the private member area."
+  robots="noindex, follow"
+>
+  <section class="relative bg-brand-primary text-brand-bg">
+    <div
+      class="mx-auto max-w-7xl px-6 pb-20 pt-20 sm:px-10 sm:pt-24 lg:px-16 lg:pb-24">
+      <p class="caption text-brand-accent">Clearer Dogs Club</p>
+      <h1
+        class="mt-6 max-w-3xl text-balance font-serif text-[clamp(2.5rem,5.5vw,5.5rem)] font-bold leading-[0.98] text-brand-bg">
+        Set up your <span class="italic text-brand-accent">club account.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-brand-bg/75">
+        One account gets you into the member area — live Q&amp;As, video
+        submissions, and the private Facebook community.
+      </p>
+    </div>
+  </section>
+
+  <section class="relative bg-brand-bg">
+    <div class="mx-auto max-w-7xl px-6 py-16 sm:px-10 sm:py-24 lg:px-16">
+      <div class="mx-auto max-w-xl">
+        <!-- Purchase detected -->
+        <div id="purchase-banner" class="mb-10 hidden">
+          <div class="border border-brand-accent bg-brand-accent/5 p-6">
+            <p class="caption text-brand-accent">Membership purchase detected</p>
+            <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
+              Subscription
+              <span class="font-mono break-all" id="purchase-sub-id"></span>
+            </p>
+            <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
+              Create your account below and we'll link your membership
+              automatically.
+            </p>
+          </div>
+        </div>
+
+        <!-- Setup notice (owner-facing until Supabase is configured) -->
+        <div id="setup-notice" class="mb-10 hidden">
+          <div class="border border-red-800/40 bg-red-50 p-6">
+            <p class="caption text-red-900">Account system not configured</p>
+            <p class="mt-3 text-sm leading-relaxed text-red-900/80">
+              The club accounts aren't set up yet. Add
+              <span class="font-mono">SUPABASE_URL</span> and
+              <span class="font-mono">SUPABASE_ANON_KEY</span> to the
+              Cloudflare Pages environment variables, then reload this page.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex border border-brand-line">
+          <button
+            type="button"
+            data-tab="signup"
+            class="flex-1 px-6 py-4 text-sm font-medium uppercase tracking-[0.14em] transition-colors"
+            aria-pressed="true">
+            Create account
+          </button>
+          <button
+            type="button"
+            data-tab="login"
+            class="flex-1 px-6 py-4 text-sm font-medium uppercase tracking-[0.14em] transition-colors"
+            aria-pressed="false">
+            Sign in
+          </button>
+        </div>
+
+        <!-- Sign up -->
+        <form id="signup-form" class="mt-10 space-y-5">
+          <label class="block">
+            <span class="mb-2 block text-sm text-brand-primary/70">Email</span>
+            <input
+              type="email"
+              name="email"
+              required
+              autocomplete="email"
+              placeholder="name@example.com"
+              class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm text-brand-primary/70">Password</span>
+            <input
+              type="password"
+              name="password"
+              required
+              minlength="8"
+              autocomplete="new-password"
+              placeholder="At least 8 characters"
+              class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+          </label>
+          <button
+            type="submit"
+            class="w-full bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
+            Create Account &rarr;
+          </button>
+        </form>
+
+        <!-- Login -->
+        <form id="login-form" class="mt-10 hidden space-y-5">
+          <label class="block">
+            <span class="mb-2 block text-sm text-brand-primary/70">Email</span>
+            <input
+              type="email"
+              name="email"
+              required
+              autocomplete="email"
+              placeholder="name@example.com"
+              class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm text-brand-primary/70">Password</span>
+            <input
+              type="password"
+              name="password"
+              required
+              autocomplete="current-password"
+              class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+          </label>
+          <button
+            type="submit"
+            class="w-full bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
+            Sign In &rarr;
+          </button>
+        </form>
+
+        <div id="status" class="mt-6 hidden border border-brand-line p-5">
+          <p id="status-message" class="text-sm leading-relaxed text-brand-primary/75"></p>
+        </div>
+        <p id="error" class="mt-6 hidden text-sm font-medium text-red-700"></p>
+
+        <p class="mt-10 text-sm leading-relaxed text-brand-primary/55">
+          Already a member and forgot your password? Use "Sign in", then we'll
+          help you reset it — or email us at
+          <a
+            href="mailto:k9campbellmatt@gmail.com"
+            class="text-brand-accent underline underline-offset-2">k9campbellmatt@gmail.com</a
+          >.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script is:inline>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const subId = params.get("sub_id") || "";
+      const HOME_URL = "/clearer-dogs-club/home/";
+
+      const signupTab = document.querySelector('[data-tab="signup"]');
+      const loginTab = document.querySelector('[data-tab="login"]');
+      const signupForm = document.getElementById("signup-form");
+      const loginForm = document.getElementById("login-form");
+      const statusBox = document.getElementById("status");
+      const statusMessage = document.getElementById("status-message");
+      const errorEl = document.getElementById("error");
+
+      let client = null;
+
+      function showStatus(message) {
+        statusMessage.textContent = message;
+        statusBox.classList.remove("hidden");
+      }
+
+      function showError(message) {
+        errorEl.textContent = message;
+        errorEl.classList.remove("hidden");
+      }
+
+      function clearMessages() {
+        errorEl.classList.add("hidden");
+        statusBox.classList.add("hidden");
+      }
+
+      function activateTab(tab) {
+        const isSignup = tab === "signup";
+        signupForm.classList.toggle("hidden", !isSignup);
+        loginForm.classList.toggle("hidden", isSignup);
+        signupTab.setAttribute("aria-pressed", String(isSignup));
+        loginTab.setAttribute("aria-pressed", String(!isSignup));
+        signupTab.classList.toggle("bg-brand-primary", isSignup);
+        signupTab.classList.toggle("text-brand-bg", isSignup);
+        loginTab.classList.toggle("bg-brand-primary", !isSignup);
+        loginTab.classList.toggle("text-brand-bg", !isSignup);
+        clearMessages();
+      }
+
+      signupTab.addEventListener("click", () => activateTab("signup"));
+      loginTab.addEventListener("click", () => activateTab("login"));
+
+      async function claimSubscription(session) {
+        if (!subId) return;
+        try {
+          const res = await fetch("/api/paypal/claim-subscription", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              subId,
+              email: session.user.email || "",
+              userId: session.user.id,
+            }),
+          });
+          const data = await res.json();
+          if (res.ok && data.ok) {
+            localStorage.setItem("cdc_sub_id", subId);
+          }
+        } catch {
+          // claim retried on next visit — proceed to home regardless
+        }
+      }
+
+      async function finish(session) {
+        await claimSubscription(session);
+        window.location.href = HOME_URL;
+      }
+
+      signupForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearMessages();
+        const form = new FormData(signupForm);
+        const email = String(form.get("email") || "").trim();
+        const password = String(form.get("password") || "");
+        if (!client) return showError("The account system isn't configured yet.");
+        const { data, error } = await client.auth.signUp({ email, password });
+        if (error) return showError(error.message);
+        if (data.session) return finish(data.session);
+        showStatus(
+          "Almost there — check your inbox and click the confirmation link, then sign in here with the same email and password."
+        );
+      });
+
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearMessages();
+        const form = new FormData(loginForm);
+        const email = String(form.get("email") || "").trim();
+        const password = String(form.get("password") || "");
+        if (!client) return showError("The account system isn't configured yet.");
+        const { data, error } = await client.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) return showError(error.message);
+        finish(data.session);
+      });
+
+      (async () => {
+        const res = await fetch("/api/supabase/config");
+        const config = await res.json();
+        if (!config.configured) {
+          document.getElementById("setup-notice").classList.remove("hidden");
+          return;
+        }
+        client = window.supabase.createClient(config.url, config.anonKey);
+
+        const {
+          data: { session },
+        } = await client.auth.getSession();
+        if (session) {
+          finish(session);
+          return;
+        }
+
+        if (subId) {
+          document.getElementById("purchase-sub-id").textContent = subId;
+          document.getElementById("purchase-banner").classList.remove("hidden");
+        }
+      })();
+    })();
+  </script>
+</Layout>

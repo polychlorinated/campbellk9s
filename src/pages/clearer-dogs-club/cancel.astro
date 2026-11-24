@@ -1,0 +1,153 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const siteUrl = "https://campbellk9s.com";
+---
+
+<Layout
+  title="Cancel Clearer Dogs Club Membership | Campbell K9's"
+  description="Cancel your Clearer Dogs Club subscription. Access continues until the end of your current billing period."
+  robots="noindex, follow"
+>
+  <section class="relative bg-brand-primary text-brand-bg">
+    <div
+      class="mx-auto max-w-7xl px-6 pb-20 pt-20 sm:px-10 sm:pt-24 lg:px-16 lg:pb-24">
+      <p class="caption text-brand-accent">Membership</p>
+      <h1
+        class="mt-6 max-w-3xl text-balance font-serif text-[clamp(2.5rem,5.5vw,5.5rem)] font-bold leading-[0.98] text-brand-bg">
+        Cancel your <span class="italic text-brand-accent">subscription.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-brand-bg/75">
+        We're sorry to see you go. You'll keep full access until the end of
+        your current billing period.
+      </p>
+    </div>
+  </section>
+
+  <section class="relative bg-brand-bg">
+    <div class="mx-auto max-w-7xl px-6 py-16 sm:px-10 sm:py-24 lg:px-16">
+      <div class="mx-auto max-w-xl">
+        <!-- Confirmation -->
+        <div id="cancel-success" class="hidden border border-brand-accent bg-brand-accent/5 p-10 text-center">
+          <p class="caption text-brand-accent">Cancellation confirmed</p>
+          <h2 class="mt-5 font-serif text-3xl leading-tight">
+            Your subscription has been canceled.
+          </h2>
+          <p class="mx-auto mt-5 max-w-md text-base leading-relaxed text-brand-primary/70">
+            You'll keep access to the club and the Facebook group until the
+            end of your current billing period. No further payments will be
+            taken.
+          </p>
+          <a
+            href="/"
+            class="mt-8 inline-flex items-center gap-3 bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
+            Back to Campbell K9s
+          </a>
+        </div>
+
+        <!-- Form -->
+        <div id="cancel-form">
+          <h2 class="font-serif text-3xl leading-tight">
+            Find your subscription
+          </h2>
+          <p class="mt-5 text-base leading-relaxed text-brand-primary/70">
+            Your subscription ID starts with
+            <span class="font-mono">I-</span>. You can find it in your PayPal
+            receipt email, or it may be filled in below if you're signed in.
+          </p>
+
+          <form id="cancel-form-el" class="mt-8 space-y-5">
+            <label class="block">
+              <span class="mb-2 block text-sm text-brand-primary/70">
+                PayPal subscription ID
+              </span>
+              <input
+                type="text"
+                name="subId"
+                required
+                placeholder="I-XXXXXXXXXXXX"
+                class="w-full border border-brand-line bg-transparent px-4 py-3 font-mono text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+            </label>
+            <button
+              type="submit"
+              class="w-full bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
+              Cancel Subscription
+            </button>
+          </form>
+
+          <p id="cancel-error" class="mt-6 hidden text-sm font-medium text-red-700"></p>
+          <p id="cancel-status" class="mt-6 hidden text-sm leading-relaxed text-brand-primary/60"></p>
+
+          <div class="mt-12 border border-brand-line p-8">
+            <p class="caption text-brand-accent">Prefer to do it yourself?</p>
+            <p class="mt-5 text-base leading-relaxed text-brand-primary/70">
+              You can also cancel directly through PayPal: log in at
+              paypal.com, go to
+              <span class="font-medium">Settings → Payments → Automatic payments</span>,
+              select Campbell K9s, and choose cancel.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (() => {
+      const form = document.getElementById("cancel-form-el");
+      const formWrap = document.getElementById("cancel-form");
+      const success = document.getElementById("cancel-success");
+      const errorEl = document.getElementById("cancel-error");
+      const statusEl = document.getElementById("cancel-status");
+      const input = form.querySelector('input[name="subId"]');
+
+      const params = new URLSearchParams(window.location.search);
+      const fromUrl = params.get("sub_id") || "";
+      const stored = localStorage.getItem("cdc_sub_id") || "";
+      input.value = fromUrl || stored;
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        errorEl.classList.add("hidden");
+        statusEl.classList.add("hidden");
+
+        const subId = input.value.trim();
+        if (!subId) {
+          errorEl.textContent = "Enter your subscription ID to continue.";
+          errorEl.classList.remove("hidden");
+          return;
+        }
+        localStorage.setItem("cdc_sub_id", subId);
+
+        statusEl.textContent = "Canceling with PayPal…";
+        statusEl.classList.remove("hidden");
+
+        try {
+          const res = await fetch("/api/paypal/cancel-subscription", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ subId }),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            errorEl.textContent =
+              data.error ||
+              "PayPal could not cancel the subscription right now. Please try again or cancel from your PayPal account.";
+            errorEl.classList.remove("hidden");
+            statusEl.classList.add("hidden");
+            return;
+          }
+          localStorage.removeItem("cdc_sub_id");
+          formWrap.classList.add("hidden");
+          success.classList.remove("hidden");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch {
+          errorEl.textContent =
+            "Something went wrong. Please try again or cancel from your PayPal account.";
+          errorEl.classList.remove("hidden");
+          statusEl.classList.add("hidden");
+        }
+      });
+    })();
+  </script>
+</Layout>

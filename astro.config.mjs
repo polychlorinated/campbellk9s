@@ -67,7 +67,10 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) =>
-        !page.includes("/blog-reader/") && !page.endsWith("/404/"),
+        !page.includes("/blog-reader/") &&
+        !page.endsWith("/404/") &&
+        !page.includes("/clearer-dogs-club/login/") &&
+        !page.includes("/clearer-dogs-club/cancel/"),
       serialize: (item) => {
         const source = sourceForUrl(item.url);
         if (!source) return item;

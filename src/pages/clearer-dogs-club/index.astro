@@ -1,0 +1,473 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const siteUrl = "https://campbellk9s.com";
+const paypalClientId =
+  "AWcPnhFZQanuClais5YzE07UPgbUJy8exwWE8uuMY3KyP3rh9nTy6KAc4UwHSYNPkIUg0KCBkH4txR6G";
+const facebookGroupUrl = "https://www.facebook.com/groups/2537830806698266";
+
+const benefits = [
+  {
+    number: "01",
+    title: "Live Q&As",
+    copy: "Monthly live sessions with Matt where you can ask anything — no question too small, no behavior too ordinary.",
+  },
+  {
+    number: "02",
+    title: "Video submissions",
+    copy: "Send a clip of your dog and get a personalized reply with specific, practical feedback for your exact situation.",
+  },
+  {
+    number: "03",
+    title: "Private Facebook community",
+    copy: "A supportive group of dog owners working toward the same goal — practical advice, real-world guidance, and momentum.",
+  },
+];
+
+const challenges = [
+  "Leash pulling",
+  "Jumping on guests",
+  "Unreliable recall",
+  "Overexcitement",
+  "Everyday behavior challenges",
+  "Structure at home",
+];
+
+const faqs = [
+  {
+    question: "What do I get as a member?",
+    answer:
+      "Live Q&As with Matt, video submissions with personalized replies, and access to the private Facebook community — plus practical training advice and a group of owners working toward the same goal.",
+  },
+  {
+    question: "What does it cost?",
+    answer:
+      "$29 per month, or $290 per year — the annual plan includes two months free. Payment is processed securely through PayPal.",
+  },
+  {
+    question: "Is the club paid?",
+    answer:
+      "Yes. Clearer Dogs Club is a paid membership and the private group is exclusively for active members. Your subscription keeps the community focused and the answers coming.",
+  },
+  {
+    question: "How do I join?",
+    answer:
+      "Choose a plan and pay with PayPal, then create your account on the login page. From there you'll get the link to the private Facebook group.",
+  },
+  {
+    question: "Can I cancel?",
+    answer:
+      "Yes — cancel anytime from the member home page. Your access continues until the end of your current billing period.",
+  },
+  {
+    question: "How do gift memberships work?",
+    answer:
+      "Choose a 3- or 6-month gift term and enter the recipient's email. Gift two or more subscriptions and you'll automatically get 20% off. The recipient receives access instructions by email.",
+  },
+];
+---
+
+<Layout
+  title="Clearer Dogs Club — Private Dog Training Community | Campbell K9's"
+  description="A private, paid community for dog owners who want a calmer, more confident, better-behaved dog. Live Q&As, video submissions with personalized replies, and a private Facebook group. $29/month."
+>
+  <!-- Hero -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-24 pt-20 sm:px-10 sm:pb-28 sm:pt-24 lg:px-16 lg:pb-32 lg:pt-28">
+      <p class="caption text-brand-accent">Clearer Dogs Club by Campbell K9s</p>
+      <h1
+        class="mt-7 max-w-4xl text-balance font-serif text-[clamp(2.75rem,6.5vw,6.5rem)] font-bold leading-[0.96] text-brand-bg">
+        A clearer path
+        <span class="italic text-brand-accent">forward with your dog.</span>
+      </h1>
+      <p class="mt-8 max-w-2xl text-lg leading-relaxed text-brand-bg/80 sm:text-xl">
+        A private community for dog owners who want a calmer, more confident,
+        better-behaved dog — and a better life together. Built on one simple
+        philosophy: better communication, consistency, structure, and trust
+        lead to better dogs.
+      </p>
+      <p class="mt-5 max-w-xl text-base leading-relaxed text-brand-bg/60">
+        $29/month. A paid, private membership — exclusively for active members.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center gap-5">
+        <a
+          href="#pricing"
+          class="inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-bg">
+          Become a Member
+          <span class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+            aria-hidden="true"> &rarr;</span>
+        </a>
+        <a
+          href="/clearer-dogs-club/gift/"
+          class="inline-flex items-center gap-3 border border-brand-bg/25 px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:border-brand-bg">
+          Give a Gift
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founding member banner -->
+  <section
+    id="founding-banner"
+    class="relative bg-brand-accent text-brand-primary"
+    aria-label="Founding member offer">
+    <div class="mx-auto max-w-7xl px-6 py-5 sm:px-10 lg:px-16">
+      <p class="caption">Founding Members</p>
+      <p class="mt-1 text-base font-medium leading-snug sm:text-lg">
+        Everyone who joins in November 2026 becomes a Founding Member of
+        Clearer Dogs Club — and keeps the title for life.
+      </p>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="relative bg-brand-bg" aria-labelledby="benefits-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-10 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">What members get</p>
+          <h2
+            id="benefits-heading"
+            class="mt-6 font-serif text-4xl leading-tight sm:text-5xl">
+            Everything you need, <span class="italic">in one place.</span>
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-brand-primary/70">
+            Inside the club you'll find practical training advice, helpful
+            videos, real-world guidance, and a supportive community of dog
+            owners working toward the same goal.
+          </p>
+          <p class="mt-6 text-lg leading-relaxed text-brand-primary/70">
+            You don't need a perfect dog. You just need a clearer path
+            forward.
+          </p>
+        </div>
+
+        <div class="lg:col-span-8">
+          <div class="grid gap-px border border-brand-line sm:grid-cols-3">
+            {
+              benefits.map((benefit) => (
+                <div class="flex flex-col gap-6 bg-brand-bg p-8">
+                  <p class="caption text-brand-accent">{benefit.number}</p>
+                  <h3 class="font-serif text-2xl leading-tight">
+                    {benefit.title}
+                  </h3>
+                  <p class="text-base leading-relaxed text-brand-primary/70">
+                    {benefit.copy}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who it's for -->
+  <section class="relative bg-brand-bg" aria-labelledby="challenges-heading">
+    <div class="hairline mx-auto max-w-7xl"></div>
+    <div class="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16">
+      <h2 id="challenges-heading" class="sr-only">What we work on</h2>
+      <p class="caption text-brand-accent">Whatever you're working through</p>
+      <ul class="mt-8 flex flex-wrap gap-3">
+        {
+          challenges.map((challenge) => (
+            <li
+              class="border border-brand-line px-5 py-3 text-sm font-medium text-brand-primary/80">
+              {challenge}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section
+    id="pricing"
+    class="relative bg-brand-primary text-brand-bg"
+    aria-labelledby="pricing-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <p class="caption text-brand-accent">Membership</p>
+      <h2
+        id="pricing-heading"
+        class="mt-6 max-w-2xl text-balance font-serif text-4xl leading-tight text-brand-bg sm:text-5xl">
+        One club. <span class="italic text-brand-accent">Two ways in.</span>
+      </h2>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-brand-bg/70">
+        Clearer Dogs Club is a paid membership. Choose monthly, or pay
+        annually and get two months free.
+      </p>
+
+      <div class="mt-14 grid gap-8 lg:grid-cols-2">
+        <div class="flex flex-col border border-brand-bg/20 p-8 sm:p-10">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="font-serif text-3xl text-brand-bg">Monthly</h3>
+            <p class="text-right">
+              <span class="font-serif text-4xl text-brand-bg">$29</span>
+              <span class="caption text-brand-bg/60"> / month</span>
+            </p>
+          </div>
+          <ul class="mt-8 space-y-3 text-brand-bg/75">
+            <li>&mdash; Live Q&As with Matt</li>
+            <li>&mdash; Video submissions with personalized replies</li>
+            <li>&mdash; Private Facebook community</li>
+            <li>&mdash; Cancel anytime</li>
+          </ul>
+          <div class="mt-auto pt-10">
+            <div id="paypal-button-container-monthly"></div>
+          </div>
+        </div>
+
+        <div class="relative flex flex-col border border-brand-accent p-8 sm:p-10">
+          <span
+            class="caption absolute -top-3 left-8 bg-brand-accent px-4 py-1.5 text-brand-primary">
+            Best value
+          </span>
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="font-serif text-3xl text-brand-bg">Annual</h3>
+            <p class="text-right">
+              <span class="font-serif text-4xl text-brand-bg">$290</span>
+              <span class="caption text-brand-bg/60"> / year</span>
+            </p>
+          </div>
+          <p class="mt-4 text-sm font-medium uppercase tracking-[0.14em] text-brand-accent">
+            Two months free
+          </p>
+          <ul class="mt-6 space-y-3 text-brand-bg/75">
+            <li>&mdash; Live Q&As with Matt</li>
+            <li>&mdash; Video submissions with personalized replies</li>
+            <li>&mdash; Private Facebook community</li>
+            <li>&mdash; Save $58 vs. monthly</li>
+          </ul>
+          <div class="mt-auto pt-10">
+            <div id="paypal-button-container-annual"></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-10 max-w-2xl text-sm leading-relaxed text-brand-bg/50">
+        Payments are processed securely by PayPal. Your subscription renews
+        automatically and can be canceled at any time from the member home
+        page.
+      </p>
+    </div>
+  </section>
+
+  <!-- Trainer message -->
+  <section class="relative bg-brand-bg" aria-labelledby="trainer-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16 lg:py-36">
+      <div class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">From the founder</p>
+          <h2 id="trainer-heading" class="mt-6 font-serif text-4xl leading-tight sm:text-5xl">
+            Why I started <span class="italic">the club.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-8">
+          <blockquote class="border-l-2 border-brand-accent pl-8 font-serif text-2xl italic leading-relaxed text-brand-primary sm:text-3xl">
+            "After years of working with dogs and their owners, I've learned
+            that successful dog training isn't just about teaching a dog to
+            sit, stay, or come when called. It's about building a relationship
+            based on clear communication, trust, consistency, and
+            understanding. That's why I created Clearer Dogs Club."
+          </blockquote>
+          <p class="mt-10 text-lg leading-relaxed text-brand-primary/70">
+            My goal is to build a community where dog owners can learn, ask
+            questions, share experiences, and get practical advice that makes
+            everyday life with their dogs easier and more enjoyable. We'll be
+            talking about everything from leash walking and off-leash
+            reliability to behavior, confidence, structure, and the little
+            things that make a big difference.
+          </p>
+          <p class="mt-6 text-lg leading-relaxed text-brand-primary/70">
+            This isn't about having a perfect dog. It's about having a better
+            relationship with the dog you have.
+          </p>
+          <p class="mt-10 font-serif text-xl text-brand-primary">
+            Matt Campbell
+          </p>
+          <p class="caption mt-2 text-brand-primary/60">
+            Owner &amp; Head Trainer, Campbell K9s
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gift promo -->
+  <section
+    class="relative bg-brand-primary text-brand-bg"
+    aria-labelledby="gift-heading">
+    <div class="mx-auto max-w-7xl px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
+      <div class="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+        <div class="max-w-2xl">
+          <p class="caption text-brand-accent">The Christmas gift offer</p>
+          <h2
+            id="gift-heading"
+            class="mt-5 font-serif text-4xl leading-tight text-brand-bg">
+            Give someone <span class="italic text-brand-accent">a clearer dog.</span>
+          </h2>
+          <p class="mt-5 text-lg leading-relaxed text-brand-bg/70">
+            Gift a 3- or 6-month membership to Clearer Dogs Club — and take
+            20% off when you gift more than one subscription.
+          </p>
+        </div>
+        <a
+          href="/clearer-dogs-club/gift/"
+          class="group inline-flex shrink-0 items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-bg">
+          Gift a Membership
+          <span
+            class="inline-block transition-transform duration-300 group-hover:translate-x-1"
+            aria-hidden="true"> &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="relative bg-brand-bg" aria-labelledby="steps-heading">
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16">
+      <p class="caption text-brand-accent">How it works</p>
+      <h2 id="steps-heading" class="mt-6 font-serif text-4xl leading-tight sm:text-5xl">
+        Join in <span class="italic">three steps.</span>
+      </h2>
+      <div class="mt-14 grid gap-10 sm:grid-cols-3">
+        <div>
+          <p class="caption text-brand-accent">01</p>
+          <h3 class="mt-5 font-serif text-2xl leading-tight">
+            Choose your plan
+          </h3>
+          <p class="mt-4 text-base leading-relaxed text-brand-primary/70">
+            Monthly or annual — pay securely with PayPal. November joiners
+            become Founding Members.
+          </p>
+        </div>
+        <div>
+          <p class="caption text-brand-accent">02</p>
+          <h3 class="mt-5 font-serif text-2xl leading-tight">
+            Create your account
+          </h3>
+          <p class="mt-4 text-base leading-relaxed text-brand-primary/70">
+            After checkout you'll set up your club account — that's how you
+            get into the member area.
+          </p>
+        </div>
+        <div>
+          <p class="caption text-brand-accent">03</p>
+          <h3 class="mt-5 font-serif text-2xl leading-tight">
+            Join the Facebook group
+          </h3>
+          <p class="mt-4 text-base leading-relaxed text-brand-primary/70">
+            Introduce yourself, tell us your dog's name, and start getting
+            answers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="relative bg-brand-bg" aria-labelledby="faqs-heading">
+    <div class="hairline mx-auto max-w-7xl"></div>
+    <div class="mx-auto max-w-7xl px-6 py-20 sm:px-10 sm:py-28 lg:px-16">
+      <div class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-16">
+        <div class="lg:col-span-4">
+          <p class="caption text-brand-accent">Good to know</p>
+          <h2 id="faqs-heading" class="mt-6 font-serif text-4xl leading-tight sm:text-5xl">
+            Questions, <span class="italic">answered.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-8">
+          {
+            faqs.map((faq) => (
+              <details class="group border-b border-brand-line">
+                <summary class="flex cursor-pointer list-none items-center justify-between py-6 text-left font-serif text-xl leading-snug text-brand-primary transition-colors hover:text-brand-accent">
+                  {faq.question}
+                  <span
+                    class="ml-6 inline-flex h-6 w-6 shrink-0 items-center justify-center border border-brand-primary/20 text-brand-primary/60 transition-all group-open:rotate-45 group-open:border-brand-accent group-open:text-brand-accent"
+                    aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <div class="pb-8">
+                  <p class="max-w-2xl text-base leading-relaxed text-brand-primary/75">
+                    {faq.answer}
+                  </p>
+                </div>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PayPal subscription buttons -->
+  <script
+    src={`https://www.paypal.com/sdk/js?client-id=${paypalClientId}&vault=true&intent=subscription`}
+    data-sdk-integration-source="button-factory"></script>
+  <script is:inline>
+    const redirectAfterSubscribe = (subscriptionId) => {
+      window.location.href =
+        "/clearer-dogs-club/login/?sub_id=" + encodeURIComponent(subscriptionId);
+    };
+
+    paypal
+      .Buttons({
+        style: {
+          shape: "rect",
+          color: "gold",
+          layout: "vertical",
+          label: "subscribe",
+        },
+        createSubscription: function (data, actions) {
+          return actions.subscription.create({
+            plan_id: "P-7PH58144PC7593841NMCQIDQ",
+          });
+        },
+        onApprove: function (data) {
+          redirectAfterSubscribe(data.subscriptionID);
+        },
+      })
+      .render("#paypal-button-container-monthly");
+
+    paypal
+      .Buttons({
+        style: {
+          shape: "rect",
+          color: "gold",
+          layout: "vertical",
+          label: "subscribe",
+        },
+        createSubscription: function (data, actions) {
+          return actions.subscription.create({
+            plan_id: "P-8JH71744KU263052PNMCQJUQ",
+          });
+        },
+        onApprove: function (data) {
+          redirectAfterSubscribe(data.subscriptionID);
+        },
+      })
+      .render("#paypal-button-container-annual");
+  </script>
+
+  <!-- Hide founding banner after November 2026 -->
+  <script is:inline>
+    (() => {
+      const banner = document.getElementById("founding-banner");
+      const cutoff = new Date("2026-12-01T00:00:00");
+      if (banner && new Date() >= cutoff) {
+        banner.remove();
+      }
+    })();
+  </script>
+</Layout>

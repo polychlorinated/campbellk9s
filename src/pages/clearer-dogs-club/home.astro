@@ -1,0 +1,214 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const siteUrl = "https://campbellk9s.com";
+const facebookGroupUrl = "https://www.facebook.com/groups/2537830806698266";
+---
+
+<Layout
+  title="Clearer Dogs Club — Member Home | Campbell K9's"
+  description="Member home for Clearer Dogs Club by Campbell K9s — private Facebook community, live Q&As, and video submissions."
+>
+  <section class="relative bg-brand-primary text-brand-bg">
+    <div
+      class="mx-auto max-w-7xl px-6 pb-20 pt-20 sm:px-10 sm:pt-24 lg:px-16 lg:pb-24">
+      <p class="caption text-brand-accent">Member area</p>
+      <h1
+        class="mt-6 max-w-3xl text-balance font-serif text-[clamp(2.5rem,5.5vw,5.5rem)] font-bold leading-[0.98] text-brand-bg">
+        Welcome to the <span class="italic text-brand-accent">Club.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-brand-bg/75">
+        You're in. Here's everything you need to get started — and where to
+        go when you need us.
+      </p>
+      <p id="member-greeting" class="mt-5 text-sm uppercase tracking-[0.14em] text-brand-bg/50"></p>
+    </div>
+  </section>
+
+  <section class="relative bg-brand-bg">
+    <div class="mx-auto max-w-7xl px-6 py-16 sm:px-10 sm:py-24 lg:px-16">
+      <!-- Not signed in -->
+      <div id="signed-out" class="hidden">
+        <div class="border border-brand-line p-10 text-center">
+          <h2 class="font-serif text-3xl leading-tight">
+            Sign in to see <span class="italic">your club.</span>
+          </h2>
+          <p class="mx-auto mt-5 max-w-md text-base leading-relaxed text-brand-primary/70">
+            You need to be signed in to view the member area.
+          </p>
+          <a
+            href="/clearer-dogs-club/login/"
+            class="mt-8 inline-flex items-center gap-3 bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
+            Sign In &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Member content -->
+      <div id="signed-in" class="hidden">
+        <div class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-16">
+          <div class="lg:col-span-7">
+            <p class="caption text-brand-accent">About the club</p>
+            <h2 class="mt-6 font-serif text-4xl leading-tight sm:text-5xl">
+              A private community for
+              <span class="italic">dog owners.</span>
+            </h2>
+            <div class="mt-8 space-y-6 text-lg leading-relaxed text-brand-primary/75">
+              <p>
+                Welcome to Clearer Dogs Club by Campbell K9s — a private
+                community for dog owners who want a calmer, more confident,
+                better-behaved dog, and a better life together.
+              </p>
+              <p>
+                Led by Matt Campbell, owner and head trainer of Campbell K9s,
+                this group is built around a simple philosophy: better
+                communication, consistency, structure, and trust lead to
+                better dogs.
+              </p>
+              <p>
+                Whether you're dealing with leash pulling, jumping,
+                unreliable recall, overexcitement, or everyday behavioral
+                challenges, we're here to help you better understand your dog
+                and build a stronger relationship.
+              </p>
+              <p>
+                Inside the club, you'll find practical training advice,
+                helpful videos, real-world guidance, and a supportive
+                community of dog owners working toward the same goal.
+              </p>
+              <p class="font-serif text-2xl italic leading-snug text-brand-primary">
+                You don't need a perfect dog. You just need a clearer path
+                forward.
+              </p>
+              <p class="text-base text-brand-primary/55">
+                Clearer communication. Better behavior. A better life with
+                your dog.
+              </p>
+            </div>
+
+            <div class="mt-12">
+              <a
+                href={facebookGroupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-3 bg-brand-accent px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-bg">
+                Join the Private Facebook Group
+                <span aria-hidden="true"> &rarr;</span>
+              </a>
+              <p class="mt-4 text-sm leading-relaxed text-brand-primary/60">
+                This private group is exclusively for active members. Answer
+                the membership questions when you request to join.
+              </p>
+            </div>
+          </div>
+
+          <aside class="lg:col-span-5">
+            <div class="sticky top-28 space-y-8">
+              <div class="border border-brand-line p-8">
+                <p class="caption text-brand-accent">What you get</p>
+                <ul class="mt-6 space-y-4 text-base leading-relaxed text-brand-primary/75">
+                  <li>&mdash; Live Q&As with Matt</li>
+                  <li>&mdash; Video submissions with personalized replies</li>
+                  <li>&mdash; Private Facebook community</li>
+                  <li>&mdash; Practical advice, videos, and guidance</li>
+                </ul>
+              </div>
+              <div class="border border-brand-line p-8">
+                <p class="caption text-brand-accent">Membership</p>
+                <p class="mt-5 text-base leading-relaxed text-brand-primary/75">
+                  Need to make a change? You can cancel your subscription at
+                  any time.
+                </p>
+                <a
+                  href="/clearer-dogs-club/cancel/"
+                  class="mt-6 inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.18em] text-brand-primary/70 transition-colors hover:text-brand-accent">
+                  <span class="h-px w-8 bg-current"></span>
+                  Cancel subscription
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Trainer message -->
+        <div class="hairline mx-auto mt-20 max-w-7xl"></div>
+        <div class="mx-auto mt-20 max-w-3xl">
+          <p class="caption text-brand-accent">A message from Matt</p>
+          <div class="mt-8 space-y-6 text-lg leading-relaxed text-brand-primary/75">
+            <p>
+              After years of working with dogs and their owners, I've learned
+              that successful dog training isn't just about teaching a dog to
+              sit, stay, or come when called. It's about building a
+              relationship based on clear communication, trust, consistency,
+              and understanding.
+            </p>
+            <p class="font-serif text-2xl italic leading-snug text-brand-primary">
+              That's why I created Clearer Dogs Club.
+            </p>
+            <p>
+              My goal is to build a community where dog owners can learn, ask
+              questions, share experiences, and get practical advice that
+              makes everyday life with their dogs easier and more enjoyable.
+            </p>
+            <p>
+              We'll be talking about everything from leash walking and
+              off-leash reliability to behavior, confidence, structure, and
+              the little things that make a big difference.
+            </p>
+            <p>
+              This isn't about having a perfect dog. It's about having a
+              better relationship with the dog you have.
+            </p>
+            <p>
+              I want this to be a supportive, positive community where we can
+              all learn and grow together.
+            </p>
+            <p>
+              To get things started, introduce yourself! Tell us your dog's
+              name, breed, age, and one thing you'd love to improve.
+            </p>
+            <p>
+              Thanks for being here. I'm looking forward to getting to know
+              you and your dogs!
+            </p>
+          </div>
+          <p class="mt-10 font-serif text-xl text-brand-primary">Matt Campbell</p>
+          <p class="caption mt-2 text-brand-primary/60">
+            Owner &amp; Head Trainer, Campbell K9s
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script is:inline>
+    (() => {
+      const signedOut = document.getElementById("signed-out");
+      const signedIn = document.getElementById("signed-in");
+      const greeting = document.getElementById("member-greeting");
+
+      (async () => {
+        const res = await fetch("/api/supabase/config");
+        const config = await res.json();
+        if (!config.configured) {
+          window.location.replace("/clearer-dogs-club/login/");
+          return;
+        }
+        const client = window.supabase.createClient(config.url, config.anonKey);
+        const {
+          data: { session },
+        } = await client.auth.getSession();
+        if (!session) {
+          window.location.replace("/clearer-dogs-club/login/");
+          return;
+        }
+        signedOut.classList.add("hidden");
+        signedIn.classList.remove("hidden");
+        if (session.user.email) {
+          greeting.textContent = "Signed in as " + session.user.email;
+        }
+      })();
+    })();
+  </script>
+</Layout>

@@ -1,0 +1,342 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const siteUrl = "https://campbellk9s.com";
+const paypalClientId =
+  "AWcPnhFZQanuClais5YzE07UPgbUJy8exwWE8uuMY3KyP3rh9nTy6KAc4UwHSYNPkIUg0KCBkH4txR6G";
+---
+
+<Layout
+  title="Gift a Clearer Dogs Club Membership | Campbell K9's"
+  description="Gift a 3- or 6-month membership to Clearer Dogs Club by Campbell K9s. 20% off when you gift more than one subscription."
+  robots="index, follow"
+>
+  <!-- Header -->
+  <section class="relative bg-brand-primary text-brand-bg">
+    <span
+      class="pointer-events-none absolute left-6 top-6 h-4 w-4 border-l border-t border-brand-bg/20 sm:left-10 sm:top-10"
+      aria-hidden="true"></span>
+    <span
+      class="pointer-events-none absolute right-6 top-6 h-4 w-4 border-r border-t border-brand-bg/20 sm:right-10 sm:top-10"
+      aria-hidden="true"></span>
+
+    <div
+      class="mx-auto max-w-7xl px-6 pb-20 pt-20 sm:px-10 sm:pt-24 lg:px-16 lg:pb-24">
+      <p class="caption text-brand-accent">The Christmas gift offer</p>
+      <h1
+        class="mt-6 max-w-3xl text-balance font-serif text-[clamp(2.5rem,5.5vw,5.5rem)] font-bold leading-[0.98] text-brand-bg">
+        Give the gift of
+        <span class="italic text-brand-accent">a clearer dog.</span>
+      </h1>
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-brand-bg/75">
+        A Clearer Dogs Club membership is a gift that keeps giving — calmer
+        walks, clearer communication, and a better life with the dog they
+        already have.
+      </p>
+      <p
+        class="mt-6 inline-block border border-brand-accent bg-brand-accent/10 px-5 py-3 text-sm font-medium uppercase tracking-[0.14em] text-brand-accent">
+        20% off when you gift more than one subscription
+      </p>
+    </div>
+  </section>
+
+  <!-- Gift form -->
+  <section class="relative bg-brand-bg" aria-labelledby="form-heading">
+    <div class="mx-auto max-w-7xl px-6 py-16 sm:px-10 sm:py-24 lg:px-16">
+      <div class="grid gap-y-12 lg:grid-cols-12 lg:gap-x-16">
+        <!-- Form column -->
+        <div class="lg:col-span-7">
+          <h2 id="form-heading" class="sr-only">Gift membership form</h2>
+
+          <div id="gift-form">
+            <fieldset class="space-y-4">
+              <legend class="caption text-brand-accent">Choose a gift term</legend>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <label
+                  class="flex cursor-pointer items-center justify-between gap-4 border border-brand-line p-6 transition-colors has-checked:border-brand-accent has-checked:bg-brand-accent/5"
+                  for="term-3">
+                  <span>
+                    <span class="block font-serif text-2xl">3 months</span>
+                    <span class="mt-1 block text-sm text-brand-primary/60">
+                      $87
+                    </span>
+                  </span>
+                  <input
+                    id="term-3"
+                    type="radio"
+                    name="term"
+                    value="3"
+                    checked
+                    class="h-4 w-4 accent-brand-accent" />
+                </label>
+                <label
+                  class="flex cursor-pointer items-center justify-between gap-4 border border-brand-line p-6 transition-colors has-checked:border-brand-accent has-checked:bg-brand-accent/5"
+                  for="term-6">
+                  <span>
+                    <span class="block font-serif text-2xl">6 months</span>
+                    <span class="mt-1 block text-sm text-brand-primary/60">
+                      $174
+                    </span>
+                  </span>
+                  <input
+                    id="term-6"
+                    type="radio"
+                    name="term"
+                    value="6"
+                    class="h-4 w-4 accent-brand-accent" />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="mt-10">
+              <legend class="caption text-brand-accent">
+                How many gifts?
+              </legend>
+              <div class="mt-4 flex gap-3">
+                  {
+                    [1, 2, 3, 4].map((count) => (
+                      <label
+                        class="flex h-12 w-12 cursor-pointer items-center justify-center border text-base font-medium transition-colors has-checked:border-brand-accent has-checked:bg-brand-accent has-checked:text-brand-primary"
+                        for={`count-${count}`}>
+                      <input
+                        id={`count-${count}`}
+                        type="radio"
+                        name="count"
+                        value={count}
+                        checked={count === 1}
+                        class="sr-only" />
+                      {count}
+                    </label>
+                  ))
+                }
+              </div>
+            </fieldset>
+
+            <fieldset class="mt-10">
+              <legend class="caption text-brand-accent">
+                Recipient email address
+              </legend>
+              <div id="recipient-fields" class="mt-4 space-y-4"></div>
+            </fieldset>
+
+            <!-- Summary -->
+            <div class="mt-10 border border-brand-line p-6">
+              <div class="flex items-center justify-between text-base text-brand-primary/75">
+                <span>Subtotal</span>
+                <span id="summary-subtotal">$87.00</span>
+              </div>
+              <div
+                id="summary-discount-row"
+                class="mt-3 hidden items-center justify-between text-base text-brand-accent">
+                <span>20% off multi-gift discount</span>
+                <span id="summary-discount">-$0.00</span>
+              </div>
+              <div class="mt-4 flex items-baseline justify-between border-t border-brand-line pt-4">
+                <span class="font-serif text-xl">Total</span>
+                <span id="summary-total" class="font-serif text-2xl">$87.00</span>
+              </div>
+            </div>
+
+            <p class="mt-6 text-sm leading-relaxed text-brand-primary/60">
+              After checkout we'll email the recipient with access
+              instructions within 24 hours. A gift term runs consecutively —
+              the recipient can create their account whenever they're ready
+              and we'll start the clock from their join date.
+            </p>
+
+            <div class="mt-8">
+              <div id="gift-paypal-button"></div>
+            </div>
+            <p id="gift-error" class="mt-4 hidden text-sm font-medium text-red-700"></p>
+          </div>
+
+          <!-- Success -->
+          <div id="gift-success" class="hidden border border-brand-line p-10 text-center">
+            <p class="caption text-brand-accent">Order complete</p>
+            <h3 class="mt-5 font-serif text-3xl leading-tight">
+              The gift is on its way.
+            </h3>
+            <p class="mx-auto mt-5 max-w-md text-base leading-relaxed text-brand-primary/70">
+              Thank you! We'll email the recipient with access instructions
+              within 24 hours. If they don't see it, ask them to check spam.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <a
+                href="/clearer-dogs-club/"
+                class="inline-flex items-center gap-3 bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
+                Back to the Club
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aside -->
+        <aside class="lg:col-span-5">
+          <div class="sticky top-28 space-y-8">
+            <div class="border border-brand-line p-8">
+              <p class="caption text-brand-accent">What they'll get</p>
+              <ul class="mt-6 space-y-4 text-base leading-relaxed text-brand-primary/75">
+                <li>&mdash; Live Q&As with Matt</li>
+                <li>&mdash; Video submissions with personalized replies</li>
+                <li>&mdash; Private Facebook community</li>
+                <li>&mdash; Practical training advice, videos, and guidance</li>
+              </ul>
+            </div>
+            <div class="bg-brand-primary p-8 text-brand-bg">
+              <p class="caption text-brand-accent">The offer</p>
+              <p class="mt-5 font-serif text-2xl leading-snug">
+                Gift two or more subscriptions and take
+                <span class="italic text-brand-accent">20% off</span> the
+                whole order — automatically applied at checkout.
+              </p>
+            </div>
+            <div class="border border-brand-line p-8">
+              <p class="caption text-brand-accent">Good to know</p>
+              <p class="mt-5 text-base leading-relaxed text-brand-primary/70">
+                Gift memberships are one-time purchases, not recurring
+                subscriptions. When the term ends, the recipient can continue
+                at the regular monthly rate.
+              </p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- PayPal checkout -->
+  <script src={`https://www.paypal.com/sdk/js?client-id=${paypalClientId}`}></script>
+  <script is:inline>
+    (() => {
+      const TERMS = { "3": 87, "6": 174 };
+      const MAX_GIFTS = 4;
+      const state = { term: 3, count: 1 };
+
+      const fields = document.getElementById("recipient-fields");
+      const subtotalEl = document.getElementById("summary-subtotal");
+      const discountRow = document.getElementById("summary-discount-row");
+      const discountEl = document.getElementById("summary-discount");
+      const totalEl = document.getElementById("summary-total");
+      const errorEl = document.getElementById("gift-error");
+      const formEl = document.getElementById("gift-form");
+      const successEl = document.getElementById("gift-success");
+
+      const money = (value) =>
+        "$" + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      function renderRecipientFields() {
+        fields.innerHTML = "";
+        for (let i = 0; i < state.count; i++) {
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML =
+            '<label class="block"><span class="mb-2 block text-sm text-brand-primary/70">Recipient ' +
+            (i + 1) +
+            (i === 0 ? " — gift membership" : "") +
+            '</span><input type="email" required placeholder="name@example.com" class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" /></label>';
+          fields.appendChild(wrapper);
+        }
+      }
+
+      function readRecipients() {
+        return Array.from(fields.querySelectorAll("input")).map((input) =>
+          input.value.trim()
+        );
+      }
+
+      function updateSummary() {
+        const base = TERMS[state.term] * state.count;
+        const discounted = state.count >= 2;
+        const discount = discounted ? base * 0.2 : 0;
+        const total = base - discount;
+        subtotalEl.textContent = money(base);
+        discountEl.textContent = "-" + money(discount);
+        discountRow.classList.toggle("hidden", !discounted);
+        totalEl.textContent = money(total);
+      }
+
+      function showError(message) {
+        errorEl.textContent = message;
+        errorEl.classList.remove("hidden");
+      }
+
+      function clearError() {
+        errorEl.classList.add("hidden");
+      }
+
+      document.querySelectorAll('input[name="term"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          state.term = Number(input.value);
+          clearError();
+          updateSummary();
+        });
+      });
+
+      document.querySelectorAll('input[name="count"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          state.count = Number(input.value);
+          clearError();
+          renderRecipientFields();
+          updateSummary();
+        });
+      });
+
+      renderRecipientFields();
+      updateSummary();
+
+      paypal
+        .Buttons({
+          style: {
+            shape: "rect",
+            color: "gold",
+            layout: "vertical",
+            label: "pay",
+          },
+          createOrder: async () => {
+            clearError();
+            const recipients = readRecipients();
+            const invalid = recipients.some(
+              (email) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+            );
+            if (invalid) {
+              throw new Error(
+                "Enter a valid email address for each gift recipient."
+              );
+            }
+            const res = await fetch("/api/paypal/create-gift-order", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ term: state.term, recipients }),
+            });
+            const data = await res.json();
+            if (!res.ok) {
+              throw new Error(data.error || "Could not create the order.");
+            }
+            return data.id;
+          },
+          onApprove: async (data) => {
+            const res = await fetch("/api/paypal/capture-gift-order", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ orderId: data.orderID }),
+            });
+            const result = await res.json();
+            if (!res.ok) {
+              showError(result.error || "Payment could not be completed.");
+              return;
+            }
+            formEl.classList.add("hidden");
+            successEl.classList.remove("hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          },
+          onError: (err) => {
+            showError(
+              err && err.message
+                ? err.message
+                : "Something went wrong with PayPal. Please try again."
+            );
+          },
+        })
+        .render("#gift-paypal-button");
+    })();
+  </script>
+</Layout>
