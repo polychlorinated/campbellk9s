@@ -3,7 +3,8 @@
  *
  * Routes:
  *   GET  /api/paypal/config              — public client ID + pricing
- *   POST /api/paypal/create-gift-order   — gift checkout order (20% off 2+ gifts)
+ *   POST /api/paypal/create-gift-order   — gift checkout order (20% off gifts
+ *                                          purchased alongside own membership)
  *   POST /api/paypal/capture-gift-order  — capture after approval, store gift
  *   POST /api/paypal/claim-subscription  — verify subscription, link member record
  *   POST /api/paypal/cancel-subscription — cancel a monthly/annual subscription
@@ -164,6 +165,7 @@ export async function onRequest(context) {
     }
 
     const term = Number(payload.term);
+    const withOwnMembership = payload.withOwnMembership === true;
     const recipients = Array.isArray(payload.recipients)
       ? payload.recipients
           .map((email) => (typeof email === "string" ? email.trim().toLowerCase() : ""))
@@ -187,10 +189,10 @@ export async function onRequest(context) {
     }
 
     const base = GIFT_TERM_PRICE_USD[term] * recipients.length;
-    const total =
-      recipients.length >= 2
-        ? Math.round(base * (1 - MULTI_GIFT_DISCOUNT) * 100) / 100
-        : base;
+    const discounted = withOwnMembership && recipients.length >= 1;
+    const total = discounted
+      ? Math.round(base * (1 - MULTI_GIFT_DISCOUNT) * 100) / 100
+      : base;
 
     const result = await paypalFetch(env, "/v2/checkout/orders", {
       method: "POST",
@@ -198,7 +200,7 @@ export async function onRequest(context) {
         intent: "CAPTURE",
         purchase_units: [
           {
-            description: `Clearer Dogs Club gift membership — ${term} months × ${recipients.length}${recipients.length >= 2 ? " (20% multi-gift discount)" : ""}`,
+            description: `Clearer Dogs Club gift membership — ${term} months × ${recipients.length}${discounted ? " (20% off gifts added to own membership)" : ""}`,
             amount: { currency_code: "USD", value: total.toFixed(2) },
           },
         ],
