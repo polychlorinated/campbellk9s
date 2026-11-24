@@ -8,7 +8,7 @@ const paypalClientId =
 
 <Layout
   title="Gift a Clearer Dogs Club Membership | Campbell K9's"
-  description="Gift a 3- or 6-month membership to Clearer Dogs Club by Campbell K9s. Add a gift to your own membership and the gift is 20% off."
+  description="Gift a 3-, 6-, or 12-month membership to Clearer Dogs Club by Campbell K9s. Add a gift to your own membership and the gift is 20% off."
   robots="index, follow"
 >
   <!-- Header -->
@@ -51,7 +51,7 @@ const paypalClientId =
           <div id="gift-form">
             <fieldset class="space-y-4">
               <legend class="caption text-brand-accent">Choose a gift term</legend>
-              <div class="grid gap-4 sm:grid-cols-2">
+              <div class="grid gap-4 sm:grid-cols-3">
                 <label
                   class="flex cursor-pointer items-center justify-between gap-4 border border-brand-line p-6 transition-colors has-checked:border-brand-accent has-checked:bg-brand-accent/5"
                   for="term-3">
@@ -83,6 +83,22 @@ const paypalClientId =
                     type="radio"
                     name="term"
                     value="6"
+                    class="h-4 w-4 accent-brand-accent" />
+                </label>
+                <label
+                  class="flex cursor-pointer items-center justify-between gap-4 border border-brand-line p-6 transition-colors has-checked:border-brand-accent has-checked:bg-brand-accent/5"
+                  for="term-12">
+                  <span>
+                    <span class="block font-serif text-2xl">12 months</span>
+                    <span class="mt-1 block text-sm text-brand-primary/60">
+                      $348
+                    </span>
+                  </span>
+                  <input
+                    id="term-12"
+                    type="radio"
+                    name="term"
+                    value="12"
                     class="h-4 w-4 accent-brand-accent" />
                 </label>
               </div>
@@ -334,7 +350,7 @@ const paypalClientId =
     data-sdk-integration-source="button-factory"></script>
   <script is:inline>
     (() => {
-      const TERMS = { "3": 87, "6": 174 };
+      const TERMS = { "3": 87, "6": 174, "12": 348 };
       const OWN_PLANS = {
         monthly: { planId: "P-7PH58144PC7593841NMCQIDQ", label: "$29.00 / month" },
         annual: { planId: "P-8JH71744KU263052PNMCQJUQ", label: "$290.00 / year" },

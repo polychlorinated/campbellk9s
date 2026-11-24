@@ -23,7 +23,7 @@ const DEFAULT_CLIENT_ID =
   "AWcPnhFZQanuClais5YzE07UPgbUJy8exwWE8uuMY3KyP3rh9nTy6KAc4UwHSYNPkIUg0KCBkH4txR6G";
 
 const MONTHLY_PRICE_USD = 29;
-const GIFT_TERM_PRICE_USD = { "3": 87, "6": 174 };
+const GIFT_TERM_PRICE_USD = { "3": 87, "6": 174, "12": 348 };
 const MULTI_GIFT_DISCOUNT = 0.2;
 const MAX_GIFT_RECIPIENTS = 6;
 
@@ -173,7 +173,7 @@ export async function onRequest(context) {
       : [];
 
     if (!GIFT_TERM_PRICE_USD[term]) {
-      return json({ error: "Choose a gift term of 3 or 6 months" }, 400);
+      return json({ error: "Choose a gift term of 3, 6, or 12 months" }, 400);
     }
     if (
       recipients.length < 1 ||
