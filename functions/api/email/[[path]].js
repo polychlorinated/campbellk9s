@@ -1,8 +1,6 @@
 /**
- * Club email worker (Cloudflare Pages Function), triggered by a pg_cron job
- * in Supabase every 5 minutes:
- *
- *   select cron.schedule('club-email-cron', '*/5 * * * *', ... net.http_post ...)
+ * Club email worker (Cloudflare Pages Function), triggered every few minutes
+ * by a Supabase pg_cron job that POSTs to /api/email/run with a shared secret.
  *
  * POST /api/email/run  { "secret": "<EMAIL_CRON_SECRET>" }
  *
