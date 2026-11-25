@@ -14,6 +14,7 @@ const goalOptions = [
   { value: "pet-sitting", label: "In-Home Pet Sitting" },
   { value: "behavior", label: "Behavior Modification" },
   { value: "scholarship", label: "Scholarship Program" },
+  { value: "clearer-dogs-club", label: "Clearer Dogs Club" },
   { value: "other", label: "Something else" },
 ];
 ---
@@ -303,6 +304,22 @@ const goalOptions = [
   const message = form?.querySelector<HTMLParagraphElement>(
     "[data-form-message]"
   );
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const goalParam = queryParams.get("goal");
+  const emailParam = queryParams.get("email");
+  const goalSelect = document.querySelector<HTMLSelectElement>("#contact-goal");
+  const emailInput = document.querySelector<HTMLInputElement>("#contact-email");
+  if (
+    goalSelect &&
+    goalParam &&
+    Array.from(goalSelect.options).some((option) => option.value === goalParam)
+  ) {
+    goalSelect.value = goalParam;
+  }
+  if (emailInput && emailParam) {
+    emailInput.value = emailParam;
+  }
 
   function showMessage(text: string, tone: "success" | "error") {
     if (!message) return;

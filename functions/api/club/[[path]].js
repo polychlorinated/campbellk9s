@@ -225,7 +225,7 @@ Clearer communication. Better behavior. A better life with your dog.`,
   await notifyAdmins(
     env,
     `Gift membership activated: ${email}`,
-    `A gifted membership was just activated.\n\nEmail: ${email}\nTerm: ${termMonths} months\nExpires: ${expiresLabel}`
+    `A gifted membership was just activated.\n\nEmail: ${email}\nTerm: ${termMonths} months\nExpires: ${expiresLabel}\n\nAdd them to the private group ${FACEBOOK_GROUP_URL}`
   );
 
   return json({ ok: true, stored, termMonths, giftExpiresAt });

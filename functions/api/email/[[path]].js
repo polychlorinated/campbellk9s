@@ -188,7 +188,9 @@ Plan: monthly
 
 Gift subscriptions purchased:
   - 3-month gift for friend@example.com
-  - 6-month gift for family@example.com`,
+  - 6-month gift for family@example.com
+
+Add them to the private group ${FACEBOOK_GROUP_URL}`,
   },
   {
     key: "admin-gift-activated",
@@ -197,7 +199,9 @@ Gift subscriptions purchased:
 
 Email: test@example.com
 Term: 3 months
-Expires: January 25, 2027`,
+Expires: January 25, 2027
+
+Add them to the private group ${FACEBOOK_GROUP_URL}`,
   },
   {
     key: "admin-upgrade",
@@ -208,7 +212,9 @@ Email: test@example.com
 Plan: monthly
 
 Gift subscriptions purchased:
-  - No gift purchases`,
+  - No gift purchases
+
+Add them to the private group ${FACEBOOK_GROUP_URL}`,
   },
   {
     key: "admin-canceled",

@@ -3,6 +3,9 @@ import Layout from "../../layouts/Layout.astro";
 
 const siteUrl = "https://campbellk9s.com";
 const facebookGroupUrl = "https://www.facebook.com/groups/2537830806698266";
+const smsMessage =
+  "I just signed into Clearer Dogs Club. Please add me to the private Facebook group.";
+const smsHref = `sms:5085589427?&body=${encodeURIComponent(smsMessage)}`;
 ---
 
 <Layout
@@ -117,6 +120,18 @@ const facebookGroupUrl = "https://www.facebook.com/groups/2537830806698266";
                 This private group is exclusively for active members. Answer
                 the membership questions when you request to join.
               </p>
+              <div class="mt-6 border-t border-brand-line pt-6">
+                <a
+                  href={smsHref}
+                  class="inline-flex items-center gap-3 border border-brand-primary/25 px-6 py-3 text-xs font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:border-brand-accent hover:text-brand-accent">
+                  Text Matt to Request Access
+                  <span aria-hidden="true"> &rarr;</span>
+                </a>
+                <p class="mt-3 text-sm leading-relaxed text-brand-primary/60">
+                  Not in the group yet, or signed in with a different email?
+                  Text Matt at (508) 558-9427 and he'll add you.
+                </p>
+              </div>
             </div>
           </div>
 

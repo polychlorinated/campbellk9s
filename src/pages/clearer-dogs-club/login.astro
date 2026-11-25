@@ -5,239 +5,91 @@ const siteUrl = "https://campbellk9s.com";
 ---
 
 <Layout
-  title="Clearer Dogs Club — Account | Campbell K9's"
-  description="Create your Clearer Dogs Club account or sign in to access the private member area."
+  title="Clearer Dogs Club — Sign In | Campbell K9's"
+  description="Sign in to Clearer Dogs Club or create your account."
   robots="noindex, follow"
 >
-  <section class="relative bg-brand-primary text-brand-bg">
-    <div
-      class="mx-auto max-w-7xl px-6 pb-20 pt-20 sm:px-10 sm:pt-24 lg:px-16 lg:pb-24">
-      <p class="caption text-brand-accent">Clearer Dogs Club</p>
-      <h1
-        class="mt-6 max-w-3xl text-balance font-serif text-[clamp(2.5rem,5.5vw,5.5rem)] font-bold leading-[0.98] text-brand-bg">
-        Set up your <span class="italic text-brand-accent">club account.</span>
-      </h1>
-      <p class="mt-7 max-w-xl text-lg leading-relaxed text-brand-bg/75">
-        One account gets you into the member area — live Q&amp;As, video
-        submissions, and the private Facebook community.
-      </p>
-    </div>
-  </section>
-
   <section class="relative bg-brand-bg">
     <div class="mx-auto max-w-7xl px-6 py-16 sm:px-10 sm:py-24 lg:px-16">
       <div class="mx-auto max-w-xl">
-        <!-- Purchase detected -->
-        <div id="purchase-banner" class="mb-10 hidden">
-          <div class="border border-brand-accent bg-brand-accent/5 p-6">
-            <p class="caption text-brand-accent">Membership purchase detected</p>
-            <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
-              Subscription
-              <span class="font-mono break-all" id="purchase-sub-id"></span>
-            </p>
-            <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
-              Create your account below and we'll link your membership
-              automatically.
-            </p>
-          </div>
+        <div class="text-center">
+          <p class="caption text-brand-accent">Clearer Dogs Club</p>
+          <h1 class="mt-3 font-serif text-4xl leading-tight">Member Login</h1>
         </div>
 
-        <!-- Gift detected -->
-        <div id="gift-banner" class="mb-10 hidden">
-          <div class="border border-brand-accent bg-brand-accent/5 p-6">
-            <p class="caption text-brand-accent">Gift detected</p>
-            <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
-              Someone gifted you a Clearer Dogs Club membership. Create your
-              account or sign in below to activate it — your membership term
-              starts the day you activate.
-            </p>
-          </div>
-        </div>
-
-        <!-- Setup notice (owner-facing until Supabase is configured) -->
-        <div id="setup-notice" class="mb-10 hidden">
-          <div class="border border-red-800/40 bg-red-50 p-6">
-            <p class="caption text-red-900">Account system not configured</p>
-            <p class="mt-3 text-sm leading-relaxed text-red-900/80">
-              The club accounts aren't set up yet. Add
-              <span class="font-mono">SUPABASE_URL</span> and
-              <span class="font-mono">SUPABASE_ANON_KEY</span> to the
-              Cloudflare Pages environment variables, then reload this page.
-            </p>
-          </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="flex border border-brand-line">
-          <button
-            type="button"
-            data-tab="signup"
-            class="flex-1 px-6 py-4 text-sm font-medium uppercase tracking-[0.14em] transition-colors"
-            aria-pressed="true">
-            Create account
-          </button>
-          <button
-            type="button"
-            data-tab="login"
-            class="flex-1 px-6 py-4 text-sm font-medium uppercase tracking-[0.14em] transition-colors"
-            aria-pressed="false">
-            Sign in
-          </button>
-        </div>
-
-        <!-- Sign up -->
-        <form id="signup-form" class="mt-10 space-y-5">
-          <label class="block">
-            <span class="mb-2 block text-sm text-brand-primary/70">Email</span>
-            <input
-              type="email"
-              name="email"
-              required
-              autocomplete="email"
-              placeholder="name@example.com"
-              class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
-          </label>
-          <label class="block">
-            <span class="mb-2 block text-sm text-brand-primary/70">Password</span>
-            <div class="relative">
-              <input
-                type="password"
-                name="password"
-                required
-                minlength="8"
-                autocomplete="new-password"
-                placeholder="At least 8 characters"
-                class="w-full border border-brand-line bg-transparent px-4 py-3 pr-12 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
-              <button
-                type="button"
-                data-password-toggle
-                aria-label="Show password"
-                class="absolute inset-y-0 right-0 flex items-center px-3 text-brand-primary/45 transition-colors hover:text-brand-accent">
-                <svg
-                  data-eye-open
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="h-5 w-5"
-                  aria-hidden="true">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"></path>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
-                </svg>
-                <svg
-                  data-eye-closed
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="hidden h-5 w-5"
-                  aria-hidden="true">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"></path>
-                </svg>
-              </button>
+        <div class="mt-10 border border-brand-line p-6 sm:p-8">
+          <!-- Purchase detected -->
+          <div id="purchase-banner" class="mb-8 hidden">
+            <div class="border border-brand-accent bg-brand-accent/5 p-5">
+              <p class="caption text-brand-accent">Membership purchase detected</p>
+              <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
+                Subscription
+                <span class="font-mono break-all" id="purchase-sub-id"></span>
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
+                Create your account below and we'll link your membership
+                automatically.
+              </p>
             </div>
-          </label>
-          <button
-            type="submit"
-            class="w-full bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
-            Create Account &rarr;
-          </button>
-        </form>
+          </div>
 
-        <!-- Login -->
-        <form id="login-form" class="mt-10 hidden space-y-5">
-          <label class="block">
-            <span class="mb-2 block text-sm text-brand-primary/70">Email</span>
-            <input
-              type="email"
-              name="email"
-              required
-              autocomplete="email"
-              placeholder="name@example.com"
-              class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
-          </label>
-          <label class="block">
-            <span class="mb-2 block text-sm text-brand-primary/70">Password</span>
-            <div class="relative">
-              <input
-                type="password"
-                name="password"
-                required
-                autocomplete="current-password"
-                class="w-full border border-brand-line bg-transparent px-4 py-3 pr-12 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
-              <button
-                type="button"
-                data-password-toggle
-                aria-label="Show password"
-                class="absolute inset-y-0 right-0 flex items-center px-3 text-brand-primary/45 transition-colors hover:text-brand-accent">
-                <svg
-                  data-eye-open
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="h-5 w-5"
-                  aria-hidden="true">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"></path>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
-                </svg>
-                <svg
-                  data-eye-closed
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="hidden h-5 w-5"
-                  aria-hidden="true">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"></path>
-                </svg>
-              </button>
+          <!-- Gift detected -->
+          <div id="gift-banner" class="mb-8 hidden">
+            <div class="border border-brand-accent bg-brand-accent/5 p-5">
+              <p class="caption text-brand-accent">Gift detected</p>
+              <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
+                Someone gifted you a Clearer Dogs Club membership. Create your
+                account or sign in below to activate it — your membership term
+                starts the day you activate.
+              </p>
             </div>
-          </label>
-          <button
-            type="submit"
-            class="w-full bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
-            Sign In &rarr;
-          </button>
-        </form>
+          </div>
 
-        <div id="status" class="mt-6 hidden border border-brand-line p-5">
-          <p id="status-message" class="text-sm leading-relaxed text-brand-primary/75"></p>
-        </div>
-        <p id="error" class="mt-6 hidden text-sm font-medium text-red-700"></p>
+          <!-- Setup notice (owner-facing until Supabase is configured) -->
+          <div id="setup-notice" class="mb-8 hidden">
+            <div class="border border-red-800/40 bg-red-50 p-5">
+              <p class="caption text-red-900">Account system not configured</p>
+              <p class="mt-3 text-sm leading-relaxed text-red-900/80">
+                The club accounts aren't set up yet. Add
+                <span class="font-mono">SUPABASE_URL</span> and
+                <span class="font-mono">SUPABASE_ANON_KEY</span> to the
+                Cloudflare Pages environment variables, then reload this page.
+              </p>
+            </div>
+          </div>
 
-        <!-- Forced password change (temporary accounts) -->
-        <div id="password-change" class="mt-10 hidden border border-brand-accent bg-brand-accent/5 p-8">
-          <p class="caption text-brand-accent">Welcome — set your password</p>
-          <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
-            Your account was set up with a temporary password. Choose a new
-            one to continue.
-          </p>
-          <form id="password-change-form" class="mt-6 space-y-5">
+          <!-- Tabs -->
+          <div class="flex gap-3">
+            <button
+              type="button"
+              data-tab="login"
+              class="flex-1 border px-6 py-4 text-sm font-medium uppercase tracking-[0.14em] transition-colors"
+              aria-pressed="true">
+              Sign In
+            </button>
+            <button
+              type="button"
+              data-tab="signup"
+              class="flex-1 border px-6 py-4 text-sm font-medium uppercase tracking-[0.14em] transition-colors"
+              aria-pressed="false">
+              Create Account
+            </button>
+          </div>
+
+          <!-- Sign up -->
+          <form id="signup-form" class="mt-8 hidden space-y-5">
             <label class="block">
-              <span class="mb-2 block text-sm text-brand-primary/70">New password</span>
+              <span class="mb-2 block text-sm text-brand-primary/70">Email</span>
+              <input
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="name@example.com"
+                class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+            </label>
+            <label class="block">
+              <span class="mb-2 block text-sm text-brand-primary/70">Password</span>
               <div class="relative">
                 <input
                   type="password"
@@ -287,15 +139,33 @@ const siteUrl = "https://campbellk9s.com";
                 </button>
               </div>
             </label>
+            <button
+              type="submit"
+              class="w-full bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
+              Create Account &rarr;
+            </button>
+          </form>
+
+          <!-- Login -->
+          <form id="login-form" class="mt-8 space-y-5">
             <label class="block">
-              <span class="mb-2 block text-sm text-brand-primary/70">Confirm new password</span>
+              <span class="mb-2 block text-sm text-brand-primary/70">Email</span>
+              <input
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="name@example.com"
+                class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+            </label>
+            <label class="block">
+              <span class="mb-2 block text-sm text-brand-primary/70">Password</span>
               <div class="relative">
                 <input
                   type="password"
-                  name="confirm"
+                  name="password"
                   required
-                  minlength="8"
-                  autocomplete="new-password"
+                  autocomplete="current-password"
                   class="w-full border border-brand-line bg-transparent px-4 py-3 pr-12 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
                 <button
                   type="button"
@@ -340,25 +210,184 @@ const siteUrl = "https://campbellk9s.com";
             <button
               type="submit"
               class="w-full bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
-              Set Password &amp; Continue &rarr;
+              Sign In &rarr;
             </button>
           </form>
-          <p id="password-change-error" class="mt-5 hidden text-sm font-medium text-red-700"></p>
-          <button
-            type="button"
-            id="password-change-signout"
-            class="mt-6 text-sm font-medium uppercase tracking-[0.14em] text-brand-primary/60 underline underline-offset-2 transition-colors hover:text-brand-accent">
-            Sign out
-          </button>
+
+          <!-- Forgot password -->
+          <form id="forgot-form" class="mt-8 hidden space-y-5">
+            <p class="text-sm leading-relaxed text-brand-primary/70">
+              Enter your email and we'll send you a link to reset your
+              password.
+            </p>
+            <label class="block">
+              <span class="mb-2 block text-sm text-brand-primary/70">Email</span>
+              <input
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="name@example.com"
+                class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+            </label>
+            <button
+              type="submit"
+              class="w-full bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
+              Reset Password &rarr;
+            </button>
+            <button
+              type="button"
+              id="back-to-login"
+              class="w-full text-sm font-medium uppercase tracking-[0.14em] text-brand-primary/60 underline underline-offset-2 transition-colors hover:text-brand-accent">
+              Back to Sign In
+            </button>
+          </form>
+
+          <div id="status" class="mt-6 hidden border border-brand-line p-5">
+            <p id="status-message" class="text-sm leading-relaxed text-brand-primary/75"></p>
+          </div>
+          <p id="error" class="mt-6 hidden text-sm font-medium text-red-700"></p>
+
+          <!-- Forced password change (temporary accounts / recovery) -->
+          <div id="password-change" class="mt-8 hidden border border-brand-accent bg-brand-accent/5 p-6">
+            <p class="caption text-brand-accent">Welcome — set your password</p>
+            <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
+              Choose a new password to continue.
+            </p>
+            <form id="password-change-form" class="mt-6 space-y-5">
+              <label class="block">
+                <span class="mb-2 block text-sm text-brand-primary/70">New password</span>
+                <div class="relative">
+                  <input
+                    type="password"
+                    name="password"
+                    required
+                    minlength="8"
+                    autocomplete="new-password"
+                    placeholder="At least 8 characters"
+                    class="w-full border border-brand-line bg-transparent px-4 py-3 pr-12 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+                  <button
+                    type="button"
+                    data-password-toggle
+                    aria-label="Show password"
+                    class="absolute inset-y-0 right-0 flex items-center px-3 text-brand-primary/45 transition-colors hover:text-brand-accent">
+                    <svg
+                      data-eye-open
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="h-5 w-5"
+                      aria-hidden="true">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+                    </svg>
+                    <svg
+                      data-eye-closed
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="hidden h-5 w-5"
+                      aria-hidden="true">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"></path>
+                    </svg>
+                  </button>
+                </div>
+              </label>
+              <label class="block">
+                <span class="mb-2 block text-sm text-brand-primary/70">Confirm new password</span>
+                <div class="relative">
+                  <input
+                    type="password"
+                    name="confirm"
+                    required
+                    minlength="8"
+                    autocomplete="new-password"
+                    class="w-full border border-brand-line bg-transparent px-4 py-3 pr-12 text-base text-brand-primary placeholder:text-brand-primary/40 focus:border-brand-accent focus:outline-none" />
+                  <button
+                    type="button"
+                    data-password-toggle
+                    aria-label="Show password"
+                    class="absolute inset-y-0 right-0 flex items-center px-3 text-brand-primary/45 transition-colors hover:text-brand-accent">
+                    <svg
+                      data-eye-open
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="h-5 w-5"
+                      aria-hidden="true">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+                    </svg>
+                    <svg
+                      data-eye-closed
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="hidden h-5 w-5"
+                      aria-hidden="true">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"></path>
+                    </svg>
+                  </button>
+                </div>
+              </label>
+              <button
+                type="submit"
+                class="w-full bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
+                Set Password &amp; Continue &rarr;
+              </button>
+            </form>
+            <p id="password-change-error" class="mt-5 hidden text-sm font-medium text-red-700"></p>
+            <button
+              type="button"
+              id="password-change-signout"
+              class="mt-6 text-sm font-medium uppercase tracking-[0.14em] text-brand-primary/60 underline underline-offset-2 transition-colors hover:text-brand-accent">
+              Sign out
+            </button>
+          </div>
         </div>
 
-        <p class="mt-10 text-sm leading-relaxed text-brand-primary/55">
-          Already a member and forgot your password? Use "Sign in", then we'll
-          help you reset it — or email us at
+        <p class="mt-6 text-center text-sm leading-relaxed text-brand-primary/60">
+          Forgot Password?
+          <button
+            type="button"
+            id="forgot-link"
+            class="text-brand-accent underline underline-offset-2 transition-colors hover:text-brand-primary">
+            Click here
+          </button>
+          to reset it, or
           <a
-            href="mailto:k9campbellmatt@gmail.com"
-            class="text-brand-accent underline underline-offset-2">k9campbellmatt@gmail.com</a
-          >.
+            id="contact-support"
+            href="/contact/?goal=clearer-dogs-club"
+            class="text-brand-accent underline underline-offset-2 transition-colors hover:text-brand-primary">
+            contact us
+          </a>
+          for support.
         </p>
       </div>
     </div>
@@ -389,12 +418,17 @@ const siteUrl = "https://campbellk9s.com";
       const subId = params.get("sub_id") || "";
       const giftToken = params.get("gift") || "";
       const nextPath = params.get("next") || "";
+      const isRecovery = window.location.hash.includes("type=recovery");
       const HOME_URL = "/clearer-dogs-club/home/";
 
       const signupTab = document.querySelector('[data-tab="signup"]');
       const loginTab = document.querySelector('[data-tab="login"]');
       const signupForm = document.getElementById("signup-form");
       const loginForm = document.getElementById("login-form");
+      const forgotForm = document.getElementById("forgot-form");
+      const forgotLink = document.getElementById("forgot-link");
+      const backToLogin = document.getElementById("back-to-login");
+      const contactSupport = document.getElementById("contact-support");
       const statusBox = document.getElementById("status");
       const statusMessage = document.getElementById("status-message");
       const errorEl = document.getElementById("error");
@@ -402,6 +436,14 @@ const siteUrl = "https://campbellk9s.com";
       const passwordChangeForm = document.getElementById("password-change-form");
       const passwordChangeError = document.getElementById("password-change-error");
       const passwordChangeSignout = document.getElementById("password-change-signout");
+      const loginEmailInput = loginForm.querySelector('input[name="email"]');
+
+      const TAB_ACTIVE = ["border-brand-primary", "bg-brand-primary", "text-brand-bg"];
+      const TAB_INACTIVE = [
+        "border-brand-line",
+        "text-brand-primary/70",
+        "hover:border-brand-accent",
+      ];
 
       let client = null;
 
@@ -420,29 +462,110 @@ const siteUrl = "https://campbellk9s.com";
         statusBox.classList.add("hidden");
       }
 
+      function styleTab(button, active) {
+        TAB_ACTIVE.forEach((cls) => button.classList.toggle(cls, active));
+        TAB_INACTIVE.forEach((cls) => button.classList.toggle(cls, !active));
+      }
+
       function activateTab(tab) {
         const isSignup = tab === "signup";
         signupForm.classList.toggle("hidden", !isSignup);
         loginForm.classList.toggle("hidden", isSignup);
+        forgotForm.classList.add("hidden");
+        passwordChange.classList.add("hidden");
         signupTab.setAttribute("aria-pressed", String(isSignup));
         loginTab.setAttribute("aria-pressed", String(!isSignup));
-        signupTab.classList.toggle("bg-brand-primary", isSignup);
-        signupTab.classList.toggle("text-brand-bg", isSignup);
-        loginTab.classList.toggle("bg-brand-primary", !isSignup);
-        loginTab.classList.toggle("text-brand-bg", !isSignup);
+        styleTab(signupTab, isSignup);
+        styleTab(loginTab, !isSignup);
         clearMessages();
       }
 
-      signupTab.addEventListener("click", () => activateTab("signup"));
-      loginTab.addEventListener("click", () => activateTab("login"));
+      function showForgot() {
+        signupForm.classList.add("hidden");
+        loginForm.classList.add("hidden");
+        passwordChange.classList.add("hidden");
+        forgotForm.classList.remove("hidden");
+        clearMessages();
+      }
 
       function showPasswordChange() {
         signupForm.classList.add("hidden");
         loginForm.classList.add("hidden");
+        forgotForm.classList.add("hidden");
         signupTab.classList.add("hidden");
         loginTab.classList.add("hidden");
         passwordChange.classList.remove("hidden");
         clearMessages();
+      }
+
+      function updateContactLink() {
+        const query = new URLSearchParams({ goal: "clearer-dogs-club" });
+        const email = (loginEmailInput.value || "").trim();
+        if (email) query.set("email", email);
+        contactSupport.href = "/contact/?" + query.toString();
+      }
+
+      signupTab.addEventListener("click", () => activateTab("signup"));
+      loginTab.addEventListener("click", () => activateTab("login"));
+      forgotLink.addEventListener("click", showForgot);
+      backToLogin.addEventListener("click", () => activateTab("login"));
+      loginEmailInput.addEventListener("input", updateContactLink);
+
+      async function claimGift(session) {
+        if (!giftToken) return;
+        try {
+          await fetch("/api/club/claim-gift", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              token: giftToken,
+              email: session.user.email || "",
+              userId: session.user.id,
+            }),
+          });
+        } catch {
+          // retried on next visit — proceed to home regardless
+        }
+      }
+
+      async function claimSubscription(session) {
+        if (!subId) return;
+        try {
+          const res = await fetch("/api/paypal/claim-subscription", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              subId,
+              email: session.user.email || "",
+              userId: session.user.id,
+            }),
+          });
+          const data = await res.json();
+          if (res.ok && data.ok) {
+            localStorage.setItem("cdc_sub_id", subId);
+          }
+        } catch {
+          // claim retried on next visit — proceed to home regardless
+        }
+      }
+
+      async function finish(session) {
+        const user = session && session.user;
+        if (isRecovery) {
+          showPasswordChange();
+          return;
+        }
+        if (
+          user &&
+          user.user_metadata &&
+          user.user_metadata.requires_password_change
+        ) {
+          showPasswordChange();
+          return;
+        }
+        await claimGift(session);
+        await claimSubscription(session);
+        window.location.href = nextPath.startsWith("/") ? nextPath : HOME_URL;
       }
 
       passwordChangeForm.addEventListener("submit", async (event) => {
@@ -471,6 +594,11 @@ const siteUrl = "https://campbellk9s.com";
         await client.auth.updateUser({
           data: { requires_password_change: false },
         });
+        if (isRecovery) {
+          history.replaceState(null, "", window.location.pathname);
+          window.location.href = nextPath.startsWith("/") ? nextPath : HOME_URL;
+          return;
+        }
         const {
           data: { session },
         } = await client.auth.getSession();
@@ -481,59 +609,6 @@ const siteUrl = "https://campbellk9s.com";
         await client.auth.signOut();
         window.location.reload();
       });
-
-      async function claimSubscription(session) {
-        if (!subId) return;
-        try {
-          const res = await fetch("/api/paypal/claim-subscription", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({
-              subId,
-              email: session.user.email || "",
-              userId: session.user.id,
-            }),
-          });
-          const data = await res.json();
-          if (res.ok && data.ok) {
-            localStorage.setItem("cdc_sub_id", subId);
-          }
-        } catch {
-          // claim retried on next visit — proceed to home regardless
-        }
-      }
-
-      async function claimGift(session) {
-        if (!giftToken) return;
-        try {
-          await fetch("/api/club/claim-gift", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({
-              token: giftToken,
-              email: session.user.email || "",
-              userId: session.user.id,
-            }),
-          });
-        } catch {
-          // retried on next visit — proceed to home regardless
-        }
-      }
-
-      async function finish(session) {
-        const user = session && session.user;
-        if (
-          user &&
-          user.user_metadata &&
-          user.user_metadata.requires_password_change
-        ) {
-          showPasswordChange();
-          return;
-        }
-        await claimGift(session);
-        await claimSubscription(session);
-        window.location.href = nextPath.startsWith("/") ? nextPath : HOME_URL;
-      }
 
       signupForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -565,6 +640,21 @@ const siteUrl = "https://campbellk9s.com";
         finish(data.session);
       });
 
+      forgotForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearMessages();
+        const form = new FormData(forgotForm);
+        const email = String(form.get("email") || "").trim();
+        if (!client) return showError("The account system isn't configured yet.");
+        const { error } = await client.auth.resetPasswordForEmail(email, {
+          redirectTo: window.location.origin + "/clearer-dogs-club/login/",
+        });
+        if (error) return showError(error.message);
+        showStatus(
+          "Check your inbox — we've sent a link to reset your password."
+        );
+      });
+
       (async () => {
         const res = await fetch("/api/supabase/config");
         const config = await res.json();
@@ -578,6 +668,13 @@ const siteUrl = "https://campbellk9s.com";
           data: { session },
         } = await client.auth.getSession();
         if (session) {
+          if (session.user.email) {
+            const query = new URLSearchParams({
+              goal: "clearer-dogs-club",
+              email: session.user.email,
+            });
+            contactSupport.href = "/contact/?" + query.toString();
+          }
           finish(session);
           return;
         }
@@ -590,6 +687,9 @@ const siteUrl = "https://campbellk9s.com";
         if (giftToken) {
           document.getElementById("gift-banner").classList.remove("hidden");
         }
+
+        styleTab(loginTab, true);
+        styleTab(signupTab, false);
       })();
     })();
   </script>

@@ -502,13 +502,13 @@ export async function onRequest(context) {
         await notifyAdmins(
           env,
           `New Clearer Dogs Club member: ${email}`,
-          `A new member just joined.\n\nEmail: ${email}\nPlan: ${PLAN_LABELS[sub.plan_id] || sub.plan_id}\n\nGift subscriptions purchased:\n${giftsLine}`
+          `A new member just joined.\n\nEmail: ${email}\nPlan: ${PLAN_LABELS[sub.plan_id] || sub.plan_id}\n\nGift subscriptions purchased:\n${giftsLine}\n\nAdd them to the private group ${FACEBOOK_GROUP_URL}`
         );
       } else if (isUpgrade) {
         await notifyAdmins(
           env,
           `Gifted member upgraded to paying: ${email}`,
-          `A gifted member just subscribed on their own.\n\nEmail: ${email}\nPlan: ${PLAN_LABELS[sub.plan_id] || sub.plan_id}\n\nGift subscriptions purchased:\n${giftsLine}`
+          `A gifted member just subscribed on their own.\n\nEmail: ${email}\nPlan: ${PLAN_LABELS[sub.plan_id] || sub.plan_id}\n\nGift subscriptions purchased:\n${giftsLine}\n\nAdd them to the private group ${FACEBOOK_GROUP_URL}`
         );
       }
     }
