@@ -32,6 +32,7 @@ const MAX_GIFT_RECIPIENTS = 6;
 
 const SITE_URL = "https://campbellk9s.com";
 const FACEBOOK_GROUP_URL = "https://www.facebook.com/groups/2537830806698266";
+const FOUNDING_CUTOFF_MS = Date.parse("2027-01-01T08:00:00.000Z");
 const DEFAULT_ADMIN_EMAILS = [
   "andrew@polychlorinated.com",
   "k9campbellmatt@gmail.com",
@@ -428,12 +429,14 @@ export async function onRequest(context) {
     let stored = false;
     let existingRole = null;
     if (supabaseEnabled(env)) {
+      const founding = Date.now() < FOUNDING_CUTOFF_MS;
       const fields = {
         supabase_user_id: userId || null,
         paypal_subscription_id: subId,
         plan: PLAN_LABELS[sub.plan_id] || sub.plan_id,
         role: "member",
         status: "active",
+        ...(founding ? { founding_member: true } : {}),
         updated_at: new Date().toISOString(),
       };
       const lookup = await supabaseFetch(
@@ -452,7 +455,7 @@ export async function onRequest(context) {
       } else {
         const res = await supabaseFetch(env, "members", {
           method: "POST",
-          body: { email, ...fields },
+          body: { email, founding_member: founding, ...fields },
           headers: { Prefer: "return=minimal" },
         });
         stored = Boolean(res && res.status < 300);

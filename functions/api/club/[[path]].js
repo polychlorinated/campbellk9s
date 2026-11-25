@@ -16,6 +16,7 @@
 
 const SITE_URL = "https://campbellk9s.com";
 const FACEBOOK_GROUP_URL = "https://www.facebook.com/groups/2537830806698266";
+const FOUNDING_CUTOFF_MS = Date.parse("2027-01-01T08:00:00.000Z");
 const DEFAULT_ADMIN_EMAILS = [
   "andrew@polychlorinated.com",
   "k9campbellmatt@gmail.com",
@@ -168,6 +169,7 @@ export async function onRequest(context) {
     `members?email=eq.${encodeURIComponent(email)}&select=id`
   );
   const memberRows = Array.isArray(memberLookup?.data) ? memberLookup.data : [];
+  const founding = Date.now() < FOUNDING_CUTOFF_MS;
   const fields = {
     email,
     supabase_user_id: userId || null,
@@ -176,6 +178,7 @@ export async function onRequest(context) {
     gift_token: gift.gift_token,
     gift_expires_at: giftExpiresAt,
     reminder_stage: null,
+    ...(founding ? { founding_member: true } : {}),
     updated_at: now,
   };
   let stored = false;

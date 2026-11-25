@@ -52,6 +52,7 @@
       </p>
       <a
         href="/clearer-dogs-club/"
+        data-club-popup-cta
         class="mt-5 inline-flex w-full items-center justify-center gap-2 bg-brand-accent px-6 py-3 text-xs font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:bg-brand-primary hover:text-brand-bg"
       >
         Join the Club
@@ -67,13 +68,18 @@
   const closeBtn = popup?.querySelector<HTMLButtonElement>(
     "[data-email-capture-close]"
   );
+  const cta = popup?.querySelector<HTMLAnchorElement>("[data-club-popup-cta]");
 
-  const dismiss = () => {
+  const markSeen = () => {
     try {
       sessionStorage.setItem(POPUP_KEY, "1");
     } catch {
-      // Private mode / storage blocked — just close the popup.
+      // Private mode / storage blocked — nothing to persist.
     }
+  };
+
+  const dismiss = () => {
+    markSeen();
     popup?.remove();
   };
 
@@ -84,19 +90,30 @@
   }
 
   closeBtn?.addEventListener("click", dismiss);
+  cta?.addEventListener("click", dismiss);
 
-  let seen = false;
-  try {
-    seen = !!sessionStorage.getItem(POPUP_KEY);
-  } catch {
-    // Storage blocked — still show the popup.
-  }
+  if (window.location.pathname.startsWith("/clearer-dogs-club")) {
+    markSeen();
+  } else {
+    let seen = false;
+    try {
+      seen = !!sessionStorage.getItem(POPUP_KEY);
+    } catch {
+      // Storage blocked — still show the popup.
+    }
 
-  if (popup && !seen) {
-    popup.classList.remove("hidden");
-    requestAnimationFrame(() => {
-      popup.classList.add("is-visible");
-    });
+    if (popup && !seen) {
+      popup.classList.remove("hidden");
+      requestAnimationFrame(() => {
+        popup.classList.add("is-visible");
+      });
+      window.setTimeout(() => {
+        if (!popup.isConnected) return;
+        markSeen();
+        popup.classList.remove("is-visible");
+        window.setTimeout(() => popup.remove(), 500);
+      }, 5000);
+    }
   }
 </script>
 
