@@ -58,6 +58,10 @@ async function main() {
       ? "https://api-m.sandbox.paypal.com"
       : "https://api-m.paypal.com";
 
+  console.log(`Client ID : ${clientId}`);
+  console.log(`Environment: ${environment} → ${apiBase}`);
+  console.log("");
+
   const tokenRes = await fetch(`${apiBase}/v1/oauth2/token`, {
     method: "POST",
     headers: {
@@ -67,7 +71,20 @@ async function main() {
     body: "grant_type=client_credentials",
   });
   if (!tokenRes.ok) {
-    console.error("PayPal authentication failed. Check the client ID and secret.");
+    console.error(`PayPal authentication failed (HTTP ${tokenRes.status}).`);
+    let detail = "";
+    try {
+      detail = await tokenRes.text();
+    } catch {
+      // no body
+    }
+    if (detail) console.error(`PayPal response: ${detail}`);
+    console.error("");
+    console.error("Common causes:");
+    console.error("  - PAYPAL_CLIENT_SECRET belongs to a different app than PAYPAL_CLIENT_ID");
+    console.error("    (e.g. the secret is from the old BAAR5... app, not BAA707...)");
+    console.error("  - the secret is the Sandbox secret — you need the Live one");
+    console.error("  - trailing spaces or quotes around the values in .env");
     process.exit(1);
   }
   const { access_token } = await tokenRes.json();

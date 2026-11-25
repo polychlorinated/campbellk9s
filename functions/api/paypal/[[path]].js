@@ -20,7 +20,7 @@
  */
 
 const DEFAULT_CLIENT_ID =
-  "AWcPnhFZQanuClais5YzE07UPgbUJy8exwWE8uuMY3KyP3rh9nTy6KAc4UwHSYNPkIUg0KCBkH4txR6G";
+  "BAAR5KkkPPj_ww0WaN7omC0pOswi3kpyf58KCrrxh5xv5w2nk0oNu2hqJ6tns-9ca6pIgW1HTocksKyx-c";
 
 const MONTHLY_PRICE_USD = 29;
 const GIFT_TERM_PRICE_USD = { "3": 87, "6": 174, "12": 348 };
@@ -28,8 +28,8 @@ const MULTI_GIFT_DISCOUNT = 0.2;
 const MAX_GIFT_RECIPIENTS = 6;
 
 const PLAN_LABELS = {
-  "P-7PH58144PC7593841NMCQIDQ": "monthly",
-  "P-8JH71744KU263052PNMCQJUQ": "annual",
+  "P-49X93781TM5637923NMDPZZY": "monthly",
+  "P-2AB676142G348520JNMDPZZY": "annual",
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
