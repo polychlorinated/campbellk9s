@@ -85,3 +85,16 @@ PAYPAL_WEBHOOK_ID=
 SUPABASE_URL=
 SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
+
+# --- Club emails (/api/email/*) ---
+
+# Resend API key (resend.com → API Keys) — also used for Supabase Auth
+# transactional emails via Resend SMTP (see setup guide).
+RESEND_API_KEY=
+
+# Optional sender override for club emails (defaults to club@campbellk9s.com)
+# RESEND_FROM=
+
+# Shared secret between the Supabase pg_cron job and /api/email/run.
+# Generate one: `openssl rand -hex 24`
+EMAIL_CRON_SECRET=

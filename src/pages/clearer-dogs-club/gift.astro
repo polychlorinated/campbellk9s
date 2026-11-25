@@ -135,6 +135,60 @@ const paypalClientId =
               <div id="recipient-fields" class="mt-4 space-y-4"></div>
             </fieldset>
 
+            <!-- Email timing -->
+            <fieldset class="mt-10 space-y-4">
+              <legend class="caption text-brand-accent">
+                When should we send the gift email?
+              </legend>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <label
+                  class="flex cursor-pointer items-center gap-4 border border-brand-line p-5 transition-colors has-checked:border-brand-accent has-checked:bg-brand-accent/5"
+                  for="send-now">
+                  <input
+                    id="send-now"
+                    type="radio"
+                    name="send-mode"
+                    value="now"
+                    checked
+                    class="h-4 w-4 accent-brand-accent" />
+                  <span>
+                    <span class="block font-serif text-xl">Send it now</span>
+                    <span class="mt-1 block text-sm text-brand-primary/60">
+                      Emailed right after purchase
+                    </span>
+                  </span>
+                </label>
+                <label
+                  class="flex cursor-pointer items-center gap-4 border border-brand-line p-5 transition-colors has-checked:border-brand-accent has-checked:bg-brand-accent/5"
+                  for="send-later">
+                  <input
+                    id="send-later"
+                    type="radio"
+                    name="send-mode"
+                    value="later"
+                    class="h-4 w-4 accent-brand-accent" />
+                  <span>
+                    <span class="block font-serif text-xl">Send on a date</span>
+                    <span class="mt-1 block text-sm text-brand-primary/60">
+                      Perfect for birthdays and holidays
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <div id="send-date-block" class="hidden pt-2">
+                <label class="block">
+                  <span class="mb-2 block text-sm text-brand-primary/70">
+                    Send date
+                  </span>
+                  <input
+                    type="date"
+                    id="send-date"
+                    name="send-date"
+                    class="w-full border border-brand-line bg-transparent px-4 py-3 text-base text-brand-primary focus:border-brand-accent focus:outline-none" />
+                </label>
+              </div>
+            </fieldset>
+
             <!-- Own membership -->
             <fieldset class="mt-10 space-y-4">
               <legend class="caption text-brand-accent">
@@ -253,10 +307,10 @@ const paypalClientId =
             <p class="mt-6 text-sm leading-relaxed text-brand-primary/60">
               Your membership and the gift are two separate PayPal checkouts:
               the subscription approves first, then the discounted gift.
-              After checkout we'll email each recipient with access
-              instructions within 24 hours. A gift term runs consecutively —
-              the recipient can create their account whenever they're ready
-              and we'll start the clock from their join date.
+              We'll email each recipient their access instructions —
+              immediately or on the date you choose. A gift term runs
+              consecutively — the recipient can create their account whenever
+              they're ready and we'll start the clock from their join date.
             </p>
 
             <!-- Payment steps -->
@@ -297,10 +351,32 @@ const paypalClientId =
             <h3 class="mt-5 font-serif text-3xl leading-tight">
               The gift is on its way.
             </h3>
-            <p class="mx-auto mt-5 max-w-md text-base leading-relaxed text-brand-primary/70">
-              Thank you! We'll email each recipient with access instructions
-              within 24 hours. If they don't see it, ask them to check spam.
+            <p id="success-email-note" class="mx-auto mt-5 max-w-md text-base leading-relaxed text-brand-primary/70">
+              We'll email your recipient with access instructions now. If
+              they don't see it, ask them to check spam.
             </p>
+
+            <div class="mt-8 border border-brand-line p-6 text-left">
+              <p class="caption text-brand-accent">Instructions for your recipient</p>
+              <p class="mt-3 text-sm leading-relaxed text-brand-primary/60">
+                If you'd like to share the gift yourself — in a card, over
+                dinner, or whenever the moment is right — here are the same
+                instructions we email:
+              </p>
+              <pre
+                id="success-instructions-text"
+                class="mt-4 max-h-72 overflow-auto whitespace-pre-wrap bg-brand-bg p-4 font-sans text-sm leading-relaxed text-brand-primary"></pre>
+              <button
+                type="button"
+                id="copy-instructions"
+                class="mt-4 inline-flex items-center gap-3 border border-brand-primary/25 px-6 py-3 text-xs font-medium uppercase tracking-[0.18em] text-brand-primary transition-all duration-300 hover:border-brand-accent hover:text-brand-accent">
+                Copy Instructions
+              </button>
+              <span id="copy-confirm" class="ml-3 hidden text-xs font-medium uppercase tracking-[0.14em] text-brand-accent">
+                Copied
+              </span>
+            </div>
+
             <div id="success-account-link" class="mt-8 hidden">
               <a
                 id="success-create-account"
@@ -377,6 +453,8 @@ const paypalClientId =
         own: false,
         ownPlan: "monthly",
         subscribed: false,
+        sendMode: "now",
+        sendDate: "",
       };
 
       const fields = document.getElementById("recipient-fields");
@@ -398,6 +476,14 @@ const paypalClientId =
       const giftStepLabel = document.getElementById("gift-step-label");
       const ownSubContainer = document.getElementById("own-subscription-paypal");
       const giftPayContainer = document.getElementById("gift-paypal-button");
+      const sendDateBlock = document.getElementById("send-date-block");
+      const sendDateInput = document.getElementById("send-date");
+      const successEmailNote = document.getElementById("success-email-note");
+      const instructionsText = document.getElementById(
+        "success-instructions-text"
+      );
+      const copyInstructions = document.getElementById("copy-instructions");
+      const copyConfirm = document.getElementById("copy-confirm");
 
       const money = (value) =>
         "$" + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -508,6 +594,9 @@ const paypalClientId =
                   "Enter a valid email address for each gift recipient."
                 );
               }
+              if (state.sendMode === "later" && !state.sendDate) {
+                throw new Error("Choose a date to send the gift email.");
+              }
               const res = await fetch("/api/paypal/create-gift-order", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
@@ -531,12 +620,28 @@ const paypalClientId =
                   orderId: data.orderID,
                   term: state.term,
                   recipients: readRecipients(),
+                  emailMode: state.sendMode === "later" ? "scheduled" : "immediate",
+                  sendOn: state.sendMode === "later" ? state.sendDate : null,
                 }),
               });
               const result = await res.json();
               if (!res.ok) {
                 showError(result.error || "Payment could not be completed.");
                 return;
+              }
+              const gifts = Array.isArray(result.gifts) ? result.gifts : [];
+              instructionsText.textContent = buildInstructions(gifts);
+              if (state.sendMode === "later") {
+                const when = new Date(state.sendDate + "T09:00:00");
+                successEmailNote.textContent =
+                  "We'll email your recipient on " +
+                  when.toLocaleDateString(undefined, {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  }) +
+                  ". If they don't see it, ask them to check spam.";
               }
               const subId = localStorage.getItem("cdc_sub_id");
               if (subId) {
@@ -602,6 +707,78 @@ const paypalClientId =
           clearError();
           updateSummary();
         });
+      });
+
+      document.querySelectorAll('input[name="send-mode"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          state.sendMode = input.value;
+          sendDateBlock.classList.toggle("hidden", state.sendMode !== "later");
+          clearError();
+        });
+      });
+
+      sendDateInput.addEventListener("change", () => {
+        state.sendDate = sendDateInput.value;
+        clearError();
+      });
+
+      (() => {
+        const tomorrow = new Date(Date.now() + 86400000)
+          .toISOString()
+          .slice(0, 10);
+        sendDateInput.min = tomorrow;
+      })();
+
+      function buildInstructions(gifts) {
+        const lines = [];
+        for (const gift of gifts) {
+          lines.push("To: " + gift.recipient_email);
+          lines.push(
+            "Subject: You've been gifted a Clearer Dogs Club membership!"
+          );
+          lines.push("");
+          lines.push(
+            `You've been gifted a ${state.term}-month membership to Clearer Dogs Club by Campbell K9s.`
+          );
+          lines.push("");
+          lines.push("Your gift includes:");
+          lines.push("- Live Q&As with Matt");
+          lines.push("- Video submissions with personalized replies");
+          lines.push("- Access to the private Facebook community");
+          lines.push("");
+          lines.push("To start your membership, create your account here:");
+          if (gift.gift_token) {
+            lines.push(
+              `https://campbellk9s.com/clearer-dogs-club/login/?gift=${gift.gift_token}`
+            );
+          } else {
+            lines.push(
+              "https://campbellk9s.com/clearer-dogs-club/login/ (your access link is in the email we send)"
+            );
+          }
+          lines.push("");
+          lines.push(
+            `Your ${state.term}-month membership begins the day you create your account.`
+          );
+          lines.push("");
+          lines.push(
+            "Clearer communication. Better behavior. A better life with your dog."
+          );
+          lines.push("");
+          lines.push("— — —");
+          lines.push("");
+        }
+        return lines.join("\n").trim();
+      }
+
+      copyInstructions.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(instructionsText.textContent);
+          copyConfirm.classList.remove("hidden");
+          setTimeout(() => copyConfirm.classList.add("hidden"), 2500);
+        } catch {
+          // clipboard unavailable — user can select manually
+        }
       });
 
       renderRecipientFields();

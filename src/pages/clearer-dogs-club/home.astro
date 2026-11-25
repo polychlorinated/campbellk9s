@@ -22,6 +22,7 @@ const facebookGroupUrl = "https://www.facebook.com/groups/2537830806698266";
         go when you need us.
       </p>
       <p id="member-greeting" class="mt-5 text-sm uppercase tracking-[0.14em] text-brand-bg/50"></p>
+      <p id="membership-status" class="mt-3 hidden text-base leading-relaxed text-brand-bg/70"></p>
     </div>
   </section>
 
@@ -187,6 +188,7 @@ const facebookGroupUrl = "https://www.facebook.com/groups/2537830806698266";
       const signedOut = document.getElementById("signed-out");
       const signedIn = document.getElementById("signed-in");
       const greeting = document.getElementById("member-greeting");
+      const membershipStatus = document.getElementById("membership-status");
 
       (async () => {
         const res = await fetch("/api/supabase/config");
@@ -207,6 +209,29 @@ const facebookGroupUrl = "https://www.facebook.com/groups/2537830806698266";
         signedIn.classList.remove("hidden");
         if (session.user.email) {
           greeting.textContent = "Signed in as " + session.user.email;
+        }
+
+        const { data: member } = await client
+          .from("members")
+          .select("role, status, gift_expires_at")
+          .eq("supabase_user_id", session.user.id)
+          .maybeSingle();
+        if (
+          member &&
+          member.role === "gifted" &&
+          member.status === "active" &&
+          member.gift_expires_at
+        ) {
+          const expires = new Date(member.gift_expires_at);
+          membershipStatus.textContent =
+            "Your gifted membership is active through " +
+            expires.toLocaleDateString(undefined, {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }) +
+            ". You'll get an email before it ends with details on continuing your membership.";
+          membershipStatus.classList.remove("hidden");
         }
       })();
     })();

@@ -267,6 +267,7 @@ export async function onRequest(context) {
 
     const capture = result.data?.purchase_units?.[0]?.payments?.captures?.[0];
     const payerEmail = result.data?.payer?.email_address || "";
+    const createdGifts = [];
     if (capture && supabaseEnabled(env)) {
       const giftTerm = Number(payload.term);
       const recipients = Array.isArray(payload.recipients)
@@ -277,10 +278,15 @@ export async function onRequest(context) {
             .filter((email) => EMAIL_RE.test(email))
         : [];
       const giftUnitPrice = GIFT_TERM_PRICE_USD[giftTerm] || null;
+      const emailMode = payload.emailMode === "scheduled" ? "scheduled" : "immediate";
+      const sendOn =
+        emailMode === "scheduled" && payload.sendOn
+          ? `${String(payload.sendOn).slice(0, 10)}T09:00:00`
+          : new Date().toISOString();
 
       if (giftTerm && recipients.length > 0) {
         for (const recipientEmail of recipients) {
-          await supabaseFetch(env, "gifts", {
+          const created = await supabaseFetch(env, "gifts", {
             method: "POST",
             body: {
               paypal_order_id: orderId,
@@ -291,14 +297,27 @@ export async function onRequest(context) {
               amount: giftUnitPrice,
               currency: capture.amount?.currency_code || "USD",
               status: capture.status === "COMPLETED" ? "paid" : "pending",
+              email_mode: emailMode,
+              send_on: sendOn,
+              email_status: "pending",
               created_at: new Date().toISOString(),
             },
-            headers: { Prefer: "return=minimal" },
+            headers: { Prefer: "return=representation" },
+          });
+          const rows = Array.isArray(created?.data) ? created.data : [];
+          const row = rows[0];
+          createdGifts.push({
+            recipient_email: recipientEmail,
+            gift_token: row?.gift_token || null,
           });
         }
       }
     }
-    return json({ ok: true, status: capture?.status || "COMPLETED" });
+    return json({
+      ok: true,
+      status: capture?.status || "COMPLETED",
+      gifts: createdGifts,
+    });
   }
 
   if (route === "/api/paypal/claim-subscription") {
@@ -336,20 +355,34 @@ export async function onRequest(context) {
 
     let stored = false;
     if (supabaseEnabled(env)) {
-      const record = {
-        email,
+      const fields = {
         supabase_user_id: userId || null,
         paypal_subscription_id: subId,
         plan: PLAN_LABELS[sub.plan_id] || sub.plan_id,
+        role: "member",
         status: "active",
         updated_at: new Date().toISOString(),
       };
-      const upsert = await supabaseFetch(env, "members?on_conflict=email", {
-        method: "POST",
-        body: record,
-        headers: { Prefer: "return=minimal" },
-      });
-      stored = Boolean(upsert && upsert.status < 300);
+      const lookup = await supabaseFetch(
+        env,
+        `members?email=eq.${encodeURIComponent(email)}&select=id`
+      );
+      const rows = Array.isArray(lookup?.data) ? lookup.data : [];
+      if (rows.length > 0) {
+        const res = await supabaseFetch(env, `members?email=eq.${encodeURIComponent(email)}`, {
+          method: "PATCH",
+          body: fields,
+          headers: { Prefer: "return=minimal" },
+        });
+        stored = Boolean(res && res.status < 300);
+      } else {
+        const res = await supabaseFetch(env, "members", {
+          method: "POST",
+          body: { email, ...fields },
+          headers: { Prefer: "return=minimal" },
+        });
+        stored = Boolean(res && res.status < 300);
+      }
     }
     return json({ ok: true, stored, plan: PLAN_LABELS[sub.plan_id] || sub.plan_id });
   }

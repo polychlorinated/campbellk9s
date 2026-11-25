@@ -42,6 +42,18 @@ const siteUrl = "https://campbellk9s.com";
           </div>
         </div>
 
+        <!-- Gift detected -->
+        <div id="gift-banner" class="mb-10 hidden">
+          <div class="border border-brand-accent bg-brand-accent/5 p-6">
+            <p class="caption text-brand-accent">Gift detected</p>
+            <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
+              Someone gifted you a Clearer Dogs Club membership. Create your
+              account or sign in below to activate it — your membership term
+              starts the day you activate.
+            </p>
+          </div>
+        </div>
+
         <!-- Setup notice (owner-facing until Supabase is configured) -->
         <div id="setup-notice" class="mb-10 hidden">
           <div class="border border-red-800/40 bg-red-50 p-6">
@@ -375,6 +387,7 @@ const siteUrl = "https://campbellk9s.com";
     (() => {
       const params = new URLSearchParams(window.location.search);
       const subId = params.get("sub_id") || "";
+      const giftToken = params.get("gift") || "";
       const HOME_URL = "/clearer-dogs-club/home/";
 
       const signupTab = document.querySelector('[data-tab="signup"]');
@@ -489,6 +502,23 @@ const siteUrl = "https://campbellk9s.com";
         }
       }
 
+      async function claimGift(session) {
+        if (!giftToken) return;
+        try {
+          await fetch("/api/club/claim-gift", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              token: giftToken,
+              email: session.user.email || "",
+              userId: session.user.id,
+            }),
+          });
+        } catch {
+          // retried on next visit — proceed to home regardless
+        }
+      }
+
       async function finish(session) {
         const user = session && session.user;
         if (
@@ -499,6 +529,7 @@ const siteUrl = "https://campbellk9s.com";
           showPasswordChange();
           return;
         }
+        await claimGift(session);
         await claimSubscription(session);
         window.location.href = HOME_URL;
       }
@@ -553,6 +584,10 @@ const siteUrl = "https://campbellk9s.com";
         if (subId) {
           document.getElementById("purchase-sub-id").textContent = subId;
           document.getElementById("purchase-banner").classList.remove("hidden");
+        }
+
+        if (giftToken) {
+          document.getElementById("gift-banner").classList.remove("hidden");
         }
       })();
     })();
