@@ -102,21 +102,49 @@ async function main() {
       );
     }
 
-    const memberRes = await fetch(`${url}/rest/v1/members?on_conflict=email`, {
-      method: "POST",
-      headers: { ...headers, Prefer: "return=minimal" },
-      body: JSON.stringify({
-        email,
-        role: "admin",
-        status: "active",
-        updated_at: new Date().toISOString(),
-      }),
-    });
-    console.log(
-      memberRes.ok
-        ? `member  ${email} (role: admin)`
-        : `MEMBER FAILED ${email} (HTTP ${memberRes.status}) — run the SQL from the setup guide to add the role column`
+    // Sync the members table. Read-then-write instead of relying on a unique
+    // constraint, so it works whatever shape the members table has.
+    const lookupRes = await fetch(
+      `${url}/rest/v1/members?email=eq.${encodeURIComponent(email)}&select=id`,
+      { headers }
     );
+    const lookup = await lookupRes.json();
+    const existingRow = Array.isArray(lookup) ? lookup[0] : null;
+
+    const memberBody = {
+      email,
+      role: "admin",
+      status: "active",
+      updated_at: new Date().toISOString(),
+    };
+    const memberRes = existingRow
+      ? await fetch(
+          `${url}/rest/v1/members?email=eq.${encodeURIComponent(email)}`,
+          {
+            method: "PATCH",
+            headers: { ...headers, Prefer: "return=minimal" },
+            body: JSON.stringify(memberBody),
+          }
+        )
+      : await fetch(`${url}/rest/v1/members`, {
+          method: "POST",
+          headers: { ...headers, Prefer: "return=minimal" },
+          body: JSON.stringify(memberBody),
+        });
+
+    if (memberRes.ok) {
+      console.log(`member  ${email} (role: admin)`);
+    } else {
+      let detail = "";
+      try {
+        detail = await memberRes.text();
+      } catch {
+        // no body
+      }
+      console.log(
+        `MEMBER FAILED ${email} (HTTP ${memberRes.status}) ${detail}`
+      );
+    }
   }
 
   console.log(`\nTemporary password for all: ${TEMP_PASSWORD}`);
