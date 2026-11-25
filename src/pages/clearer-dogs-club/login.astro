@@ -388,6 +388,7 @@ const siteUrl = "https://campbellk9s.com";
       const params = new URLSearchParams(window.location.search);
       const subId = params.get("sub_id") || "";
       const giftToken = params.get("gift") || "";
+      const nextPath = params.get("next") || "";
       const HOME_URL = "/clearer-dogs-club/home/";
 
       const signupTab = document.querySelector('[data-tab="signup"]');
@@ -531,7 +532,7 @@ const siteUrl = "https://campbellk9s.com";
         }
         await claimGift(session);
         await claimSubscription(session);
-        window.location.href = HOME_URL;
+        window.location.href = nextPath.startsWith("/") ? nextPath : HOME_URL;
       }
 
       signupForm.addEventListener("submit", async (event) => {

@@ -3,8 +3,8 @@
  *
  * Routes:
  *   GET  /api/paypal/config              — public client ID + pricing
- *   POST /api/paypal/create-gift-order   — gift checkout order (20% off gifts
- *                                          purchased alongside own membership)
+ *   POST /api/paypal/create-gift-order   — gift checkout order (active members,
+ *                                          gifts always 20% off)
  *   POST /api/paypal/capture-gift-order  — capture after approval, store gift
  *   POST /api/paypal/claim-subscription  — verify subscription, link member record
  *   POST /api/paypal/cancel-subscription — cancel a monthly/annual subscription
@@ -255,7 +255,8 @@ export async function onRequest(context) {
     }
 
     const term = Number(payload.term);
-    const withOwnMembership = payload.withOwnMembership === true;
+    const buyerEmail =
+      typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
     const recipients = Array.isArray(payload.recipients)
       ? payload.recipients
           .map((email) => (typeof email === "string" ? email.trim().toLowerCase() : ""))
@@ -264,6 +265,9 @@ export async function onRequest(context) {
 
     if (!GIFT_TERM_PRICE_USD[term]) {
       return json({ error: "Choose a gift term of 3, 6, or 12 months" }, 400);
+    }
+    if (!EMAIL_RE.test(buyerEmail)) {
+      return json({ error: "Missing buyer email" }, 400);
     }
     if (
       recipients.length < 1 ||
@@ -278,15 +282,29 @@ export async function onRequest(context) {
       );
     }
 
+    if (!supabaseEnabled(env)) {
+      return json({ error: "Supabase is not configured" }, 503);
+    }
+    const memberLookup = await supabaseFetch(
+      env,
+      `members?email=eq.${encodeURIComponent(buyerEmail)}&status=eq.active&select=id`
+    );
+    const memberRows = Array.isArray(memberLookup?.data) ? memberLookup.data : [];
+    if (memberRows.length === 0) {
+      return json(
+        {
+          error:
+            "Only active members can purchase gift memberships. Subscribe first, then gift at 20% off.",
+        },
+        403
+      );
+    }
+
     const giftsBase = GIFT_TERM_PRICE_USD[term] * recipients.length;
-    const giftDiscount = withOwnMembership
-      ? Math.round(giftsBase * MULTI_GIFT_DISCOUNT * 100) / 100
-      : 0;
+    const giftDiscount = Math.round(giftsBase * MULTI_GIFT_DISCOUNT * 100) / 100;
     const total = Math.round((giftsBase - giftDiscount) * 100) / 100;
 
-    const description = withOwnMembership
-      ? `Clearer Dogs Club gift membership — ${term} months × ${recipients.length} (20% off, combined with own membership)`
-      : `Clearer Dogs Club gift membership — ${term} months × ${recipients.length}`;
+    const description = `Clearer Dogs Club gift membership — ${term} months × ${recipients.length} (20% member discount)`;
 
     const result = await paypalFetch(env, "/v2/checkout/orders", {
       method: "POST",
