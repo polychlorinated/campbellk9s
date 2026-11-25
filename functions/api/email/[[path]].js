@@ -75,7 +75,14 @@ async function resendSend(env, { to, subject, text }) {
       text,
     }),
   });
-  return { ok: res.ok, status: res.status };
+  if (res.ok) return { ok: true, status: res.status };
+  let detail = "";
+  try {
+    detail = await res.text();
+  } catch {
+    // no body
+  }
+  return { ok: false, status: res.status, detail: detail.slice(0, 300) };
 }
 
 function giftEmailText(token, termMonths) {
@@ -247,6 +254,7 @@ export async function onRequest(context) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) {
       return json({ error: "Provide a valid 'to' email address" }, 400);
     }
+    const only = typeof payload.only === "string" ? payload.only.trim() : "";
 
     const testEmails = [
       {
@@ -265,7 +273,12 @@ export async function onRequest(context) {
         text: giftActivationText(3, "January 25, 2027"),
       },
       ...ADMIN_TEMPLATES,
-    ];
+    ].filter((email) => {
+      if (!only) return true;
+      return (
+        (email.key || "") === only || (email.subject || "") === only
+      );
+    });
 
     const results = [];
     for (const email of testEmails) {
@@ -278,7 +291,10 @@ export async function onRequest(context) {
         key: email.key || email.subject,
         subject: email.subject,
         ok: result.ok,
+        status: result.status || null,
+        detail: result.detail || null,
       });
+      await new Promise((resolve) => setTimeout(resolve, 400));
     }
     return json({ ok: true, results });
   }
