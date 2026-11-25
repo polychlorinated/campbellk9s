@@ -180,40 +180,40 @@ const paypalClientId =
 
               <div id="own-plan-block" class="hidden pt-2">
                 <p class="mb-3 block text-sm text-brand-primary/70">
-                  Your membership term — billed in the same checkout:
+                  Your membership plan — a recurring PayPal subscription:
                 </p>
                 <div class="grid gap-4 sm:grid-cols-2">
                   <label
                     class="flex cursor-pointer items-center justify-between gap-4 border border-brand-line p-5 transition-colors has-checked:border-brand-accent has-checked:bg-brand-accent/5"
-                    for="own-3">
+                    for="own-monthly">
                     <span>
-                      <span class="block font-serif text-xl">3 months</span>
+                      <span class="block font-serif text-xl">Monthly</span>
                       <span class="mt-1 block text-sm text-brand-primary/60">
-                        $87
+                        $29 / month
                       </span>
                     </span>
                     <input
-                      id="own-3"
+                      id="own-monthly"
                       type="radio"
-                      name="own-term"
-                      value="3"
+                      name="own-plan"
+                      value="monthly"
                       checked
                       class="h-4 w-4 accent-brand-accent" />
                   </label>
                   <label
                     class="flex cursor-pointer items-center justify-between gap-4 border border-brand-line p-5 transition-colors has-checked:border-brand-accent has-checked:bg-brand-accent/5"
-                    for="own-6">
+                    for="own-annual">
                     <span>
-                      <span class="block font-serif text-xl">6 months</span>
+                      <span class="block font-serif text-xl">Annual</span>
                       <span class="mt-1 block text-sm text-brand-primary/60">
-                        $174
+                        $290 / year — two months free
                       </span>
                     </span>
                     <input
-                      id="own-6"
+                      id="own-annual"
                       type="radio"
-                      name="own-term"
-                      value="6"
+                      name="own-plan"
+                      value="annual"
                       class="h-4 w-4 accent-brand-accent" />
                   </label>
                 </div>
@@ -223,8 +223,8 @@ const paypalClientId =
             <!-- Summary -->
             <div class="mt-10 border border-brand-line p-6">
               <div id="summary-own-row" class="hidden items-center justify-between text-base text-brand-primary/75">
-                <span>Your membership (one-time)</span>
-                <span id="summary-own">$87.00</span>
+                <span>Your membership (recurring subscription)</span>
+                <span id="summary-own">$29.00 / month</span>
               </div>
               <div class="mt-3 flex items-center justify-between text-base text-brand-primary/75">
                 <span id="summary-gifts-label">Gifts — 3 months × 1</span>
@@ -237,21 +237,56 @@ const paypalClientId =
                 <span id="summary-discount">-$0.00</span>
               </div>
               <div class="mt-4 flex items-baseline justify-between border-t border-brand-line pt-4">
-                <span class="font-serif text-xl">Total</span>
-                <span id="summary-total" class="font-serif text-2xl">$87.00</span>
+                <span class="font-serif text-xl">Gift payment (one-time)</span>
+                <span id="summary-gift-total" class="font-serif text-2xl">$87.00</span>
+              </div>
+              <div
+                id="summary-due-row"
+                class="mt-3 hidden items-center justify-between border-t border-dashed border-brand-line pt-3 text-base">
+                <span class="text-brand-primary/70">
+                  Due today — first subscription payment + gifts
+                </span>
+                <span id="summary-due" class="font-serif text-xl">$98.60</span>
               </div>
             </div>
 
             <p class="mt-6 text-sm leading-relaxed text-brand-primary/60">
+              Your membership and the gift are two separate PayPal checkouts:
+              the subscription approves first, then the discounted gift.
               After checkout we'll email each recipient with access
               instructions within 24 hours. A gift term runs consecutively —
               the recipient can create their account whenever they're ready
               and we'll start the clock from their join date.
             </p>
 
-            <div class="mt-8 border border-brand-line p-6">
-              <p class="caption text-brand-accent">Checkout</p>
-              <div id="gift-paypal-button" class="mt-5"></div>
+            <!-- Payment steps -->
+            <div id="subscription-step" class="mt-8 hidden">
+              <div class="border border-brand-line p-6">
+                <p class="caption text-brand-accent">Step 1 of 2 — Your membership</p>
+                <p class="mt-3 text-sm leading-relaxed text-brand-primary/70">
+                  Set up your recurring membership first. It bills monthly
+                  (or yearly) through PayPal at the regular rate.
+                </p>
+                <div id="own-subscription-paypal" class="mt-5"></div>
+              </div>
+            </div>
+
+            <div id="subscription-done" class="mt-8 hidden">
+              <div class="border border-brand-accent bg-brand-accent/5 p-6">
+                <p class="caption text-brand-accent">Step 1 complete</p>
+                <p class="mt-3 text-sm leading-relaxed text-brand-primary/75">
+                  Your membership is set up. Now pay for the gift below.
+                </p>
+              </div>
+            </div>
+
+            <div id="gift-pay-step" class="mt-8">
+              <div class="border border-brand-line p-6">
+                <p class="caption text-brand-accent" id="gift-step-label">
+                  Payment — Gifts
+                </p>
+                <div id="gift-paypal-button" class="mt-5"></div>
+              </div>
             </div>
             <p id="gift-error" class="mt-4 hidden text-sm font-medium text-red-700"></p>
           </div>
@@ -268,6 +303,7 @@ const paypalClientId =
             </p>
             <div id="success-account-link" class="mt-8 hidden">
               <a
+                id="success-create-account"
                 href="/clearer-dogs-club/login/"
                 class="inline-flex items-center gap-3 bg-brand-primary px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-brand-bg transition-all duration-300 hover:bg-brand-accent">
                 Create Your Account &rarr;
@@ -305,9 +341,9 @@ const paypalClientId =
             <div class="border border-brand-line p-8">
               <p class="caption text-brand-accent">Good to know</p>
               <p class="mt-5 text-base leading-relaxed text-brand-primary/70">
-                Everything is paid in one checkout. Gift memberships are
-                one-time purchases — when the term ends, the recipient can
-                continue at the regular monthly rate.
+                Your membership is a recurring PayPal subscription at the
+                regular rate. Gifts are one-time payments — when the term
+                ends, the recipient can continue at the regular monthly rate.
               </p>
             </div>
           </div>
@@ -317,12 +353,31 @@ const paypalClientId =
   </section>
 
   <!-- PayPal checkout -->
-  <script src={`https://www.paypal.com/sdk/js?client-id=${paypalClientId}&currency=USD`}></script>
+  <script
+    src={`https://www.paypal.com/sdk/js?client-id=${paypalClientId}&vault=true&intent=subscription`}
+    data-sdk-integration-source="button-factory"></script>
   <script is:inline>
     (() => {
       const TERMS = { "3": 87, "6": 174, "12": 348 };
-      const OWN_TERMS = { "3": 87, "6": 174 };
-      const state = { term: 3, count: 1, own: false, ownTerm: 3 };
+      const OWN_PLANS = {
+        monthly: {
+          planId: "P-49X93781TM5637923NMDPZZY",
+          label: "$29.00 / month",
+          firstPayment: 29,
+        },
+        annual: {
+          planId: "P-2AB676142G348520JNMDPZZY",
+          label: "$290.00 / year",
+          firstPayment: 290,
+        },
+      };
+      const state = {
+        term: 3,
+        count: 1,
+        own: false,
+        ownPlan: "monthly",
+        subscribed: false,
+      };
 
       const fields = document.getElementById("recipient-fields");
       const summaryOwnRow = document.getElementById("summary-own-row");
@@ -331,11 +386,17 @@ const paypalClientId =
       const subtotalEl = document.getElementById("summary-subtotal");
       const discountRow = document.getElementById("summary-discount-row");
       const discountEl = document.getElementById("summary-discount");
-      const totalEl = document.getElementById("summary-total");
+      const giftTotalEl = document.getElementById("summary-gift-total");
+      const dueRow = document.getElementById("summary-due-row");
+      const dueEl = document.getElementById("summary-due");
       const errorEl = document.getElementById("gift-error");
       const formEl = document.getElementById("gift-form");
       const successEl = document.getElementById("gift-success");
       const ownPlanBlock = document.getElementById("own-plan-block");
+      const subscriptionStep = document.getElementById("subscription-step");
+      const subscriptionDone = document.getElementById("subscription-done");
+      const giftStepLabel = document.getElementById("gift-step-label");
+      const ownSubContainer = document.getElementById("own-subscription-paypal");
       const giftPayContainer = document.getElementById("gift-paypal-button");
 
       const money = (value) =>
@@ -362,20 +423,143 @@ const paypalClientId =
 
       function updateSummary() {
         const base = TERMS[state.term] * state.count;
-        const ownPrice = state.own ? OWN_TERMS[state.ownTerm] : 0;
         const discount = state.own ? base * 0.2 : 0;
-        const total = ownPrice + base - discount;
+        const giftTotal = base - discount;
+        const dueToday = state.own
+          ? OWN_PLANS[state.ownPlan].firstPayment + giftTotal
+          : giftTotal;
 
         giftsLabel.textContent =
           "Gifts — " + state.term + " months × " + state.count;
         subtotalEl.textContent = money(base);
         discountEl.textContent = "-" + money(discount);
         discountRow.classList.toggle("hidden", !state.own);
-        totalEl.textContent = money(total);
+        giftTotalEl.textContent = money(giftTotal);
 
-        summaryOwn.textContent = money(ownPrice);
+        summaryOwn.textContent = OWN_PLANS[state.ownPlan].label;
         summaryOwnRow.classList.toggle("hidden", !state.own);
+        dueEl.textContent = money(dueToday);
+        dueRow.classList.toggle("hidden", !state.own);
+
         ownPlanBlock.classList.toggle("hidden", !state.own);
+        document
+          .querySelectorAll('input[name="own-plan"]')
+          .forEach((input) => (input.disabled = state.subscribed));
+        subscriptionStep.classList.toggle(
+          "hidden",
+          !state.own || state.subscribed
+        );
+        subscriptionDone.classList.toggle(
+          "hidden",
+          !(state.own && state.subscribed)
+        );
+        giftStepLabel.textContent =
+          state.own && !state.subscribed
+            ? "Step 2 of 2 — Gifts (20% off)"
+            : "Payment — Gifts" + (state.own ? " (20% off)" : "");
+
+        renderPaypalButtons();
+      }
+
+      function renderPaypalButtons() {
+        ownSubContainer.innerHTML = "";
+        giftPayContainer.innerHTML = "";
+
+        if (state.own && !state.subscribed) {
+          paypal
+            .Buttons({
+              style: {
+                shape: "rect",
+                color: "gold",
+                layout: "vertical",
+                label: "subscribe",
+              },
+              createSubscription: function (data, actions) {
+                return actions.subscription.create({
+                  plan_id: OWN_PLANS[state.ownPlan].planId,
+                });
+              },
+              onApprove: function (data) {
+                state.subscribed = true;
+                localStorage.setItem("cdc_sub_id", data.subscriptionID);
+                clearError();
+                updateSummary();
+              },
+            })
+            .render(ownSubContainer);
+        }
+
+        paypal
+          .Buttons({
+            style: {
+              shape: "rect",
+              color: "gold",
+              layout: "vertical",
+              label: "pay",
+            },
+            createOrder: async () => {
+              clearError();
+              const recipients = readRecipients();
+              const invalid = recipients.some(
+                (email) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+              );
+              if (invalid) {
+                throw new Error(
+                  "Enter a valid email address for each gift recipient."
+                );
+              }
+              const res = await fetch("/api/paypal/create-gift-order", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({
+                  term: state.term,
+                  recipients,
+                  withOwnMembership: state.own,
+                }),
+              });
+              const data = await res.json();
+              if (!res.ok) {
+                throw new Error(data.error || "Could not create the order.");
+              }
+              return data.id;
+            },
+            onApprove: async (data) => {
+              const res = await fetch("/api/paypal/capture-gift-order", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({
+                  orderId: data.orderID,
+                  term: state.term,
+                  recipients: readRecipients(),
+                }),
+              });
+              const result = await res.json();
+              if (!res.ok) {
+                showError(result.error || "Payment could not be completed.");
+                return;
+              }
+              const subId = localStorage.getItem("cdc_sub_id");
+              if (subId) {
+                document.getElementById("success-create-account").href =
+                  "/clearer-dogs-club/login/?sub_id=" +
+                  encodeURIComponent(subId);
+                document
+                  .getElementById("success-account-link")
+                  .classList.remove("hidden");
+              }
+              formEl.classList.add("hidden");
+              successEl.classList.remove("hidden");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            },
+            onError: (err) => {
+              showError(
+                err && err.message
+                  ? err.message
+                  : "Something went wrong with PayPal. Please try again."
+              );
+            },
+          })
+          .render(giftPayContainer);
       }
 
       function showError(message) {
@@ -412,9 +596,9 @@ const paypalClientId =
         });
       });
 
-      document.querySelectorAll('input[name="own-term"]').forEach((input) => {
+      document.querySelectorAll('input[name="own-plan"]').forEach((input) => {
         input.addEventListener("change", () => {
-          state.ownTerm = Number(input.value);
+          state.ownPlan = input.value;
           clearError();
           updateSummary();
         });
@@ -422,75 +606,6 @@ const paypalClientId =
 
       renderRecipientFields();
       updateSummary();
-
-      paypal
-        .Buttons({
-          style: {
-            shape: "rect",
-            color: "gold",
-            layout: "vertical",
-            label: "pay",
-          },
-          createOrder: async () => {
-            clearError();
-            const recipients = readRecipients();
-            const invalid = recipients.some(
-              (email) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-            );
-            if (invalid) {
-              throw new Error(
-                "Enter a valid email address for each gift recipient."
-              );
-            }
-            const res = await fetch("/api/paypal/create-gift-order", {
-              method: "POST",
-              headers: { "content-type": "application/json" },
-              body: JSON.stringify({
-                term: state.term,
-                recipients,
-                ownTerm: state.own ? state.ownTerm : null,
-              }),
-            });
-            const data = await res.json();
-            if (!res.ok) {
-              throw new Error(data.error || "Could not create the order.");
-            }
-            return data.id;
-          },
-          onApprove: async (data) => {
-            const res = await fetch("/api/paypal/capture-gift-order", {
-              method: "POST",
-              headers: { "content-type": "application/json" },
-              body: JSON.stringify({
-                orderId: data.orderID,
-                term: state.term,
-                recipients: readRecipients(),
-                ownTerm: state.own ? state.ownTerm : null,
-              }),
-            });
-            const result = await res.json();
-            if (!res.ok) {
-              showError(result.error || "Payment could not be completed.");
-              return;
-            }
-            if (state.own) {
-              document
-                .getElementById("success-account-link")
-                .classList.remove("hidden");
-            }
-            formEl.classList.add("hidden");
-            successEl.classList.remove("hidden");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          },
-          onError: (err) => {
-            showError(
-              err && err.message
-                ? err.message
-                : "Something went wrong with PayPal. Please try again."
-            );
-          },
-        })
-        .render(giftPayContainer);
     })();
   </script>
 </Layout>
