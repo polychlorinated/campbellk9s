@@ -98,3 +98,8 @@ RESEND_API_KEY=
 # Shared secret between the Supabase pg_cron job and /api/email/run.
 # Generate one: `openssl rand -hex 24`
 EMAIL_CRON_SECRET=
+
+# Optional — comma-separated list of admin emails for new-member, gift
+# activation, and cancellation notifications. Defaults to the three club
+# admin addresses baked into the functions.
+# ADMIN_NOTIFY_EMAILS=andrew@polychlorinated.com,k9campbellmatt@gmail.com

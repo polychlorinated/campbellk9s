@@ -9,7 +9,18 @@
  *
  * Environment variables:
  *   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
+ *   RESEND_API_KEY            — Resend API key for member/admin emails
+ *   RESEND_FROM               — optional; defaults to club@campbellk9s.com
+ *   ADMIN_NOTIFY_EMAILS       — optional; comma-separated admin notification list
  */
+
+const SITE_URL = "https://campbellk9s.com";
+const FACEBOOK_GROUP_URL = "https://www.facebook.com/groups/2537830806698266";
+const DEFAULT_ADMIN_EMAILS = [
+  "andrew@polychlorinated.com",
+  "k9campbellmatt@gmail.com",
+  "campbelltrans@gmail.com",
+];
 
 const TOKEN_RE = /^[0-9a-fA-F-]{36}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,6 +64,41 @@ function addMonths(date, months) {
   const result = new Date(date);
   result.setMonth(result.getMonth() + months);
   return result.toISOString();
+}
+
+async function resendSend(env, { to, subject, text }) {
+  const key = env.RESEND_API_KEY;
+  if (!key) return { ok: false, error: "RESEND_API_KEY not configured" };
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${key}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      from: env.RESEND_FROM || "Clearer Dogs Club <club@campbellk9s.com>",
+      to: Array.isArray(to) ? to : [to],
+      subject,
+      text,
+    }),
+  });
+  return { ok: res.ok, status: res.status };
+}
+
+function adminEmails(env) {
+  if (env.ADMIN_NOTIFY_EMAILS) {
+    const list = env.ADMIN_NOTIFY_EMAILS.split(",")
+      .map((email) => email.trim())
+      .filter(Boolean);
+    if (list.length > 0) return list;
+  }
+  return DEFAULT_ADMIN_EMAILS;
+}
+
+async function notifyAdmins(env, subject, text) {
+  const to = adminEmails(env);
+  if (to.length === 0) return { ok: true, skipped: true };
+  return resendSend(env, { to, subject, text });
 }
 
 export async function onRequest(context) {
@@ -148,6 +194,36 @@ export async function onRequest(context) {
     });
     stored = Boolean(res && res.status < 300);
   }
+
+  const expires = new Date(giftExpiresAt);
+  const expiresLabel = expires.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  await resendSend(env, {
+    to: email,
+    subject: "Your Clearer Dogs Club gift membership is active!",
+    text: `Your Clearer Dogs Club gift membership is active!
+
+Someone gifted you a ${termMonths}-month membership — it's now active through ${expiresLabel}.
+
+Here's how to get started:
+1. Join the private Facebook group: ${FACEBOOK_GROUP_URL}
+2. Introduce yourself — tell us your dog's name, breed, age, and one thing you'd love to improve.
+3. Bring your questions to the live Q&As and send in videos any time.
+
+Member home: ${SITE_URL}/clearer-dogs-club/home/
+
+You'll get an email before your membership ends with details on continuing.
+
+Clearer communication. Better behavior. A better life with your dog.`,
+  });
+  await notifyAdmins(
+    env,
+    `Gift membership activated: ${email}`,
+    `A gifted membership was just activated.\n\nEmail: ${email}\nTerm: ${termMonths} months\nExpires: ${expiresLabel}`
+  );
 
   return json({ ok: true, stored, termMonths, giftExpiresAt });
 }

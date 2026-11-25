@@ -17,6 +17,7 @@
  */
 
 const SITE_URL = "https://campbellk9s.com";
+const FACEBOOK_GROUP_URL = "https://www.facebook.com/groups/2537830806698266";
 const DEFAULT_FROM = "Clearer Dogs Club <club@campbellk9s.com>";
 const TWO_WEEKS_MS = 14 * 86400000;
 const TWO_DAYS_MS = 2 * 86400000;
@@ -126,11 +127,101 @@ Clearer communication. Better behavior. A better life with your dog.`,
   },
 };
 
+const WELCOME_EMAIL = {
+  subject: "Welcome to Clearer Dogs Club!",
+  text: `Welcome to Clearer Dogs Club — your membership is active!
+
+You're all set. Here's how to get started:
+1. Join the private Facebook group: ${FACEBOOK_GROUP_URL}
+2. Introduce yourself — tell us your dog's name, breed, age, and one thing you'd love to improve.
+3. Bring your questions to the live Q&As and send in videos any time.
+
+Member home: ${SITE_URL}/clearer-dogs-club/home/
+
+Clearer communication. Better behavior. A better life with your dog.`,
+};
+
+const CANCELLATION_EMAIL = {
+  subject: "Your Clearer Dogs Club subscription has been canceled",
+  text: `Your Clearer Dogs Club subscription has been canceled.
+
+You'll keep full access to the club and the private Facebook group until the end of your current billing period. No further payments will be taken.
+
+If you change your mind, you're welcome back any time:
+${SITE_URL}/clearer-dogs-club/
+
+Clearer communication. Better behavior. A better life with your dog.`,
+};
+
+function giftActivationText(termMonths, expiresLabel) {
+  return `Your Clearer Dogs Club gift membership is active!
+
+Someone gifted you a ${termMonths}-month membership — it's now active through ${expiresLabel}.
+
+Here's how to get started:
+1. Join the private Facebook group: ${FACEBOOK_GROUP_URL}
+2. Introduce yourself — tell us your dog's name, breed, age, and one thing you'd love to improve.
+3. Bring your questions to the live Q&As and send in videos any time.
+
+Member home: ${SITE_URL}/clearer-dogs-club/home/
+
+You'll get an email before your membership ends with details on continuing.
+
+Clearer communication. Better behavior. A better life with your dog.`;
+}
+
+const ADMIN_TEMPLATES = [
+  {
+    key: "admin-new-member",
+    subject: "New Clearer Dogs Club member: test@example.com",
+    text: `A new member just joined.
+
+Email: test@example.com
+Plan: monthly
+
+Gift subscriptions purchased:
+  - 3-month gift for friend@example.com
+  - 6-month gift for family@example.com`,
+  },
+  {
+    key: "admin-gift-activated",
+    subject: "Gift membership activated: test@example.com",
+    text: `A gifted membership was just activated.
+
+Email: test@example.com
+Term: 3 months
+Expires: January 25, 2027`,
+  },
+  {
+    key: "admin-upgrade",
+    subject: "Gifted member upgraded to paying: test@example.com",
+    text: `A gifted member just subscribed on their own.
+
+Email: test@example.com
+Plan: monthly
+
+Gift subscriptions purchased:
+  - No gift purchases`,
+  },
+  {
+    key: "admin-canceled",
+    subject: "Member canceled subscription: test@example.com",
+    text: `A member just canceled their subscription.
+
+Email: test@example.com
+Subscription: I-TESTSAMPLE1234`,
+  },
+];
+
 export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
 
-  if (url.pathname !== "/api/email/run" && url.pathname !== "/api/email/run/") {
+  const isRun =
+    url.pathname === "/api/email/run" || url.pathname === "/api/email/run/";
+  const isTest =
+    url.pathname === "/api/email/test" || url.pathname === "/api/email/test/";
+  if (!isRun && !isTest) {
     return json({ error: "Not found" }, 404);
   }
   if (request.method !== "POST") {
@@ -150,6 +241,48 @@ export async function onRequest(context) {
   if (payload.secret !== secret) {
     return json({ error: "Unauthorized" }, 401);
   }
+
+  if (isTest) {
+    const to = typeof payload.to === "string" ? payload.to.trim() : "";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) {
+      return json({ error: "Provide a valid 'to' email address" }, 400);
+    }
+
+    const testEmails = [
+      {
+        key: "gift-email",
+        subject: "You've been gifted a Clearer Dogs Club membership!",
+        text: giftEmailText("00000000-0000-4000-8000-000000000000", 3),
+      },
+      REMINDER_EMAILS["14d"],
+      REMINDER_EMAILS["2d"],
+      REMINDER_EMAILS.expired,
+      WELCOME_EMAIL,
+      CANCELLATION_EMAIL,
+      {
+        key: "gift-activation",
+        subject: "Your Clearer Dogs Club gift membership is active!",
+        text: giftActivationText(3, "January 25, 2027"),
+      },
+      ...ADMIN_TEMPLATES,
+    ];
+
+    const results = [];
+    for (const email of testEmails) {
+      const result = await resendSend(env, {
+        to,
+        subject: email.subject,
+        text: email.text,
+      });
+      results.push({
+        key: email.key || email.subject,
+        subject: email.subject,
+        ok: result.ok,
+      });
+    }
+    return json({ ok: true, results });
+  }
+
   if (!supabaseEnabled(env)) {
     return json({ error: "Supabase not configured" }, 503);
   }

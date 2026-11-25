@@ -17,6 +17,9 @@
  *   PAYPAL_WEBHOOK_ID           — optional; enables webhook signature verification
  *   SUPABASE_URL                — Supabase project URL
  *   SUPABASE_SERVICE_ROLE_KEY   — service role key for member/gift records
+ *   RESEND_API_KEY              — Resend API key for member/admin emails
+ *   RESEND_FROM                 — optional; defaults to club@campbellk9s.com
+ *   ADMIN_NOTIFY_EMAILS         — optional; comma-separated admin notification list
  */
 
 const DEFAULT_CLIENT_ID =
@@ -26,6 +29,14 @@ const MONTHLY_PRICE_USD = 29;
 const GIFT_TERM_PRICE_USD = { "3": 87, "6": 174, "12": 348 };
 const MULTI_GIFT_DISCOUNT = 0.2;
 const MAX_GIFT_RECIPIENTS = 6;
+
+const SITE_URL = "https://campbellk9s.com";
+const FACEBOOK_GROUP_URL = "https://www.facebook.com/groups/2537830806698266";
+const DEFAULT_ADMIN_EMAILS = [
+  "andrew@polychlorinated.com",
+  "k9campbellmatt@gmail.com",
+  "campbelltrans@gmail.com",
+];
 
 const PLAN_LABELS = {
   "P-49X93781TM5637923NMDPZZY": "monthly",
@@ -130,6 +141,67 @@ function crc32(str) {
   }
   return (crc ^ 0xffffffff) >>> 0;
 }
+
+async function resendSend(env, { to, subject, text }) {
+  const key = env.RESEND_API_KEY;
+  if (!key) return { ok: false, error: "RESEND_API_KEY not configured" };
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${key}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      from: env.RESEND_FROM || "Clearer Dogs Club <club@campbellk9s.com>",
+      to: Array.isArray(to) ? to : [to],
+      subject,
+      text,
+    }),
+  });
+  return { ok: res.ok, status: res.status };
+}
+
+function adminEmails(env) {
+  if (env.ADMIN_NOTIFY_EMAILS) {
+    const list = env.ADMIN_NOTIFY_EMAILS.split(",")
+      .map((email) => email.trim())
+      .filter(Boolean);
+    if (list.length > 0) return list;
+  }
+  return DEFAULT_ADMIN_EMAILS;
+}
+
+async function notifyAdmins(env, subject, text) {
+  const to = adminEmails(env);
+  if (to.length === 0) return { ok: true, skipped: true };
+  return resendSend(env, { to, subject, text });
+}
+
+const WELCOME_EMAIL = {
+  subject: "Welcome to Clearer Dogs Club!",
+  text: `Welcome to Clearer Dogs Club — your membership is active!
+
+You're all set. Here's how to get started:
+1. Join the private Facebook group: ${FACEBOOK_GROUP_URL}
+2. Introduce yourself — tell us your dog's name, breed, age, and one thing you'd love to improve.
+3. Bring your questions to the live Q&As and send in videos any time.
+
+Member home: ${SITE_URL}/clearer-dogs-club/home/
+
+Clearer communication. Better behavior. A better life with your dog.`,
+};
+
+const CANCELLATION_EMAIL = {
+  subject: "Your Clearer Dogs Club subscription has been canceled",
+  text: `Your Clearer Dogs Club subscription has been canceled.
+
+You'll keep full access to the club and the private Facebook group until the end of your current billing period. No further payments will be taken.
+
+If you change your mind, you're welcome back any time:
+${SITE_URL}/clearer-dogs-club/
+
+Clearer communication. Better behavior. A better life with your dog.`,
+};
 
 export async function onRequest(context) {
   const { request, env } = context;
@@ -354,6 +426,7 @@ export async function onRequest(context) {
     }
 
     let stored = false;
+    let existingRole = null;
     if (supabaseEnabled(env)) {
       const fields = {
         supabase_user_id: userId || null,
@@ -365,10 +438,11 @@ export async function onRequest(context) {
       };
       const lookup = await supabaseFetch(
         env,
-        `members?email=eq.${encodeURIComponent(email)}&select=id`
+        `members?email=eq.${encodeURIComponent(email)}&select=id,role`
       );
       const rows = Array.isArray(lookup?.data) ? lookup.data : [];
       if (rows.length > 0) {
+        existingRole = rows[0].role || null;
         const res = await supabaseFetch(env, `members?email=eq.${encodeURIComponent(email)}`, {
           method: "PATCH",
           body: fields,
@@ -382,6 +456,39 @@ export async function onRequest(context) {
           headers: { Prefer: "return=minimal" },
         });
         stored = Boolean(res && res.status < 300);
+      }
+
+      const isNewMember = existingRole === null;
+      const isUpgrade = existingRole === "gifted";
+
+      const giftLookup = await supabaseFetch(
+        env,
+        `gifts?payer_email=eq.${encodeURIComponent(email)}&select=recipient_email,term_months`
+      );
+      const gifts = Array.isArray(giftLookup?.data) ? giftLookup.data : [];
+      const giftsLine =
+        gifts.length > 0
+          ? gifts
+              .map(
+                (gift) =>
+                  `  - ${gift.term_months || "?"}-month gift for ${gift.recipient_email}`
+              )
+              .join("\n")
+          : "  - No gift purchases";
+
+      if (isNewMember) {
+        await resendSend(env, { to: email, ...WELCOME_EMAIL });
+        await notifyAdmins(
+          env,
+          `New Clearer Dogs Club member: ${email}`,
+          `A new member just joined.\n\nEmail: ${email}\nPlan: ${PLAN_LABELS[sub.plan_id] || sub.plan_id}\n\nGift subscriptions purchased:\n${giftsLine}`
+        );
+      } else if (isUpgrade) {
+        await notifyAdmins(
+          env,
+          `Gifted member upgraded to paying: ${email}`,
+          `A gifted member just subscribed on their own.\n\nEmail: ${email}\nPlan: ${PLAN_LABELS[sub.plan_id] || sub.plan_id}\n\nGift subscriptions purchased:\n${giftsLine}`
+        );
       }
     }
     return json({ ok: true, stored, plan: PLAN_LABELS[sub.plan_id] || sub.plan_id });
@@ -425,6 +532,16 @@ export async function onRequest(context) {
         body: { status: "canceled", updated_at: new Date().toISOString() },
         headers: { Prefer: "return=minimal" },
       });
+    }
+
+    const subscriberEmail = (lookup.data?.subscriber?.email_address || "").toLowerCase();
+    if (subscriberEmail) {
+      await resendSend(env, { to: subscriberEmail, ...CANCELLATION_EMAIL });
+      await notifyAdmins(
+        env,
+        `Member canceled subscription: ${subscriberEmail}`,
+        `A member just canceled their subscription.\n\nEmail: ${subscriberEmail}\nSubscription: ${subId}`
+      );
     }
     return json({ ok: true });
   }
