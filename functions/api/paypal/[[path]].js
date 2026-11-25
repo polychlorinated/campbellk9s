@@ -155,6 +155,23 @@ export async function onRequest(context) {
     return json({ error: "Method not allowed" }, 405);
   }
 
+  if (route === "/api/paypal/plans") {
+    if (request.method !== "GET") return json({ error: "Method not allowed" }, 405);
+    const result = await paypalFetch(env, "/v1/billing/plans?page_size=20");
+    if (result.status && result.status >= 400) {
+      return json(
+        { error: "Could not list PayPal plans. Check PAYPAL_CLIENT_SECRET." },
+        502
+      );
+    }
+    const plans = (result.data?.plans || []).map((plan) => ({
+      id: plan.id,
+      name: plan.name,
+      status: plan.status,
+    }));
+    return json({ app: clientId(env), plans });
+  }
+
   if (route === "/api/paypal/create-gift-order") {
     if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
     let payload;
